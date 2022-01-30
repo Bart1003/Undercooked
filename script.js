@@ -7,24 +7,25 @@ class Character{
     this.c = color;
     this.v_ver = 1;
     this.a = 0.33; 
-    this.v_hor = 1
+    this.v_hor = 0;
+    this.bounce = 0.5
   }
 
   
   jump(){
-
+    
   }
 
 
 
   draw(){
     fill(this.c)
-    ellipse(this.x, this.y, this.w, this.h);
+    rect(this.x, this.y, this.w, this.h);
 
 
     if (this.v_ver < 15){
-        this.v_ver = this.v_ver + this.a;
-      } 
+      this.v_ver = this.v_ver + this.a;
+    } 
 
     this.y += this.v_ver;
     this.x += this.v_hor
@@ -36,24 +37,24 @@ class Character{
     text(this.v_hor, 100, 70)
 
     //collision met de grond en plafond
-    if (this.y > height - (this.h/2)|| this.y < 0 + (this.h/2)) {
-      if (this.y > height - (this.h/2)) {
-        this.y = height - (this.h/2);
+    if (this.y > height - this.h || this.y < 0) {
+      if (this.y > height - this.h) {
+        this.y = height - this.h;
         this.v_ver = 0
         this.v_hor = 0
-      } else if ( this.y < 0 + (this.h/2)){
-        this.y = 0 + (this.h/2);
+      } else if (this.y < 0) {
+        this.y = 0;
         this.v_ver = 0
       }
     }
 
-    if (this.x > width - (this.w/2)|| this.x < 0 + (this.w/2)) {
-      if (this.x > height - (this.w/2)) {
-        this.x = width - (this.w/2);
-        this.v_hor = 0
-      } else if ( this.x < 0 + (this.w/2)){
-        this.x = 0 + (this.w/2);
-        this.v_hor = 0
+    if (this.x > width - this.w || this.x < 0 + (this.w/2)) {
+      if (this.x > height - this.w) {
+        this.x = width - this.w;
+        this.v_hor = this.v_hor * -this.bounce
+      } else if (this.x < 0){
+        this.x = 0;
+        this.v_hor = this.v_hor * -this.bounce
       }
     }
   }
