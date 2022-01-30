@@ -5,15 +5,18 @@ class Character{
     this.w = w;
     this.h = h;
     this.c = color;
-    this.v_ver = 1;
-    this.a = 0.33; 
-    this.v_hor = 0;
-    this.bounce = 0.5
+    this.v_ver = 0; //vertical velocity
+    this.a = 0.33; //downwards accelaration
+    this.v_hor = 0; //horizontal velocity
+    this.bounce = 0.5 //determines how hard the character bounces
+    this.v_ver_max = 15 //max downward speed
   }
 
   
   jump(){
-    
+    if (keyIsDown(32)) {
+      this.jump_time += 0.33
+    }
   }
 
 
@@ -23,7 +26,7 @@ class Character{
     rect(this.x, this.y, this.w, this.h);
 
 
-    if (this.v_ver < 15){
+    if (this.v_ver < this.v_ver_max){
       this.v_ver = this.v_ver + this.a;
     } 
 
@@ -58,9 +61,6 @@ class Character{
       }
     }
   }
-
-
-
 }
 
 class Block{
@@ -93,7 +93,9 @@ class Block{
 }
 
 
-var blocks = [], hit = false
+var blocks = [], hit = false, 
+max_jump_height = 15, min_jump_height = 5 //min and max height the character can jump
+ver_jump_speed = 7.5 //speed when jumping vertically
 
 function setup() {
   createCanvas(550, 500);
@@ -107,29 +109,32 @@ function draw() {
   
   
   character.draw();
+  character.jump()
   block.hit();
   block.draw();
 
   
 }
 
-
-
-function keyPressed() {
+function keyReleased(){
+  if (keyCode == 32){
+    if (int(character.jump_time) > max_jump_height){
+      character.v_ver = -max_jump_height
+    } else if (int(character.jump_time) < min_jump_height) {
+      character.v_ver = -min_jump_height
+    } else {
+      character.v_ver = -int(character.jump_time)
+    }
+    character.jump_time = 0
+  }
   if (keyIsDown(LEFT_ARROW)) {
-    if (keyCode == 32) {
-      character.v_ver = -10
-      character.v_hor = -5
-    }
+    character.v_hor = -ver_jump_speed
   } else if (keyIsDown(RIGHT_ARROW)) {
-    if (keyCode == 32) {
-      character.v_ver = -10
-      character.v_hor = 5
-    }
-  } else if (keyCode == 32) {
-      character.v_ver = -10
-    }
-
+    character.v_hor = ver_jump_speed
+  }
+ 
 }
+
+
 
     
