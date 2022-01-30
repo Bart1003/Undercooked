@@ -10,12 +10,14 @@ class Character{
     this.v_hor = 0; //horizontal velocity
     this.bounce = 0.5 //determines how hard the character bounces
     this.v_ver_max = 15 //max downward speed
+    this.jump_time = 0 
+    this.jump_time_factor = 0.5 //how quickly the jump height increases when holding the space bar down
   }
 
   
   jump(){
     if (keyIsDown(32)) {
-      this.jump_time += 0.33
+      this.jump_time += this.jump_time_factor
     }
   }
 
@@ -110,20 +112,20 @@ function draw() {
   
   character.draw();
   character.jump()
-  block.hit();
-  block.draw();
+  //block.hit();
+  //block.draw();
 
   
 }
 
 function keyReleased(){
   if (keyCode == 32){
-    if (int(character.jump_time) > max_jump_height){
+    if (character.jump_time > max_jump_height){
       character.v_ver = -max_jump_height
-    } else if (int(character.jump_time) < min_jump_height) {
+    } else if (character.jump_time < min_jump_height) {
       character.v_ver = -min_jump_height
     } else {
-      character.v_ver = -int(character.jump_time)
+      character.v_ver = -character.jump_time
     }
     character.jump_time = 0
   }
