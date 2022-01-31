@@ -96,7 +96,7 @@ class Block{
 }
 
 
-var blocks = [new Block(300,250,100,50, "white")], hit = false, 
+var blocks = [new Block(300,250,100,50, "white"), new Block(350,100,50,20, "white")], hit = false, 
 max_jump_height = 15, min_jump_height = 2 //min and max height the character can jump
 ver_jump_speed = 7.5 //speed when jumping vertically
 
@@ -115,7 +115,7 @@ function draw() {
   character.jump_walk()
  // block.hit2();
  
-  block.draw();
+  blocks.forEach(b => b.draw())
   collision = checkCollision()
   text(collision, 100, 100)
 
