@@ -14,8 +14,8 @@
     this.jump_time_factor = 0.5; //how quickly the jump height increases when holding the space bar down
     this.walk_speed = 2; //How quickly the character walks
     this.halfWidth = this.w / 2; 
-    this.halfHeight = this.h / 2;
-    this.collision = false
+    this.halfHeight = this.h / 2; //variable for collision checking
+    this.collision = false //variable for collision checking
   }
 
   
@@ -23,7 +23,7 @@
     if (keyIsDown(32)) {
       this.jump_time += this.jump_time_factor
     }
-    if (keyIsDown(32) != true && this.collision != false){
+    if (keyIsDown(32) != true && this.collision == "bottom"){
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
         this.x -= this.walk_speed
       } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
@@ -40,17 +40,31 @@
     if (this.v_ver < this.v_ver_max){
       this.v_ver = this.v_ver + this.a;
     } 
+  
+    this.y += this.v_ver
+    this.x += this.v_hor
 
-    if (hit == false){
-      this.y += this.v_ver;
-      this.x += this.v_hor
+    this.collision = checkCollision()
+    if (this.collision == "top"){
+      this.v_ver = 0
+      //this.v_hor = 0
+    } else if (this.collision == "left" || this.collision == "right"){
+      this.v_hor = this.v_hor * -this.bounce
+      this.collision = false
+    } else if (this.collision == "bottom"){
+      this.v_ver = 0
+      this.v_hor = 0
     }
+
+    
+
+    
       
 
     //helps see what happens to the velocities, not a part of the end game (at least not planned yet, could be fun though)
     textSize(32)
     fill(50)
-    this.collision = checkCollision()
+    
     text(this.collision, 100, 100)
     text(this.v_ver, 100, 30);
     text(this.v_hor, 100, 70)
@@ -86,8 +100,8 @@ class Block{
     this.w = w;
     this.h = h;
     this.c = color;
-    this.halfWidth = this.w /2;
-    this.halfHeight = this.h /2;
+    this.halfWidth = this.w /2; //variable for collision checking
+    this.halfHeight = this.h /2; //variable for collision checking
   }
 
 
@@ -115,8 +129,9 @@ function draw() {
 	background(225);  
   
   
-  character.draw();
+  
   character.jump_walk()
+  character.draw();
  // block.hit2();
  
   blocks.forEach(b => b.draw())
@@ -126,7 +141,7 @@ function draw() {
 }
 
 function keyReleased(){
-  if (keyCode == 32){
+  if (keyCode == 32 && character.collision == "bottom"){
     if (character.jump_time > max_jump_height){
       character.v_ver = -max_jump_height
     } else if (character.jump_time < min_jump_height) {
@@ -140,9 +155,15 @@ function keyReleased(){
     } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
       character.v_hor = ver_jump_speed
     }
+    character.collision = false
   }
  
 }
+
+
+
+
+
 
 function checkCollision(){   
 
