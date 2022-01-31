@@ -96,7 +96,7 @@ class Block{
 
 
 var blocks = [], hit = false, 
-max_jump_height = 15, min_jump_height = 5 //min and max height the character can jump
+max_jump_height = 15, min_jump_height = 2 //min and max height the character can jump
 ver_jump_speed = 7.5 //speed when jumping vertically
 
 function setup() {
@@ -128,11 +128,11 @@ function keyReleased(){
       character.v_ver = -character.jump_time
     }
     character.jump_time = 0
-  }
-  if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(LEFT_ARROW)) {
     character.v_hor = -ver_jump_speed
-  } else if (keyIsDown(RIGHT_ARROW)) {
-    character.v_hor = ver_jump_speed
+    } else if (keyIsDown(RIGHT_ARROW)) {
+      character.v_hor = ver_jump_speed
+    }
   }
  
 }
