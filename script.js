@@ -15,10 +15,18 @@ class Character{
   }
 
   
-  jump(){
+  jump_walk(){
     if (keyIsDown(32)) {
       this.jump_time += this.jump_time_factor
     }
+    if (keyIsDown(32) != true){
+      if (keyIsDown(LEFT_ARROW)){
+        this.x -= 2
+      } else if (keyIsDown(RIGHT_ARROW)){
+        this.x += 2
+      }
+    }
+
   }
 
 
@@ -111,7 +119,7 @@ function draw() {
   
   
   character.draw();
-  character.jump()
+  character.jump_walk()
   //block.hit();
   //block.draw();
 
