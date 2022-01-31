@@ -15,6 +15,7 @@
     this.walk_speed = 2; //How quickly the character walks
     this.halfWidth = this.w / 2; 
     this.halfHeight = this.h / 2;
+    this.collision = false
   }
 
   
@@ -22,7 +23,7 @@
     if (keyIsDown(32)) {
       this.jump_time += this.jump_time_factor
     }
-    if (keyIsDown(32) != true){
+    if (keyIsDown(32) != true && this.collision != false){
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
         this.x -= this.walk_speed
       } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
@@ -49,6 +50,8 @@
     //helps see what happens to the velocities, not a part of the end game (at least not planned yet, could be fun though)
     textSize(32)
     fill(50)
+    this.collision = checkCollision()
+    text(this.collision, 100, 100)
     text(this.v_ver, 100, 30);
     text(this.v_hor, 100, 70)
 
@@ -96,7 +99,7 @@ class Block{
 }
 
 
-var blocks = [new Block(300,250,100,50, "white"), new Block(350,100,50,20, "white")], hit = false, 
+var hit = false,
 max_jump_height = 15, min_jump_height = 2 //min and max height the character can jump
 ver_jump_speed = 7.5 //speed when jumping vertically
 
@@ -104,6 +107,7 @@ function setup() {
   createCanvas(550, 500);
   character = new Character(150,150,50,50, "white");
   block = new Block(300,250,100,50, "white");
+  blocks = [new Block(150,250,300,50, "white"), new Block(350,100,50,20, "white"), new Block(0,300,50,200, "white"), new Block(0,height,width,0.1, "white")] 
 
 }
 
@@ -116,8 +120,7 @@ function draw() {
  // block.hit2();
  
   blocks.forEach(b => b.draw())
-  collision = checkCollision()
-  text(collision, 100, 100)
+  
 
   
 }
