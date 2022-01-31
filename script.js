@@ -1,4 +1,4 @@
-class Character{
+  class Character{
   constructor (x, y, w, h, color){
     this.x = x;
     this.y = y;
@@ -12,6 +12,7 @@ class Character{
     this.v_ver_max = 15 //max downward speed
     this.jump_time = 0 
     this.jump_time_factor = 0.5 //how quickly the jump height increases when holding the space bar down
+    this.walk_speed = 2 //How quickly the character walks
   }
 
   
@@ -20,13 +21,12 @@ class Character{
       this.jump_time += this.jump_time_factor
     }
     if (keyIsDown(32) != true){
-      if (keyIsDown(LEFT_ARROW)){
-        this.x -= 2
-      } else if (keyIsDown(RIGHT_ARROW)){
-        this.x += 2
+      if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
+        this.x -= this.walk_speed
+      } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+        this.x += this.walk_speed
       }
-    }
-
+    }      
   }
 
 
@@ -136,9 +136,9 @@ function keyReleased(){
       character.v_ver = -character.jump_time
     }
     character.jump_time = 0
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
     character.v_hor = -ver_jump_speed
-    } else if (keyIsDown(RIGHT_ARROW)) {
+    } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
       character.v_hor = ver_jump_speed
     }
   }
