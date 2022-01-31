@@ -8,11 +8,13 @@
     this.v_ver = 0; //vertical velocity
     this.a = 0.33; //downwards accelaration
     this.v_hor = 0; //horizontal velocity
-    this.bounce = 0.5 //determines how hard the character bounces
-    this.v_ver_max = 15 //max downward speed
-    this.jump_time = 0 
-    this.jump_time_factor = 0.5 //how quickly the jump height increases when holding the space bar down
-    this.walk_speed = 2 //How quickly the character walks
+    this.bounce = 0.5; //determines how hard the character bounces
+    this.v_ver_max = 15; //max downward speed
+    this.jump_time = 0; 
+    this.jump_time_factor = 0.5; //how quickly the jump height increases when holding the space bar down
+    this.walk_speed = 2; //How quickly the character walks
+    this.halfWidth = this.w / 2; 
+    this.halfHeight = this.h / 2;
   }
 
   
@@ -29,8 +31,6 @@
     }      
   }
 
-
-
   draw(){
     fill(this.c)
     rect(this.x, this.y, this.w, this.h);
@@ -40,8 +40,11 @@
       this.v_ver = this.v_ver + this.a;
     } 
 
-    this.y += this.v_ver;
-    this.x += this.v_hor
+    if (hit == false){
+      this.y += this.v_ver;
+      this.x += this.v_hor
+    }
+      
 
     //helps see what happens to the velocities, not a part of the end game (at least not planned yet, could be fun though)
     textSize(32)
@@ -80,18 +83,8 @@ class Block{
     this.w = w;
     this.h = h;
     this.c = color;
-  }
-
-  hit(){
-    hit = collideRectCircle(this.x,this.y,this.w, this.h , character.x, character.y, character.w, character.h);
-    if (hit == true){
-      this.c = "red"
-      character.v_ver = 0
-      character.v_hor = 0
-      character.y = this.y - (this.h/2) 
-    } else {
-      this.c = "white"
-    }  
+    this.halfWidth = this.w /2;
+    this.halfHeight = this.h /2;
   }
 
 
@@ -103,14 +96,14 @@ class Block{
 }
 
 
-var blocks = [], hit = false, 
+var blocks = [new Block(300,250,100,50, "white")], hit = false, 
 max_jump_height = 15, min_jump_height = 2 //min and max height the character can jump
 ver_jump_speed = 7.5 //speed when jumping vertically
 
 function setup() {
   createCanvas(550, 500);
   character = new Character(150,150,50,50, "white");
-  block = new Block(100,450,50,50, "white");
+  block = new Block(300,250,100,50, "white");
 
 }
 
@@ -120,8 +113,11 @@ function draw() {
   
   character.draw();
   character.jump_walk()
-  //block.hit();
-  //block.draw();
+ // block.hit2();
+ 
+  block.draw();
+  collision = checkCollision()
+  text(collision, 100, 100)
 
   
 }
@@ -144,6 +140,61 @@ function keyReleased(){
   }
  
 }
+
+function checkCollision(){   
+
+  colliding = false;
+
+  // check collision for each block
+  blocks.forEach(function(block) {
+    
+    // calculate difference from x and y axis centres
+    let dx = (character.x + character.halfWidth) - (block.x + block.halfWidth);
+    let dy = (character.y + character.halfHeight) - (block.y + block.halfHeight);
+
+    let combinedHalfWidths  = character.halfWidth + block.halfWidth;
+    let combinedHalfHeights = character.halfHeight + block.halfHeight;
+
+    // x-axis collision?
+    if(Math.abs(dx) < combinedHalfWidths){
+      
+      // y-axis collision?
+      if(Math.abs(dy) < combinedHalfHeights){          
+
+        let overlapX = combinedHalfWidths - Math.abs(dx);
+        let overlapY = combinedHalfHeights - Math.abs(dy);          
+
+        // collision is on the smallest overlap
+        if(overlapX >= overlapY){
+          if(dy > 0) {
+            character.y += overlapY;
+            colliding = "top";
+          }
+          else {            
+            character.y -= overlapY;
+            colliding = "bottom";            
+          }
+        }
+        else{
+          if(dx > 0){ 
+            character.x += overlapX; 
+            colliding = "left";
+          }
+          else {
+            character.x -= overlapX;
+            colliding = "right";
+          }
+        }
+
+        //showDebug({ overlapX:overlapX, overlapY:overlapY, dx:dx, dy:dy, colliding:colliding});
+      }
+    }
+
+  });
+
+  return colliding;
+}
+
 
 
 
