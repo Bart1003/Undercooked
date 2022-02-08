@@ -12,7 +12,7 @@
     this.v_ver_max = 15; //max downward speed
     this.jump_time = 0; 
     this.jump_time_factor = 0.5; //how quickly the jump height increases when holding the space bar down
-    this.walk_speed = 2; //How quickly the character walks
+    this.walk_speed = 3; //How quickly the character walks
     this.halfWidth = this.w / 2; 
     this.halfHeight = this.h / 2; //variable for collision checking
     this.collision = false //variable for collision checking
@@ -29,7 +29,10 @@
       } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
         this.x += this.walk_speed
       }
-    }      
+    }   
+    if (keyIsDown(32) == false){
+      this.jump_time = 0
+    }   
   }
 
   draw(){
@@ -145,12 +148,12 @@ class Block{
 
 
 var hit = false,
-max_jump_height = 15, min_jump_height = 2 //min and max height the character can jump
+max_jump_height = 15, min_jump_height = 1 //min and max height the character can jump
 ver_jump_speed = 7.5 //speed when jumping vertically
 
 function setup() {
-  createCanvas(550, 750);
-  character = new Character(150,450,50,50, "white");
+  createCanvas(550, 500);
+  character = new Character(150,250,50,50, "white");
   blocks = [new Block(150,(height-250),300,50, "white"), new Block(350,(height-400),50,20, "white"), new Block(0,(height-200),50,200, "white"), new Block(0,height,width,10, "white")] 
 
 }
@@ -253,6 +256,7 @@ function checkCollision(){
 
   return colliding;
 }
+
 
 
 
