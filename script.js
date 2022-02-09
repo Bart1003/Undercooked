@@ -152,21 +152,31 @@ max_jump_height = 15, min_jump_height = 1 //min and max height the character can
 ver_jump_speed = 7.5 //speed when jumping vertically
 
 function setup() {
-  createCanvas(550, 500);
-  character = new Character(200,250,50,50, "white");
-  blocks = [new Block(150,(height-250),300,50, "white"), 
-  new Block(350,(height-400),50,20, "white"),
-  new Block(0, (height-200),50,200, "white"),
-  new Block(0,height,width,10, "white"),
-  new Block(0,(height-650),100,50, "white"),
-  new Block(450,(height-650),100,50, "white"),
-  new Block(0,(height-950),200,150, "white"),
-  new Block(450,(height-1000),20,100, "white"),
-  new Block(200,(height-1300),20,150, "white"),
-  new Block(400,(height-1250),150,50, "white"),
+  createCanvas(1000, 500);
+  character = new Character(400,250,50,50, "white");
+  blocks = [
+  new Block(375,(height-250),300,50, "white"), 
+  new Block(575,(height-400),50,20, "white"),
+  new Block(225, (height-200),50,200, "white"),
+  new Block(225,(height-650),100,50, "white"),
+  new Block(675,(height-650),100,50, "white"),
+  new Block(225,(height-950),200,150, "white"),
+  new Block(675,(height-1000),20,100, "white"),
+  new Block(425,(height-1300),20,150, "white"),
+  new Block(625,(height-1250),150,50, "white"),
+  new Block(350,(height-1600),100,50, "white"),
+  new Block(225,(height-1800),150,50, "white"),
+  new Block(525,(height-1800),250,50, "white"),
+  new Block(375,(height-2000),150,50, "white"),
+  new Block(775,(height-1800),225,1800, "white"),
+  new Block(0,(height-1800),225,1800, "white"),
+
+  new Block(0,height,width,1000, "white")
+  
   ] 
   blocks.forEach(b => b.y += 2000)
-
+  //new Block(300,(height-1450),250,50, "white"),
+  //new Block(50,(height-1625),20,200, "white")
 }
 
 function draw() {
