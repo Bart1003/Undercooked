@@ -154,7 +154,17 @@ ver_jump_speed = 7.5 //speed when jumping vertically
 function setup() {
   createCanvas(550, 500);
   character = new Character(150,250,50,50, "white");
-  blocks = [new Block(150,(height-250),300,50, "white"), new Block(350,(height-400),50,20, "white"), new Block(0,(height-200),50,200, "white"), new Block(0,height,width,10, "white")] 
+  blocks = [new Block(150,(height-250),300,50, "white"), 
+  new Block(350,(height-400),50,20, "white"),
+  new Block(0, (height-200),50,200, "white"),
+  new Block(0,height,width,10, "white"),
+  new Block(0,(height-650),100,50, "white"),
+  new Block(450,(height-650),100,50, "white"),
+  new Block(0,(height-950),200,150, "white"),
+  new Block(450,(height-1000),20,100, "white"),
+  new Block(200,(height-1300),20,150, "white"),
+  new Block(400,(height-1250),150,50, "white"),
+  ] 
 
 }
 
