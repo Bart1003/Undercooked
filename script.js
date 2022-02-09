@@ -75,7 +75,7 @@
     
     //text(this.collision, 100, 100)
     //text(this.v_ver, 100, 30);
-    text(this.v_hor, 100, 70)
+    
 
     //collision met de grond en plafond
     //if (this.y > height - this.h || this.y < 0) {
@@ -130,8 +130,8 @@ class Block{
     this.y -= this.v_ver
 
     fill(50)
-    text(this.v_ver, 100, 30);
-    text(character.collision, 100, 100)
+    //text(this.v_ver, 100, 30);
+    //text(character.collision, 100, 100)
     if (character.collision == "top"){
       this.v_ver = 0
     } else if (character.collision == "bottom"){
@@ -157,7 +157,7 @@ function setup() {
   blocks = [
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
-  new Block(225, (height-200),50,200, "white"),
+  new Block(225,(height-200),50,200, "white"),
   new Block(225,(height-650),100,50, "white"),
   new Block(675,(height-650),100,50, "white"),
   new Block(225,(height-950),200,150, "white"),
@@ -190,9 +190,13 @@ function draw() {
   blocks.forEach(b => b.draw())
   character.jump_walk()
   character.draw();
-  character_height = blocks[4].y
+  character_height = Math.floor(blocks[4].y) + 350
+  if (character_height < 0){
+    character_height = 0
+  }
   fill(50)
-  text(character_height, 220, 70);
+  text("height: " + character_height, 50, 70);
+  //text(character.v_hor, 100, 70)
   
   
   
