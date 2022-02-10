@@ -1,10 +1,11 @@
   class Character{
-  constructor (x, y, w, h, color){
+  constructor (x, y, w, h, color, img){
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.c = color;
+    this.img = img;
     this.v_ver = 0; //vertical velocity
     this.a = 0.33; //downwards accelaration
     this.v_hor = 0; //horizontal velocity
@@ -26,8 +27,10 @@
     if (keyIsDown(32) != true && this.collision == "bottom"){
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
         this.x -= this.walk_speed
+        this.img = charleft
       } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
         this.x += this.walk_speed
+        this.img = charright
       }
     }   
     if (keyIsDown(32) == false){
@@ -38,18 +41,14 @@
   draw(){
     fill(this.c)
     rect(this.x, this.y, this.w, this.h);
+    //image(this.img,this.x, this.y, this.w, this.h);
+    //if (this.v_hor > 0.1){
+      //this.img = charright;
+    //}else{
+      //this.img = charleft;
+    //}
 
-
-    //if (this.v_ver < this.v_ver_max){
-      //this.v_ver = this.v_ver + this.a;
-    //} 
-  
-    //this.y += this.v_ver
     this.x += this.v_hor
-
-    
-
-
     
     this.collision = checkCollision()
     if (this.collision == "top"){
@@ -63,32 +62,8 @@
       this.v_hor = 0
     }
     
-
-    
-
-    
-      
-
-    //helps see what happens to the velocities, not a part of the end game (at least not planned yet, could be fun though)
     textSize(32)
     fill(50)
-    
-    //text(this.collision, 100, 100)
-    //text(this.v_ver, 100, 30);
-    
-
-    //collision met de grond en plafond
-    //if (this.y > height - this.h || this.y < 0) {
-      //if (this.y > height - this.h) {
-        //this.y = height - this.h;
-        //this.v_ver = 0
-        //this.v_hor = 0
-      //} 
-      //if (this.y < 0) {
-        //this.y = 0;
-        //this.v_ver = 0
-      //}
-    //}
 
     if (this.x > width - this.w || this.x < 0 + (this.w)) {
       if (this.x > width - this.w) {
@@ -153,7 +128,7 @@ ver_jump_speed = 7.5 //speed when jumping vertically
 
 function setup() {
   createCanvas(1000, 500);
-  character = new Character(500,250,50,50, "white");
+  character = new Character(250,250,50,50, "white", charleft);
   blocks = [
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
@@ -182,13 +157,44 @@ function setup() {
   new Block(550,(height-3250),25,50, "white"),
   new Block(800,(height-3250),25,50, "white"),
   new Block(0,(height-3500),825,50, "white"),
+  //na de tweede checkpoint
+  new Block(850,(height-3700),150,50, "white"),
+  new Block(475,(height-3900),50,50, "white"),
+  new Block(0,(height-4100),50,50, "white"),
+  new Block(475,(height-4300),50,50, "white"),
+  new Block(750,(height-4500),250,50, "white"),
+  new Block(675,(height-5550),25,900, "white"),
+  new Block(0,(height-4650),700,25, "white"),
+  new Block(850,(height-4750),50,50, "white"),
+  new Block(850,(height-4900),50,50, "white"),
+  new Block(850,(height-5100),50,50, "white"),
+  new Block(850,(height-5350),50,50, "white"),
+  new Block(500,(height-5750),25,950, "white"),
+  new Block(525,(height-5750),475,25, "white"),
+
+  new Block(75,(height-4900),50,50, "white"),
+  new Block(225,(height-4900),50,50, "white"),
+  new Block(375,(height-4900),50,50, "white"),
+  new Block(150,(height-5100),50,50, "white"),
+  new Block(325,(height-5100),50,50, "white"),
+  new Block(75,(height-5300),50,50, "white"),
+  new Block(225,(height-5300),50,50, "white"),
+  new Block(375,(height-5300),50,50, "white"),
+  new Block(150,(height-5500),50,50, "white"),
+  new Block(325,(height-5500),50,50, "white"),
+  new Block(0,(height-5950),1000,25, "white"),
+
 
   new Block(0,height,width,1000, "white")
   
   ] 
-  blocks.forEach(b => b.y += 3500)
-  //new Block(300,(height-1450),250,50, "white"),
-  //new Block(50,(height-1625),20,200, "white")
+  blocks.forEach(b => b.y += 5400)
+}
+
+function preload(){
+  charleft = loadImage('images/cleft.png');
+  charright = loadImage('images/cright.png')
+  //so far so good
 }
 
 function draw() {
