@@ -153,7 +153,7 @@ ver_jump_speed = 7.5 //speed when jumping vertically
 
 function setup() {
   createCanvas(1000, 500);
-  character = new Character(400,250,50,50, "white");
+  character = new Character(500,250,50,50, "white");
   blocks = [
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
@@ -167,14 +167,26 @@ function setup() {
   new Block(350,(height-1600),100,50, "white"),
   new Block(225,(height-1800),150,50, "white"),
   new Block(525,(height-1800),250,50, "white"),
-  new Block(375,(height-2000),150,50, "white"),
   new Block(775,(height-1800),225,1800, "white"),
   new Block(0,(height-1800),225,1800, "white"),
+  //na de eerste checkpoint
+  new Block(375,(height-2000),450,50, "white"),
+  new Block(100,(height-2200),50,50, "white"),
+  new Block(500,(height-2400),100,50, "white"),
+  new Block(500,(height-2550),400,50, "white"),
+  new Block(800,(height-2400),100,50, "white"),
+  new Block(0,(height-2800),250,50, "white"),
+  new Block(150,(height-3000),150,50, "white"),
+  new Block(00,(height-3250),100,50, "white"),
+  new Block(300,(height-3250),25,300, "white"),
+  new Block(550,(height-3250),25,50, "white"),
+  new Block(800,(height-3250),25,50, "white"),
+  new Block(0,(height-3500),825,50, "white"),
 
   new Block(0,height,width,1000, "white")
   
   ] 
-  blocks.forEach(b => b.y += 2000)
+  blocks.forEach(b => b.y += 3500)
   //new Block(300,(height-1450),250,50, "white"),
   //new Block(50,(height-1625),20,200, "white")
 }
