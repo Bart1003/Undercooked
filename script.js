@@ -17,25 +17,42 @@
     this.halfWidth = this.w / 2; 
     this.halfHeight = this.h / 2; //variable for collision checking
     this.collision = false //variable for collision checking
+    this.ice = 0.15
+    this.ice_walk_speed = this.ice * 1.2
+    this.block_type = "none"
+    this.walking = false
   }
 
   
   jump_walk(){
     if (keyIsDown(32)) {
       this.jump_time += this.jump_time_factor
-    }
-    if (keyIsDown(32) != true && this.collision == "bottom"){
-      if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
-        this.x -= this.walk_speed
-        this.img = charleft
-      } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
-        this.x += this.walk_speed
-        this.img = charright
-      }
-    }   
-    if (keyIsDown(32) == false){
+    } else{
       this.jump_time = 0
-    }   
+    }
+    this.walking = false
+    if (keyIsDown(32) != true && this.collision == "bottom" && this.block_type != "ice"){
+      if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
+        this.v_hor -= this.walk_speed
+      } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+        this.v_hor += this.walk_speed
+      }
+
+    } else if (this.block_type == "ice")
+      if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
+        if (this.v_hor >= -this.walk_speed){
+          this.v_hor -= this.ice_walk_speed
+        }
+        this.walking = true
+      } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+        if (this.v_hor <= this.walk_speed){
+          this.v_hor += this.ice_walk_speed
+        }
+        this.walking = true
+      }
+
+
+ 
   }
 
   draw(){
@@ -47,10 +64,15 @@
     //}else{
       //this.img = charleft;
     //}
-
+    fill(50)
+    text(this.v_hor, 300, 70)
     this.x += this.v_hor
     
-    this.collision = checkCollision()
+    this.collision_type = checkCollision()
+    this.collision = this.collision_type[0]
+    this.block_type = this.collision_type[1]
+
+    
     if (this.collision == "top"){
       //this.v_ver = 0
       //this.v_hor = 0
@@ -58,12 +80,26 @@
       this.v_hor = this.v_hor * -this.bounce
       this.collision = false
     } else if (this.collision == "bottom"){
-      //this.v_ver = 0
-      this.v_hor = 0
+      if (this.block_type == "ice" && this.walking == false){
+        if (this.v_hor >= this.ice){
+          this.v_hor -= this.ice
+        } else if (this.v_hor <= -this.ice){
+          this.v_hor += this.ice
+        } else {
+          this.v_hor = 0
+        }
+
+      } else if (this.walking == false){
+        this.v_hor = 0
+      }
+      
     }
     
     textSize(32)
     fill(50)
+    text(this.block_type, 100, 30)
+    text(this.collision, 300, 30)
+    
 
     if (this.x > width - this.w || this.x < 0 + (this.w)) {
       if (this.x > width - this.w) {
@@ -78,7 +114,7 @@
 }
 
 class Block{
-  constructor (x, y, w, h, color){
+  constructor (x, y, w, h, color, type){
     this.x = x;
     this.y = y;
     this.w = w;
@@ -90,6 +126,12 @@ class Block{
     this.v_ver_max = 15
     this.a = 0.33
     this.collision = false
+    if (type != null){
+      this.type = type
+    } else {
+      this.type = "standard"
+    }
+   
   }
 
 
@@ -105,7 +147,7 @@ class Block{
     this.y -= this.v_ver
 
     fill(50)
-    //text(this.v_ver, 100, 30);
+    //text(this.type, 100, 30);
     //text(character.collision, 100, 100)
     if (character.collision == "top"){
       this.v_ver = 0
@@ -113,10 +155,7 @@ class Block{
       this.v_ver = 0
     }
     
-    
-    
 
-    
   }
   
 }
@@ -182,13 +221,15 @@ function setup() {
   new Block(375,(height-5300),50,50, "white"),
   new Block(150,(height-5500),50,50, "white"),
   new Block(325,(height-5500),50,50, "white"),
-  new Block(0,(height-5950),1000,25, "white"),
+  new Block(0,(height-5950),1000,25, "white", "ice"),
+  new Block(0,(height-6100),200,25, "white", "ice"),
+   
 
 
   new Block(0,height,width,1000, "white")
   
   ] 
-  blocks.forEach(b => b.y += 5400)
+  blocks.forEach(b => b.y += 5900)
 }
 
 function preload(){
@@ -200,11 +241,6 @@ function preload(){
 function draw() {
 	background(225);  
   
-  
-  
-  
-  
- 
   blocks.forEach(b => b.draw())
   character.jump_walk()
   character.draw();
@@ -215,10 +251,6 @@ function draw() {
   fill(50)
   text("height: " + character_height, 50, 70);
   //text(character.v_hor, 100, 70)
-  
-  
-  
-
   
 }
 
@@ -244,12 +276,10 @@ function keyReleased(){
 
 
 
-
-
-
 function checkCollision(){   
 
   colliding = false;
+  block_type = "none"
 
   // check collision for each block
   blocks.forEach(function(block) {
@@ -269,7 +299,6 @@ function checkCollision(){
 
         let overlapX = combinedHalfWidths - Math.abs(dx);
         let overlapY = combinedHalfHeights - Math.abs(dy);          
-
         // collision is on the smallest overlap
         if(overlapX >= overlapY){
           if(dy > 0) {
@@ -281,7 +310,8 @@ function checkCollision(){
           else { 
             blocks.forEach(b => b.y += overlapY)           
             //character.y -= overlapY;
-            colliding = "bottom";            
+            colliding = "bottom";      
+            block_type = block.type      
           }
         }
         else{
@@ -301,7 +331,7 @@ function checkCollision(){
 
   });
 
-  return colliding;
+  return [colliding, block_type];
 }
 
 
