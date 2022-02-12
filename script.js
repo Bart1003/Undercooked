@@ -14,8 +14,8 @@
     this.halfWidth = this.w / 2; 
     this.halfHeight = this.h / 2; //variable for collision checking
     this.collision = false //variable for collision checking
-    this.ice = 0.99
-    this.ice_walk_speed = 0.02
+    this.ice = 0.98 
+    this.ice_walk_speed = 0.04
     this.block_type = "none"
   }
 
@@ -37,7 +37,7 @@
 
 
 
-    } else if (this.block_type == "ice")
+    } else if (this.block_type == "ice" && keyIsDown(32) == false)
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
         if (this.v_hor == 0){
           this.v_hor = -0.5
@@ -226,7 +226,7 @@ function setup() {
   new Block(850,(height-5350),50,50, "white"),
   new Block(500,(height-5750),25,950, "white"),
   new Block(525,(height-5750),475,25, "white"),
-
+  //na de derde checkpoint
   new Block(75,(height-4900),50,50, "white"),
   new Block(225,(height-4900),50,50, "white"),
   new Block(375,(height-4900),50,50, "white"),
@@ -237,7 +237,9 @@ function setup() {
   new Block(375,(height-5300),50,50, "white"),
   new Block(150,(height-5500),50,50, "white"),
   new Block(325,(height-5500),50,50, "white"),
-  new Block(0,(height-5950),1000,25, "white", "ice"),
+  new Block(0,(height-5950),700,25, "white", "ice"),
+  new Block(850,(height-5950),150,25, "white", "ice"),
+  //na de derde checkpoint
   new Block(0,(height-6100),200,25, "white", "ice"),
    
 
