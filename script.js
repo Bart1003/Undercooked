@@ -6,21 +6,17 @@
     this.h = h;
     this.c = color;
     this.img = img;
-    this.v_ver = 0; //vertical velocity
-    this.a = 0.33; //downwards accelaration
     this.v_hor = 0; //horizontal velocity
     this.bounce = 0.5; //determines how hard the character bounces
-    this.v_ver_max = 15; //max downward speed
     this.jump_time = 0; 
     this.jump_time_factor = 0.5; //how quickly the jump height increases when holding the space bar down
     this.walk_speed = 3; //How quickly the character walks
     this.halfWidth = this.w / 2; 
     this.halfHeight = this.h / 2; //variable for collision checking
     this.collision = false //variable for collision checking
-    this.ice = 0.15
-    this.ice_walk_speed = this.ice * 1.2
+    this.ice = 0.99
+    this.ice_walk_speed = 0.02
     this.block_type = "none"
-    this.walking = false
   }
 
   
@@ -30,7 +26,7 @@
     } else{
       this.jump_time = 0
     }
-    this.walking = false
+
     if (keyIsDown(32) != true && this.collision == "bottom" && this.block_type != "ice"){
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
         this.v_hor -= this.walk_speed
@@ -38,17 +34,35 @@
         this.v_hor += this.walk_speed
       }
 
+
+
+
     } else if (this.block_type == "ice")
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
-        if (this.v_hor >= -this.walk_speed){
-          this.v_hor -= this.ice_walk_speed
+        if (this.v_hor == 0){
+          this.v_hor = -0.5
+        } else if (this.v_hor >= -this.walk_speed && this.v_hor < 0){
+          this.v_hor +=  (this.v_hor * this.ice_walk_speed)
+        } else {
+          this.v_hor -=  (this.v_hor * this.ice_walk_speed)
         }
-        this.walking = true
+
+
+
+
+
+
       } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
-        if (this.v_hor <= this.walk_speed){
-          this.v_hor += this.ice_walk_speed
+        if (this.v_hor == 0){
+          this.v_hor = 0.5
+        } else if (this.v_hor <= this.walk_speed){
+          if (this.v_hor > 0){
+            this.v_hor +=  (this.v_hor * this.ice_walk_speed)
+          }else {
+            this.v_hor +=  (-this.v_hor * this.ice_walk_speed)
+          }
+          
         }
-        this.walking = true
       }
 
 
@@ -80,16 +94,17 @@
       this.v_hor = this.v_hor * -this.bounce
       this.collision = false
     } else if (this.collision == "bottom"){
-      if (this.block_type == "ice" && this.walking == false){
-        if (this.v_hor >= this.ice){
-          this.v_hor -= this.ice
-        } else if (this.v_hor <= -this.ice){
-          this.v_hor += this.ice
-        } else {
+      if (this.block_type == "ice"){
+        if (this.v_hor >= 0){
+          this.v_hor *= this.ice
+        } else if (this.v_hor <= 0){
+          this.v_hor *= this.ice
+        }
+        if (this.v_hor < 0.1 && this.v_hor > -0.1){
           this.v_hor = 0
         }
 
-      } else if (this.walking == false){
+      } else {
         this.v_hor = 0
       }
       
@@ -164,6 +179,7 @@ class Block{
 var hit = false,
 max_jump_height = 15, min_jump_height = 1 //min and max height the character can jump
 ver_jump_speed = 7.5 //speed when jumping vertically
+max_v_hor = 10 //max horizontal jumping speed on ice
 
 function setup() {
   createCanvas(1000, 500);
@@ -265,9 +281,15 @@ function keyReleased(){
     }
     character.jump_time = 0
     if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
-      character.v_hor = -ver_jump_speed
+      character.v_hor -= ver_jump_speed
+      if (character.v_hor <= -10){
+        character.v_hor = -max_v_hor
+      }
     } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
-      character.v_hor = ver_jump_speed
+      character.v_hor += ver_jump_speed
+      if (character.v_hor >= 10){
+        character.v_hor = max_v_hor
+      }
     }
     character.collision = false
   }
