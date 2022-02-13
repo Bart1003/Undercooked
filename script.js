@@ -183,7 +183,7 @@ max_v_hor = 10 //max horizontal jumping speed on ice
 
 function setup() {
   createCanvas(1000, 500);
-  character = new Character(250,250,50,50, "white", charleft);
+  character = new Character(200,250,50,50, "white", charleft);
   blocks = [
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
@@ -241,13 +241,20 @@ function setup() {
   new Block(850,(height-5950),150,25, "white", "ice"),
   //na de derde checkpoint
   new Block(0,(height-6100),200,25, "white", "ice"),
+  new Block(700,(height-6300),200,25, "white", "ice"),
+  new Block(600,(height-6550),200,25, "white", "ice"),
+  new Block(0,(height-6750),200,25, "white", "ice"),
+  new Block(800,(height-6950),200,25, "white", "ice"),
+  new Block(0,(height-7050),300,25, "white", "ice"),
+  new Block(100,(height-7300),200,25, "white", "ice"),
+  new Block(200,(height-7550),100,25, "white", "ice"),
    
 
 
   new Block(0,height,width,1000, "white")
   
   ] 
-  blocks.forEach(b => b.y += 5900)
+  blocks.forEach(b => b.y += 7550)
 }
 
 function preload(){
