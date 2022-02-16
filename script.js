@@ -1,11 +1,11 @@
-  class Character{
-  constructor (x, y, w, h, color, img){
+class Character{
+  constructor (x, y, w, h, color){
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.c = color;
-    this.img = img;
+    //this.img = img;
     this.v_hor = 0; //horizontal velocity
     this.bounce = 0.5; //determines how hard the character bounces
     this.jump_time = 0; 
@@ -47,11 +47,6 @@
           this.v_hor -=  (this.v_hor * this.ice_walk_speed)
         }
 
-
-
-
-
-
       } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
         if (this.v_hor == 0){
           this.v_hor = 0.5
@@ -64,9 +59,6 @@
           
         }
       }
-
-
- 
   }
 
   draw(){
@@ -103,11 +95,9 @@
         if (this.v_hor < 0.1 && this.v_hor > -0.1){
           this.v_hor = 0
         }
-
       } else {
         this.v_hor = 0
       }
-      
     }
     
     textSize(32)
@@ -146,18 +136,41 @@ class Block{
     } else {
       this.type = "standard"
     }
+    if (this.type == "ice"){
+      this.img = block_ice_image  
+    } else if (this.type == "wall"){
+      this.img = start_wall
+    } else{
+      this.img = block_image
+    }
+    
    
-  }
+  }  
 
 
   draw(){
     fill(this.c)
-    rect(this.x, this.y, this.w, this.h);
+    
+    //rect(this.x, this.y, this.w, this.h);
 
     if (this.v_ver < this.v_ver_max){
       this.v_ver = this.v_ver + this.a;
     } 
 
+    
+   this.x_pos = this.x
+   this.y_pos = this.y
+   for (let i = 0; i < (this.h/25); i++) {
+     for (let i = 0; i < (this.w/25); i++) {
+     image(this.img, this.x_pos, this.y_pos, 25, 25)
+     this.x_pos += 25
+        
+     }
+     this.x_pos = this.x
+     this.y_pos += 25
+      
+   }
+    
     
     this.y -= this.v_ver
 
@@ -183,7 +196,7 @@ max_v_hor = 10 //max horizontal jumping speed on ice
 
 function setup() {
   createCanvas(1000, 500);
-  character = new Character(200,250,50,50, "white", charleft);
+  character = new Character(200,250,50,50, "white");
   blocks = [
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
@@ -197,8 +210,8 @@ function setup() {
   new Block(350,(height-1600),100,50, "white"),
   new Block(225,(height-1800),150,50, "white"),
   new Block(525,(height-1800),250,50, "white"),
-  new Block(775,(height-1800),225,1800, "white"),
-  new Block(0,(height-1800),225,1800, "white"),
+  new Block(775,(height-1800),225,1800, "black", "wall"),
+  new Block(0,(height-1800),225,1800, "black", "wall"),
   //na de eerste checkpoint
   new Block(375,(height-2000),450,50, "white"),
   new Block(100,(height-2200),50,50, "white"),
@@ -247,25 +260,28 @@ function setup() {
   new Block(800,(height-6950),200,25, "white", "ice"),
   new Block(0,(height-7050),300,25, "white", "ice"),
   new Block(100,(height-7300),200,25, "white", "ice"),
-  new Block(200,(height-7550),100,25, "white", "ice"),
+  new Block(200,(height-7550),100,25, "#571980", "ice"),
    
 
 
-  new Block(0,height,width,1000, "white")
+  new Block(0,height,width,1000, "white", "wall")
   
   ] 
   blocks.forEach(b => b.y += 7550)
 }
 
 function preload(){
-  charleft = loadImage('images/cleft.png');
-  charright = loadImage('images/cright.png')
-  //so far so good
+  //charleft = loadImage('images/character/cleft.jpg');
+  //charright = loadImage('images/character/cright.jpg')
+  backgroundimg = loadImage('images/block/dungeon_background.jpg')
+  block_image = loadImage("images/block/blockimg3.png")
+  block_ice_image = loadImage("images/block/ice.jpeg")
+  start_wall = loadImage("images/block/black1.jpg")
 }
 
 function draw() {
-	background(225);  
-  
+	background(backgroundimg);
+ 
   blocks.forEach(b => b.draw())
   character.jump_walk()
   character.draw();
@@ -276,6 +292,7 @@ function draw() {
   fill(50)
   text("height: " + character_height, 50, 70);
   //text(character.v_hor, 100, 70)
+  
   
 }
 
