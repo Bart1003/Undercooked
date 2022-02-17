@@ -1,11 +1,11 @@
 class Character{
-  constructor (x, y, w, h, color){
+  constructor (x, y, w, h, color, img){
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.c = color;
-    //this.img = img;
+    this.img = img;
     this.v_hor = 0; //horizontal velocity
     this.bounce = 0.5; //determines how hard the character bounces
     this.jump_time = 0; 
@@ -61,10 +61,13 @@ class Character{
       }
   }
 
+  
+  
   draw(){
+    pickImage();
     fill(this.c)
-    rect(this.x, this.y, this.w, this.h);
-    //image(this.img,this.x, this.y, this.w, this.h);
+    //rect(this.x, this.y, this.w, this.h);
+    image(this.img,this.x, this.y, this.w, this.h);
     //if (this.v_hor > 0.1){
       //this.img = charright;
     //}else{
@@ -196,7 +199,7 @@ max_v_hor = 10 //max horizontal jumping speed on ice
 
 function setup() {
   createCanvas(1000, 500);
-  character = new Character(200,250,50,50, "white");
+  character = new Character(200,250,50,50, "white", charstandardright);
   blocks = [
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
@@ -252,7 +255,7 @@ function setup() {
   new Block(325,(height-5500),50,50, "white"),
   new Block(0,(height-5950),700,25, "white", "ice"),
   new Block(850,(height-5950),150,25, "white", "ice"),
-  //na de derde checkpoint
+  //na de vierde checkpoint
   new Block(0,(height-6100),200,25, "white", "ice"),
   new Block(700,(height-6300),200,25, "white", "ice"),
   new Block(600,(height-6550),200,25, "white", "ice"),
@@ -261,9 +264,8 @@ function setup() {
   new Block(0,(height-7050),300,25, "white", "ice"),
   new Block(100,(height-7300),200,25, "white", "ice"),
   new Block(200,(height-7550),100,25, "#571980", "ice"),
-   
 
-
+    
   new Block(0,height,width,1000, "white", "wall")
   
   ] 
@@ -271,12 +273,18 @@ function setup() {
 }
 
 function preload(){
-  //charleft = loadImage('images/character/cleft.jpg');
-  //charright = loadImage('images/character/cright.jpg')
+  //block en background images
   backgroundimg = loadImage('images/block/dungeon_background.jpg')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   start_wall = loadImage("images/block/black1.jpg")
+  //characterimages:
+  charstandardright = loadImage('images/character/charstandard/charstandardright.png')
+  charstandardleft = loadImage('images/character/charstandard/charstandardleft.png')
+  charjumpleft = loadImage('images/character/charjump/charjumpleft.png')
+  charjumpright = loadImage('images/character/charjump/charjumpright.png')
+  charfallleft = loadImage('images/character/charfall/charfallleft.png')
+  charfallright = loadImage('images/character/charfall/charfallright.png')
 }
 
 function draw() {
@@ -383,7 +391,47 @@ function checkCollision(){
 }
 
 
+//function pickImage(){
+  //textSize(32)
+  //fill(50)
+  //block_ver = blocks[1].v_ver
+  //text(block_ver, 100, 110)
+  //if (character.v_hor < 0 && block_ver != 0){
+    //if(block_ver > 0){
+      //character.img = charjumpleft
+    //} else if(block_ver < 0){
+      //character.img = charfallleft
+    //}
+  //} else if (character.v_hor > 0 && block_ver != 0) {
+    //if(block_ver < 0){
+      //character.img = charjumpright
+    //} else if(block_ver > 0){
+      //character.img = charfallright
+    //}
+  //} else if (block_ver == 0){
+    //character.img = charstandardright
+  //}
+//}
 
-
+function pickImage(){
+  block_ver = blocks[1].v_ver
+  if(block_ver != 0){
+    if(block_ver < 0){
+      if (character.v_hor >= 0){
+        character.img = charjumpright
+      } else {
+        character.img = charjumpleft
+      }
+    }else if(block_ver > 0){
+      if (character.v_hor >= 0){
+        character.img = charfallright
+      } else {
+        character.img = charfallleft
+      }
+    }
+  } else {
+    character.img = charstandardright
+  }
+}
 
     
