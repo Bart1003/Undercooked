@@ -391,27 +391,6 @@ function checkCollision(){
 }
 
 
-//function pickImage(){
-  //textSize(32)
-  //fill(50)
-  //block_ver = blocks[1].v_ver
-  //text(block_ver, 100, 110)
-  //if (character.v_hor < 0 && block_ver != 0){
-    //if(block_ver > 0){
-      //character.img = charjumpleft
-    //} else if(block_ver < 0){
-      //character.img = charfallleft
-    //}
-  //} else if (character.v_hor > 0 && block_ver != 0) {
-    //if(block_ver < 0){
-      //character.img = charjumpright
-    //} else if(block_ver > 0){
-      //character.img = charfallright
-    //}
-  //} else if (block_ver == 0){
-    //character.img = charstandardright
-  //}
-//}
 
 function pickImage(){
   block_ver = blocks[1].v_ver
