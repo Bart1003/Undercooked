@@ -17,10 +17,12 @@ class Character{
     this.ice = 0.98 
     this.ice_walk_speed = 0.04
     this.block_type = "none"
+    this.walking = false
   }
 
   
   jump_walk(){
+    this.walking = false
     if (keyIsDown(32)) {
       this.jump_time += this.jump_time_factor
     } else{
@@ -30,8 +32,10 @@ class Character{
     if (keyIsDown(32) != true && this.collision == "bottom" && this.block_type != "ice"){
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
         this.v_hor -= this.walk_speed
+        this.walking = true
       } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
         this.v_hor += this.walk_speed
+        this.walking = true
       }
 
 
@@ -39,6 +43,7 @@ class Character{
 
     } else if (this.block_type == "ice" && keyIsDown(32) == false)
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
+        this.walking = true
         if (this.v_hor == 0){
           this.v_hor = -0.5
         } else if (this.v_hor >= -this.walk_speed && this.v_hor < 0){
@@ -48,6 +53,7 @@ class Character{
         }
 
       } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+        this.walking = true
         if (this.v_hor == 0){
           this.v_hor = 0.5
         } else if (this.v_hor <= this.walk_speed){
@@ -105,7 +111,7 @@ class Character{
     
     textSize(32)
     fill(50)
-    text(this.block_type, 100, 30)
+    text(this.walking, 100, 30)
     text(this.collision, 300, 30)
     
 
@@ -196,6 +202,7 @@ var hit = false,
 max_jump_height = 15, min_jump_height = 1 //min and max height the character can jump
 ver_jump_speed = 7.5 //speed when jumping vertically
 max_v_hor = 10 //max horizontal jumping speed on ice
+frame_counter = 0
 
 function setup() {
   createCanvas(1000, 500);
@@ -213,9 +220,7 @@ function setup() {
   new Block(350,(height-1600),100,50, "white"),
   new Block(225,(height-1800),150,50, "white"),
   new Block(525,(height-1800),250,50, "white"),
-  new Block(775,(height-1800),225,1800, "black", "wall"),
-  new Block(0,(height-1800),225,1800, "black", "wall"),
-  //na de eerste checkpoint
+  //na de eerste checkpoint (wanneer het scherm breeder wordt)
   new Block(375,(height-2000),450,50, "white"),
   new Block(100,(height-2200),50,50, "white"),
   new Block(500,(height-2400),100,50, "white"),
@@ -241,8 +246,8 @@ function setup() {
   new Block(850,(height-5100),50,50, "white"),
   new Block(850,(height-5350),50,50, "white"),
   new Block(500,(height-5750),25,950, "white"),
+  //na de derde checkpoint (wanneer je een stukje naarbeneden moest vallen)
   new Block(525,(height-5750),475,25, "white"),
-  //na de derde checkpoint
   new Block(75,(height-4900),50,50, "white"),
   new Block(225,(height-4900),50,50, "white"),
   new Block(375,(height-4900),50,50, "white"),
@@ -255,7 +260,7 @@ function setup() {
   new Block(325,(height-5500),50,50, "white"),
   new Block(0,(height-5950),700,25, "white", "ice"),
   new Block(850,(height-5950),150,25, "white", "ice"),
-  //na de vierde checkpoint
+  //na de vierde checkpoint (wanner het ice stuk begint)
   new Block(0,(height-6100),200,25, "white", "ice"),
   new Block(700,(height-6300),200,25, "white", "ice"),
   new Block(600,(height-6550),200,25, "white", "ice"),
@@ -265,7 +270,9 @@ function setup() {
   new Block(100,(height-7300),200,25, "white", "ice"),
   new Block(200,(height-7550),100,25, "#571980", "ice"),
 
-    
+  //deze blokken vormen de muren en ondergrond in het eerste stuk
+  new Block(775,(height-1800),225,1800, "black", "wall"),
+  new Block(0,(height-1800),225,1800, "black", "wall"),
   new Block(0,height,width,1000, "white", "wall")
   
   ] 
@@ -285,6 +292,10 @@ function preload(){
   charjumpright = loadImage('images/character/charjump/charjumpright.png')
   charfallleft = loadImage('images/character/charfall/charfallleft.png')
   charfallright = loadImage('images/character/charfall/charfallright.png')
+  charrun1right = loadImage('images/character/charrun1/charrunright.png')
+  charrun2right = loadImage('images/character/charrun2/charrunright2.png')
+  charrun1left = loadImage('images/character/charrun1/charrunleft.png')
+  charrun2left = loadImage('images/character/charrun2/charrunleft2.png')
 }
 
 function draw() {
@@ -410,6 +421,42 @@ function pickImage(){
     }
   } else {
     character.img = charstandardright
+  }
+
+
+  if (character.walking == true){
+    frame_counter += 1
+
+    if (keyIsDown(RIGHT_ARROW)){
+      if (frame_counter >= 1 && frame_counter <= 5){
+        character.img = charrun1right
+      } else if (frame_counter >= 6 && frame_counter <= 10){
+        character.img = charstandardright
+      } else if (frame_counter >= 11 && frame_counter <= 15){
+        character.img = charrun2right
+      } else if (frame_counter >= 16 && frame_counter <= 20){
+        character.img = charstandardright
+      }
+    }
+
+    if (keyIsDown(LEFT_ARROW)){
+      if (frame_counter >= 1 && frame_counter <= 5){
+        character.img = charrun1left
+      } else if (frame_counter >= 6 && frame_counter <= 10){
+        character.img = charstandardleft
+      } else if (frame_counter >= 11 && frame_counter <= 15){
+        character.img = charrun2left
+      } else if (frame_counter >= 16 && frame_counter <= 20){
+        character.img = charstandardleft
+      }
+    }
+    
+    if (frame_counter >= 20){
+      frame_counter = 0
+    }
+    
+  } else {
+    frame_counter = 0
   }
 }
 
