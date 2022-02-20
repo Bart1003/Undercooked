@@ -147,8 +147,6 @@ class Block{
     }
     if (this.type == "ice"){
       this.img = block_ice_image  
-    } else if (this.type == "wall"){
-      this.img = start_wall
     } else{
       this.img = block_image
     }
@@ -166,19 +164,23 @@ class Block{
       this.v_ver = this.v_ver + this.a;
     } 
 
+    if (this.y + this.h >=0 && this.y <= height && this.type != "wall"){
+      this.x_pos = this.x
+      this.y_pos = this.y
+      for (let i = 0; i < (this.h/25); i++) {
+        for (let i = 0; i < (this.w/25); i++) {
+        image(this.img, this.x_pos, this.y_pos, 25, 25)
+        this.x_pos += 25
+          
+        }
+        this.x_pos = this.x
+        this.y_pos += 25
+         
+      }
+    } else if (this.y + this.h >=0 && this.y <= height) {
+      rect(this.x, this.y, this.w, this.h)
+    }
     
-   this.x_pos = this.x
-   this.y_pos = this.y
-   for (let i = 0; i < (this.h/25); i++) {
-     for (let i = 0; i < (this.w/25); i++) {
-     image(this.img, this.x_pos, this.y_pos, 25, 25)
-     this.x_pos += 25
-        
-     }
-     this.x_pos = this.x
-     this.y_pos += 25
-      
-   }
     
     
     this.y -= this.v_ver
@@ -273,7 +275,7 @@ function setup() {
   //deze blokken vormen de muren en ondergrond in het eerste stuk
   new Block(775,(height-1800),225,1800, "black", "wall"),
   new Block(0,(height-1800),225,1800, "black", "wall"),
-  new Block(0,height,width,1000, "white", "wall")
+  new Block(0,height,width,1000, "black", "wall")
   
   ] 
   blocks.forEach(b => b.y += 7550)
@@ -284,7 +286,6 @@ function preload(){
   backgroundimg = loadImage('images/block/dungeon_background.jpg')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
-  start_wall = loadImage("images/block/black1.jpg")
   //characterimages:
   charstandardright = loadImage('images/character/charstandard/charstandardright.png')
   charstandardleft = loadImage('images/character/charstandard/charstandardleft.png')
@@ -428,30 +429,30 @@ function pickImage(){
     frame_counter += 1
 
     if (keyIsDown(RIGHT_ARROW)){
-      if (frame_counter >= 1 && frame_counter <= 5){
+      if (frame_counter >= 1 && frame_counter <= 15){
         character.img = charrun1right
-      } else if (frame_counter >= 6 && frame_counter <= 10){
+      } else if (frame_counter >= 16 && frame_counter <= 30){
         character.img = charstandardright
-      } else if (frame_counter >= 11 && frame_counter <= 15){
+      } else if (frame_counter >= 31 && frame_counter <= 45){
         character.img = charrun2right
-      } else if (frame_counter >= 16 && frame_counter <= 20){
+      } else if (frame_counter >= 46 && frame_counter <= 60){
         character.img = charstandardright
       }
     }
 
     if (keyIsDown(LEFT_ARROW)){
-      if (frame_counter >= 1 && frame_counter <= 5){
+      if (frame_counter >= 1 && frame_counter <= 15){
         character.img = charrun1left
-      } else if (frame_counter >= 6 && frame_counter <= 10){
+      } else if (frame_counter >= 16 && frame_counter <= 30){
         character.img = charstandardleft
-      } else if (frame_counter >= 11 && frame_counter <= 15){
+      } else if (frame_counter >= 31 && frame_counter <= 45){
         character.img = charrun2left
-      } else if (frame_counter >= 16 && frame_counter <= 20){
+      } else if (frame_counter >= 46 && frame_counter <= 60){
         character.img = charstandardleft
       }
     }
     
-    if (frame_counter >= 20){
+    if (frame_counter >= 60){
       frame_counter = 0
     }
     
