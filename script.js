@@ -215,7 +215,7 @@ frame_counter = 0
 
 function setup() {
   createCanvas(1000, 500);
-  character = new Character(200,250,50,50, "white", charstandardright);
+  character = new Character(100,250,50,50, "white", charstandardright);
   blocks = [
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
@@ -277,7 +277,12 @@ function setup() {
   new Block(800,(height-6950),200,25, "white", "ice"),
   new Block(0,(height-7050),300,25, "white", "ice"),
   new Block(100,(height-7300),200,25, "white", "ice"),
-  new Block(200,(height-7550),100,25, "#571980", "ice"),
+  new Block(200,(height-7550),100,25, "white", "ice"),
+  new Block(400,(height-7750),600,25, "white", "ice"),
+  new Block(700,(height-7950),100,25, "white", "ice"),
+  new Block(100,(height-8150),150,25, "white", "ice"),
+  new Block(900,(height-8250),100,25, "white", "ice"),
+  
 
   //deze blokken vormen de muren en ondergrond in het eerste stuk
   new Block(775,(height-1800),225,1800, "black", "wall"),
@@ -285,7 +290,7 @@ function setup() {
   new Block(0,height,width,1000, "black", "wall")
   
   ] 
-  blocks.forEach(b => b.y += 7550)
+  blocks.forEach(b => b.y += 8150)
 }
 
 function preload(){
