@@ -455,7 +455,7 @@ function pickImage(){
       }
     }
 
-    if (keyIsDown(RIGHT_ARROW) || keyIsDown(65)){
+    if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
       if (frame_counter >= 1 && frame_counter <= 10){
         character.img = charrun1left
       } else if (frame_counter >= 11 && frame_counter <= 20){
