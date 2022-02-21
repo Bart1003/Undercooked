@@ -29,6 +29,7 @@ class Character{
       this.jump_time = 0
     }
 
+    //walking without ice physics
     if (keyIsDown(32) != true && this.collision == "bottom" && this.block_type != "ice"){
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
         this.v_hor -= this.walk_speed
@@ -38,9 +39,7 @@ class Character{
         this.walking = true
       }
 
-
-
-
+    //walking with ice physics
     } else if (this.block_type == "ice" && keyIsDown(32) == false)
       if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
         this.walking = true
@@ -73,19 +72,27 @@ class Character{
     pickImage();
     fill(this.c)
     //rect(this.x, this.y, this.w, this.h);
-    image(this.img,this.x, this.y, this.w, this.h);
-    //if (this.v_hor > 0.1){
-      //this.img = charright;
-    //}else{
-      //this.img = charleft;
-    //}
+
+
+    if (this.img == charjumpcharge){
+      image(this.img,this.x, this.y+15, this.w, this.h-15);
+    } else if (this.img == charrun1right || this.img == charrun2right){
+      image(this.img,this.x, this.y, this.w+9, this.h);
+    } else if (this.img == charrun1left || this.img == charrun2left){
+      image(this.img,this.x-9, this.y, this.w+9, this.h);
+    } else {
+      image(this.img,this.x, this.y, this.w, this.h);
+    }
+    
+
+    
     fill(50)
     text(this.v_hor, 300, 70)
     this.x += this.v_hor
     
-    this.collision_type = checkCollision()
-    this.collision = this.collision_type[0]
-    this.block_type = this.collision_type[1]
+    this.collision_blocktype = checkCollision()
+    this.collision = this.collision_blocktype[0]
+    this.block_type = this.collision_blocktype[1]
 
     
     if (this.collision == "top"){
@@ -297,6 +304,7 @@ function preload(){
   charrun2right = loadImage('images/character/charrun2/charrunright2.png')
   charrun1left = loadImage('images/character/charrun1/charrunleft.png')
   charrun2left = loadImage('images/character/charrun2/charrunleft2.png')
+  charjumpcharge = loadImage('images/character/charjumpcharge/charjumpcharge.png')
 }
 
 function draw() {
@@ -420,6 +428,8 @@ function pickImage(){
         character.img = charfallleft
       }
     }
+  } else if (keyIsDown(32)){
+    character.img = charjumpcharge
   } else {
     character.img = charstandardright
   }
@@ -429,30 +439,30 @@ function pickImage(){
     frame_counter += 1
 
     if (keyIsDown(RIGHT_ARROW)){
-      if (frame_counter >= 1 && frame_counter <= 15){
+      if (frame_counter >= 1 && frame_counter <= 10){
         character.img = charrun1right
-      } else if (frame_counter >= 16 && frame_counter <= 30){
+      } else if (frame_counter >= 11 && frame_counter <= 20){
         character.img = charstandardright
-      } else if (frame_counter >= 31 && frame_counter <= 45){
+      } else if (frame_counter >= 21 && frame_counter <= 30){
         character.img = charrun2right
-      } else if (frame_counter >= 46 && frame_counter <= 60){
+      } else if (frame_counter >= 31 && frame_counter <= 40){
         character.img = charstandardright
       }
     }
 
     if (keyIsDown(LEFT_ARROW)){
-      if (frame_counter >= 1 && frame_counter <= 15){
+      if (frame_counter >= 1 && frame_counter <= 10){
         character.img = charrun1left
-      } else if (frame_counter >= 16 && frame_counter <= 30){
+      } else if (frame_counter >= 11 && frame_counter <= 20){
         character.img = charstandardleft
-      } else if (frame_counter >= 31 && frame_counter <= 45){
+      } else if (frame_counter >= 21 && frame_counter <= 30){
         character.img = charrun2left
-      } else if (frame_counter >= 46 && frame_counter <= 60){
+      } else if (frame_counter >= 31 && frame_counter <= 40){
         character.img = charstandardleft
       }
     }
     
-    if (frame_counter >= 60){
+    if (frame_counter >= 40){
       frame_counter = 0
     }
     
