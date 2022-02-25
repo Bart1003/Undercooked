@@ -136,13 +136,13 @@ class Character{
 
 class Block{
   constructor (x, y, w, h, color, type){
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
+    this.x = x
+    this.y = y
+    this.w = w
+    this.h = h
     this.c = color;
-    this.halfWidth = this.w /2; //variable for collision checking
-    this.halfHeight = this.h /2; //variable for collision checking
+    this.halfWidth = this.w /2 //variable for collision checking
+    this.halfHeight = this.h /2 //variable for collision checking
     this.v_ver = 0
     this.v_ver_max = 15
     this.a = 0.33
@@ -168,7 +168,7 @@ class Block{
     //rect(this.x, this.y, this.w, this.h);
 
     if (this.v_ver < this.v_ver_max){
-      this.v_ver = this.v_ver + this.a;
+      this.v_ver = this.v_ver + this.a
     } 
 
     if (this.y + this.h >=0 && this.y <= height && this.type != "wall"){
@@ -213,9 +213,12 @@ ver_jump_speed = 7.5 //speed when jumping vertically
 max_v_hor = 10 //max horizontal jumping speed on ice
 frame_counter = 0
 
+
 function setup() {
-  createCanvas(1000, 500);
-  character = new Character(100,250,50,50, "white", charstandardright);
+  createCanvas(1000, 500)
+  character = new Character(100,250,50,50, "white", charstandardright)
+  
+
   blocks = [
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
@@ -290,7 +293,8 @@ function setup() {
   new Block(0,height,width,1000, "black", "wall")
   
   ] 
-  blocks.forEach(b => b.y += 8150)
+  //blocks.forEach(b => b.y += 8150)
+  blocks.forEach(b => b.y += 0)
 }
 
 function preload(){
@@ -310,11 +314,12 @@ function preload(){
   charrun1left = loadImage('images/character/charrun1/charrunleft.png')
   charrun2left = loadImage('images/character/charrun2/charrunleft2.png')
   charjumpcharge = loadImage('images/character/charjumpcharge/charjumpcharge.png')
+  song = loadSound('sounds/of.mp3')
 }
 
 function draw() {
 	background(backgroundimg);
- 
+  
   blocks.forEach(b => b.draw())
   character.jump_walk()
   character.draw();
@@ -328,6 +333,8 @@ function draw() {
   
   
 }
+
+
 
 function keyReleased(){
   if (keyCode == 32 && character.collision == "bottom"){
@@ -352,9 +359,14 @@ function keyReleased(){
     }
     character.collision = false
   }
- 
 }
 
+
+function keyPressed(){
+  if (song.isPlaying() == false){
+    song.play()
+  }
+}
 
 
 function checkCollision(){   
