@@ -164,8 +164,6 @@ class Block{
 
   draw(){
     fill(this.c)
-    
-    //rect(this.x, this.y, this.w, this.h);
 
     if (this.v_ver < this.v_ver_max){
       this.v_ver = this.v_ver + this.a
@@ -188,18 +186,66 @@ class Block{
       rect(this.x, this.y, this.w, this.h)
     }
     
-    
-    
+    background_images.forEach(c => c.v_ver = this.v_ver)
     this.y -= this.v_ver
+    text(this.v_ver, 200, 100, 100, 100)
 
-    fill(50)
-    //text(this.type, 100, 30);
-    //text(character.collision, 100, 100)
     if (character.collision == "top"){
       this.v_ver = 0
     } else if (character.collision == "bottom"){
       this.v_ver = 0
     }
+
+    
+  }
+}
+
+
+class Background{
+  constructor (x, y, w, h, image, start_height, end_height, character_height){
+    this.x = x
+    this.y = y
+    this.w = w
+    this.h = h
+    this.start_height = start_height - 300
+    this.end_height = end_height - 300
+    this.character_height = character_height
+    
+    this.v_ver = blocks[4].v_ver
+    
+    this.img = image
+    
+   
+  }  
+
+
+  draw(){
+    this.v_ver = blocks[4].v_ver
+    this.character_height = character_height
+    if (this.character_height >= this.end_height){
+      this.y = (this.character_height - this.end_height)
+    }
+    if (this.character_height <= this.start_height){
+      this.y = (this.character_height - this.start_height)
+    }
+    //rect(this.x, this.y, this.w, this.h);
+
+    //if (this.character_height <= this.end_height && this.character_height >= this.start_height){
+      //image(this.img, this.x, this.y, width, height)
+    //} else if (this.character_height <= (this.end_height + height) && this.character_height >= this.end_height){
+      //image(this.img, this.x, this.y, width, height)
+      //this.y -= this.v_ver
+      
+    //} else {
+     // image(this.img, this.x, this.y, width, height)
+    //}
+    
+    image(this.img, this.x, this.y, width, height)
+    
+    //this.y -= this.v_ver
+
+    fill(50)
+    text(this.v_ver, 100, 100, 100, 100)
     
 
   }
@@ -208,18 +254,19 @@ class Block{
 
 
 
-
 var hit = false,
 max_jump_height = 15, min_jump_height = 1 //min and max height the character can jump
 ver_jump_speed = 7.5 //speed when jumping vertically
 max_v_hor = 10 //max horizontal jumping speed on ice
 frame_counter = 0
+character_height = 0
 game_state = "game"
 
 
 function setup() {
   createCanvas(1000, 500)
   character = new Character(100,250,50,50, "white", charstandardright)
+  
   
 
   blocks = [
@@ -296,6 +343,14 @@ function setup() {
   new Block(0,height,width,1000, "black", "wall")
   
   ] 
+
+  background_images = [
+  new Background(0,0,width,height, block_ice_image, 2300, 3000, character_height),
+  new Background(0,0,width,height, block_image, 1800, 2300, character_height),
+  new Background(0,0,width,height, backgroundimg, 0, 1800, character_height)
+  ]
+
+  
   //blocks.forEach(b => b.y += 8150)
   blocks.forEach(b => b.y += 2000)
 }
@@ -321,7 +376,13 @@ function preload(){
 }
 
 function draw() {
-	
+  
+	//background_images = [
+  //new Background(0,0,width,height, block_image, 1800, 3000, character_height),
+  //new Background(0,0,width,height, backgroundimg, 0, 1800, character_height)
+  //]
+
+  
   if (game_state == "startscreen"){
     background(charstandardright);
   }
@@ -331,8 +392,11 @@ function draw() {
   }
   
   if (game_state == "game"){
-    background(backgroundimg);
-  
+    //background(backgroundimg);
+    //background_image.draw();
+    background_images.forEach(b => b.draw())
+    
+    
     blocks.forEach(b => b.draw())
     character.jump_walk()
     character.draw();
@@ -381,10 +445,13 @@ function keyReleased(){
   if (keyCode == 32 && character.collision == "bottom"){
     if (character.jump_time > max_jump_height){
       blocks.forEach(b => b.v_ver = -max_jump_height)
+      //background_images.forEach(b => b.v_ver = -max_jump_height)
     } else if (character.jump_time < min_jump_height) {
       blocks.forEach(b => b.v_ver = -min_jump_height)
+      //background_images.forEach(b => b.v_ver = -min_jump_height)
     } else {
       blocks.forEach(b => b.v_ver = -character.jump_time)
+      //background_images.forEach(b => b.v_ver = -character.jump_time)
     }
     character.jump_time = 0
     if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
