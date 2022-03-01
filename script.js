@@ -207,11 +207,14 @@ class Block{
 }
 
 
+
+
 var hit = false,
 max_jump_height = 15, min_jump_height = 1 //min and max height the character can jump
 ver_jump_speed = 7.5 //speed when jumping vertically
 max_v_hor = 10 //max horizontal jumping speed on ice
 frame_counter = 0
+game_state = "game"
 
 
 function setup() {
@@ -294,7 +297,7 @@ function setup() {
   
   ] 
   //blocks.forEach(b => b.y += 8150)
-  blocks.forEach(b => b.y += 0)
+  blocks.forEach(b => b.y += 2000)
 }
 
 function preload(){
@@ -318,22 +321,60 @@ function preload(){
 }
 
 function draw() {
-	background(backgroundimg);
-  
-  blocks.forEach(b => b.draw())
-  character.jump_walk()
-  character.draw();
-  character_height = Math.floor(blocks[4].y) + 350
-  if (character_height < 0){
-    character_height = 0
+	
+  if (game_state == "startscreen"){
+    background(charstandardright);
   }
-  fill(50)
-  text("height: " + character_height, 50, 70);
+
+  if (game_state == "pause"){
+    background(block_image);
+  }
+  
+  if (game_state == "game"){
+    background(backgroundimg);
+  
+    blocks.forEach(b => b.draw())
+    character.jump_walk()
+    character.draw();
+    character_height = Math.floor(blocks[4].y) + 350
+    if (character_height < 0){
+      character_height = 0
+    }
+
+    //code to set a win height character has to reach, currently arbitrarily high so the game still works
+    if (character_height >= 63000000 && character.collision == "bottom"){
+      game_state = "won"
+    }
+    fill(50)
+    text("height: " + character_height, 50, 70);
+  }
+
+  if (game_state == "won"){
+    background(block_ice_image);
+  }
+
   //text(character.v_hor, 100, 70)
   
   
 }
 
+
+function keyPressed(){
+  if (song.isPlaying() == false){
+    song.setVolume(0.2)
+    //song.play()
+  }
+
+  if (game_state == "startscreen"){
+    game_state = "game"
+  }
+
+  if (game_state == "game" && keyCode == 80){
+    game_state = "pause"
+  } else if (game_state == "pause" && keyCode == 80){
+    game_state = "game"
+  }
+}
 
 
 function keyReleased(){
@@ -362,11 +403,6 @@ function keyReleased(){
 }
 
 
-function keyPressed(){
-  if (song.isPlaying() == false){
-    song.play()
-  }
-}
 
 
 function checkCollision(){   
