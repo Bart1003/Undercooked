@@ -186,9 +186,9 @@ class Block{
       rect(this.x, this.y, this.w, this.h)
     }
     
-    background_images.forEach(c => c.v_ver = this.v_ver)
+    //background_images.forEach(c => c.v_ver = this.v_ver)
     this.y -= this.v_ver
-    text(this.v_ver, 200, 100, 100, 100)
+    //text(this.v_ver, 200, 100, 100, 100)
 
     if (character.collision == "top"){
       this.v_ver = 0
@@ -207,7 +207,7 @@ class Background{
     this.y = y
     this.w = w
     this.h = h
-    this.start_height = start_height - 300
+    this.start_height = start_height-300
     this.end_height = end_height - 300
     this.character_height = character_height
     
@@ -224,9 +224,10 @@ class Background{
     this.character_height = character_height
     if (this.character_height >= this.end_height){
       this.y = (this.character_height - this.end_height)
-    }
-    if (this.character_height <= this.start_height){
+    }else if (this.character_height <= this.start_height){
       this.y = (this.character_height - this.start_height)
+    } else {
+      this.y = 0
     }
     //rect(this.x, this.y, this.w, this.h);
 
@@ -240,12 +241,12 @@ class Background{
      // image(this.img, this.x, this.y, width, height)
     //}
     
-    image(this.img, this.x, this.y, width, height)
+    image(this.img, this.x, this.y, width, this.h)
     
     //this.y -= this.v_ver
 
     fill(50)
-    text(this.v_ver, 100, 100, 100, 100)
+    text(this.y, 100, 100, 100, 100)
     
 
   }
@@ -345,9 +346,9 @@ function setup() {
   ] 
 
   background_images = [
-  new Background(0,0,width,height, block_ice_image, 2300, 3000, character_height),
-  new Background(0,0,width,height, block_image, 1800, 2300, character_height),
-  new Background(0,0,width,height, backgroundimg, 0, 1800, character_height)
+  new Background(0,0,width,height, block_ice_image, 3300, 3800, character_height),
+  new Background(0,0,width,height, backgroundimg, 2300, 2800, character_height),
+  new Background(0,0,width,height, backgroundimg2, 0, 1800, character_height)
   ]
 
   
@@ -358,6 +359,7 @@ function setup() {
 function preload(){
   //block en background images
   backgroundimg = loadImage('images/block/dungeon_background.jpg')
+  backgroundimg2 = loadImage('images/block/dungeonbackground1.png')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   //characterimages:
@@ -400,6 +402,7 @@ function draw() {
     blocks.forEach(b => b.draw())
     character.jump_walk()
     character.draw();
+    background_images.forEach(b => text(b.y, 100,100,100))
     character_height = Math.floor(blocks[4].y) + 350
     if (character_height < 0){
       character_height = 0
