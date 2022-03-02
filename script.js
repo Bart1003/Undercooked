@@ -271,6 +271,10 @@ function setup() {
   
 
   blocks = [
+  
+  
+
+    
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
   new Block(225,(height-200),50,200, "white"),
@@ -281,8 +285,8 @@ function setup() {
   new Block(425,(height-1300),20,150, "white"),
   new Block(625,(height-1250),150,50, "white"),
   new Block(350,(height-1600),100,50, "white"),
-  new Block(225,(height-1800),150,50, "white"),
-  new Block(525,(height-1800),250,50, "white"),
+  new Block(0,(height-1800),375,50, "white"),
+  new Block(525,(height-1800),475,50, "white"),
   //na de eerste checkpoint (wanneer het scherm breeder wordt)
   new Block(375,(height-2000),450,50, "white"),
   new Block(100,(height-2200),50,50, "white"),
@@ -337,11 +341,10 @@ function setup() {
   new Block(100,(height-8150),150,25, "white", "ice"),
   new Block(900,(height-8250),100,25, "white", "ice"),
   
-
   //deze blokken vormen de muren en ondergrond in het eerste stuk
   new Block(775,(height-1800),225,1800, "black", "wall"),
   new Block(0,(height-1800),225,1800, "black", "wall"),
-  new Block(0,height,width,1000, "black", "wall")
+  new Block(0,height,width,1000, "black", "wall"),
   
   ] 
 
@@ -353,13 +356,13 @@ function setup() {
 
   
   //blocks.forEach(b => b.y += 8150)
-  blocks.forEach(b => b.y += 0)
+  blocks.forEach(b => b.y += 2000)
 }
 
 function preload(){
   //block en background images
   backgroundimg = loadImage('images/block/dungeon_background.jpg')
-  backgroundimg2 = loadImage('images/block/dungeonbackground1.png')
+  backgroundimg2 = loadImage('images/block/dungeonbackground4.png')
   backgroundimg3 = loadImage('images/block/icedungeonbackground.jpg')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
@@ -376,10 +379,13 @@ function preload(){
   charrun2left = loadImage('images/character/charrun2/charrunleft2.png')
   charjumpcharge = loadImage('images/character/charjumpcharge/charjumpcharge.png')
   song = loadSound('sounds/of.mp3')
+  song2 = loadSound('sounds/shovelknight.mp3')
+  song3 = loadSound('sounds/iceMusic.mp3')
+  walking_sound = loadSound('sounds/walking.mp3')
 }
 
 function draw() {
-  
+  sound()
 	//background_images = [
   //new Background(0,0,width,height, block_image, 1800, 3000, character_height),
   //new Background(0,0,width,height, backgroundimg, 0, 1800, character_height)
@@ -400,6 +406,7 @@ function draw() {
     background_images.forEach(b => b.draw())
     
     
+    
     blocks.forEach(b => b.draw())
     character.jump_walk()
     character.draw();
@@ -408,7 +415,7 @@ function draw() {
     if (character_height < 0){
       character_height = 0
     }
-
+  
     //code to set a win height character has to reach, currently arbitrarily high so the game still works
     if (character_height >= 63000000 && character.collision == "bottom"){
       game_state = "won"
@@ -427,11 +434,37 @@ function draw() {
 }
 
 
-function keyPressed(){
-  if (song.isPlaying() == false){
-    song.setVolume(0.2)
-    //song.play()
+function sound(){
+  song.setVolume(0.2)
+  song2.setVolume(0.2)
+  song3.setVolume(0.2)
+  
+  if (character_height < 1800 && song.isPlaying() == false){
+    song2.stop()
+    song3.stop()
+    song.loop()
+  } else if (character_height >= 1800 && song2.isPlaying() == false){
+    song.stop()
+    song3.stop()
+    song2.loop()
+  } else if (character_height >= 21000 && song3.isPlaying() == false){
+    song.stop()
+    song2.stop()
+    song3.loop()
   }
+
+  
+  if (walking_sound.isPlaying() == false && character.walking == true){
+    walking_sound.setVolume(2)
+    walking_sound.play()
+  } else if (walking_sound.isPlaying() == true && character.walking == false){
+    walking_sound.stop()
+  }
+}
+
+
+function keyPressed(){
+  
 
   if (game_state == "startscreen"){
     game_state = "game"
