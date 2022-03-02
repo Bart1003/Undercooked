@@ -346,20 +346,21 @@ function setup() {
   ] 
 
   background_images = [
-  new Background(0,0,width,height, block_ice_image, 3300, 3800, character_height),
-  new Background(0,0,width,height, backgroundimg, 2300, 2800, character_height),
+  new Background(0,0,width,height, backgroundimg3, 6425, 38000, character_height),
+  new Background(0,0,width,height, backgroundimg, 2300, 5925, character_height),
   new Background(0,0,width,height, backgroundimg2, 0, 1800, character_height)
   ]
 
   
   //blocks.forEach(b => b.y += 8150)
-  blocks.forEach(b => b.y += 2000)
+  blocks.forEach(b => b.y += 0)
 }
 
 function preload(){
   //block en background images
   backgroundimg = loadImage('images/block/dungeon_background.jpg')
   backgroundimg2 = loadImage('images/block/dungeonbackground1.png')
+  backgroundimg3 = loadImage('images/block/icedungeonbackground.jpg')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   //characterimages:
