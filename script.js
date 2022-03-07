@@ -96,15 +96,15 @@ class Character{
 
     
     if (this.collision == "top"){
-      if (hit.isPlaying() == false){
-        hit.play()
+      if (hit3.isPlaying() == false){
+        hit3.play()
       }
       
     } else if (this.collision == "left" || this.collision == "right"){
       this.v_hor = this.v_hor * -this.bounce
       this.collision = false
-      if (hit.isPlaying() == false){
-        hit.play()
+      if (hit3.isPlaying() == false && this.walking == false){
+        hit3.play()
       }
     } else if (this.collision == "bottom"){
       if (this.block_type == "ice"){
@@ -131,14 +131,14 @@ class Character{
       if (this.x > width - this.w) {
         this.x = width - this.w;
         this.v_hor = this.v_hor * -this.bounce
-        if (hit.isPlaying() == false){
-          hit.play()
+        if (hit3.isPlaying() == false){
+          hit3.play()
         }
       } else if (this.x < 0){
         this.x = 0;
         this.v_hor = this.v_hor * -this.bounce
-        if (hit.isPlaying() == false){
-          hit.play()
+        if (hit3.isPlaying() == false){
+          hit3.play()
         }
       }
     }
@@ -280,7 +280,7 @@ this_vver = 0
 function setup() {
   createCanvas(1000, 500)
   character = new Character(100,250,50,50, "white", charstandardright)
-  hit.setVolume(0.2)
+ 
   
 
   blocks = [
@@ -368,8 +368,8 @@ function setup() {
   ]
 
   
-  blocks.forEach(b => b.y += 8150)
-  //blocks.forEach(b => b.y += 2000)
+  //blocks.forEach(b => b.y += 8150)
+  blocks.forEach(b => b.y += 000)
 }
 
 function preload(){
@@ -395,7 +395,9 @@ function preload(){
   song2 = loadSound('sounds/shovelknight.mp3')
   song3 = loadSound('sounds/iceMusic.mp3')
   walking_sound = loadSound('sounds/walking.mp3')
-  hit = loadSound('sounds/hit.wav')
+  hit1 = loadSound('sounds/hit1.wav')
+  hit2 = loadSound('sounds/hit2.wav')
+  hit3 = loadSound('sounds/hit3.mp3')
 }
 
 function draw() {
@@ -457,15 +459,15 @@ function sound(){
     if (character_height < 1800 && song.isPlaying() == false){
       song2.stop()
       song3.stop()
-      song.loop()
+      //song.loop()
     } else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
       song.stop()
       song3.stop()
-      song2.loop()
+      //song2.loop()
     } else if (character_height >= 5900 && song3.isPlaying() == false){
       song.stop()
       song2.stop()
-      song3.loop()
+      //song3.loop()
     }
   
     
@@ -478,7 +480,7 @@ function sound(){
   
     this_collision = character.collision
     if (this_collision == "bottom" && prev_collision == false){
-      hit.play()
+      hit1.play()
     }
     prev_collision = character.collision
   }
