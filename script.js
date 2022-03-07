@@ -73,7 +73,7 @@ class Character{
     fill(this.c)
     //rect(this.x, this.y, this.w, this.h);
 
-
+    this.img.resize(0,0)
     if (this.img == charjumpcharge){
       image(this.img,this.x, this.y+15, this.w, this.h-15);
     } else if (this.img == charrun1right || this.img == charrun2right){
@@ -103,9 +103,10 @@ class Character{
     } else if (this.collision == "left" || this.collision == "right"){
       this.v_hor = this.v_hor * -this.bounce
       this.collision = false
-      if (hit3.isPlaying() == false && this.walking == false){
+      if (this.walking == false){
         hit3.play()
       }
+      
     } else if (this.collision == "bottom"){
       if (this.block_type == "ice"){
         if (this.v_hor >= 0){
@@ -131,15 +132,11 @@ class Character{
       if (this.x > width - this.w) {
         this.x = width - this.w;
         this.v_hor = this.v_hor * -this.bounce
-        if (hit3.isPlaying() == false){
-          hit3.play()
-        }
+        hit3.play()
       } else if (this.x < 0){
         this.x = 0;
         this.v_hor = this.v_hor * -this.bounce
-        if (hit3.isPlaying() == false){
-          hit3.play()
-        }
+        hit3.play()
       }
     }
   }
@@ -280,14 +277,8 @@ this_vver = 0
 function setup() {
   createCanvas(1000, 500)
   character = new Character(100,250,50,50, "white", charstandardright)
- 
-  
 
-  blocks = [
-  
-  
-
-    
+  blocks = [  
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
   new Block(225,(height-200),50,200, "white"),
