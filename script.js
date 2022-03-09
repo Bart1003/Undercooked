@@ -76,7 +76,7 @@ class Character{
     this.img.resize(0,0)
     if (this.img == charjumpcharge){
       image(this.img,this.x, this.y+15, this.w, this.h-15);
-    } else if (this.img == charrun1right || this.img == charrun2right){
+    } else if (this.img == charrun1right|| this.img == charrun2right){
       image(this.img,this.x, this.y, this.w+9, this.h);
     } else if (this.img == charrun1left || this.img == charrun2left){
       image(this.img,this.x-9, this.y, this.w+9, this.h);
@@ -272,7 +272,6 @@ character_height = 0
 game_state = "startscreen"
 prev_collision = "false"
 this_vver = 0
-lastdir = right
 
 function setup() {
   createCanvas(1000, 500)
@@ -389,6 +388,7 @@ function preload(){
   hit1 = loadSound('sounds/hit1.wav')
   hit2 = loadSound('sounds/hit2.wav')
   hit3 = loadSound('sounds/hit3.mp3')
+  last_dir = charstandardright
 }
 
 function draw() {
@@ -588,34 +588,31 @@ function checkCollision(){
 
 
 function pickImage(){
+  if (character.v_hor > 0){
+    last_dir = charstandardright
+  } else if (character.v_hor < 0){
+    last_dir = charstandardleft
+  }
+  
   block_ver = blocks[1].v_ver
   if(block_ver != 0){
     if(block_ver < 0){
       if (character.v_hor >= 0){
         character.img = charjumpright
-	lastdir = right
       } else {
         character.img = charjumpleft
-	lastdir = left
       }
     }else if(block_ver > 0){
       if (character.v_hor >= 0){
         character.img = charfallright
-	lastdir = right
       } else {
         character.img = charfallleft
-	lastdir = left
       }
     }
   } else if (keyIsDown(32)){
     character.img = charjumpcharge
   } else {
-    prev_direction = 0
-    if(lastdir == right){
-	character.img = charstandardright
-    }else if(lastdir == left){
-	character.img = charstandardleft
-    }
+	  character.img = last_dir
   }
 
 
