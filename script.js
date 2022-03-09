@@ -272,7 +272,7 @@ character_height = 0
 game_state = "startscreen"
 prev_collision = "false"
 this_vver = 0
-
+lastdir = right
 
 function setup() {
   createCanvas(1000, 500)
@@ -593,21 +593,29 @@ function pickImage(){
     if(block_ver < 0){
       if (character.v_hor >= 0){
         character.img = charjumpright
+	lastdir = right
       } else {
         character.img = charjumpleft
+	lastdir = left
       }
     }else if(block_ver > 0){
       if (character.v_hor >= 0){
         character.img = charfallright
+	lastdir = right
       } else {
         character.img = charfallleft
+	lastdir = left
       }
     }
   } else if (keyIsDown(32)){
     character.img = charjumpcharge
   } else {
     prev_direction = 0
-    character.img = charstandardright
+    if(lastdir == right){
+	character.img = charstandardright
+    }else if(lastdir == left){
+	character.img = charstandardleft
+    }
   }
 
 
