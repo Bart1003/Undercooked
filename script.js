@@ -359,8 +359,8 @@ function setup() {
   ]
 
   
-  //blocks.forEach(b => b.y += 8150)
-  blocks.forEach(b => b.y += 000)
+  blocks.forEach(b => b.y += 8150)
+  //blocks.forEach(b => b.y += 000)
 }
 
 function preload(){
@@ -606,6 +606,7 @@ function pickImage(){
   } else if (keyIsDown(32)){
     character.img = charjumpcharge
   } else {
+    prev_direction = 0
     character.img = charstandardright
   }
 
