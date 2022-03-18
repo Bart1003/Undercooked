@@ -269,13 +269,13 @@ ver_jump_speed = 7.5 //speed when jumping vertically
 max_v_hor = 10 //max horizontal jumping speed on ice
 frame_counter = 0
 character_height = 0
-game_state = "startscreen"
+game_state = "game"
 prev_collision = "false"
 this_vver = 0
 
 function setup() {
   createCanvas(1000, 500)
-  character = new Character(100,250,50,50, "white", charstandardright)
+  character = new Character(500,250,50,50, "white", charstandardright)
 
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -339,10 +339,17 @@ function setup() {
   new Block(0,(height-7050),300,25, "white", "ice"),
   new Block(100,(height-7300),200,25, "white", "ice"),
   new Block(200,(height-7550),100,25, "white", "ice"),
-  new Block(400,(height-7750),600,25, "white", "ice"),
+  new Block(200,(height-7750),800,25, "white", "ice"),
+  //moeilijker ijsstuk
   new Block(700,(height-7950),100,25, "white", "ice"),
   new Block(100,(height-8150),150,25, "white", "ice"),
   new Block(900,(height-8250),100,25, "white", "ice"),
+  new Block(450,(height-8550),150,25, "white", "ice"),
+  new Block(50,(height-8750),100,25, "white", "ice"),
+  new Block(600,(height-8950),100,25, "white", "ice"),
+  new Block(600,(height-8950),125,25, "white", "ice"),
+  new Block(0,(height-9150),600,25, "white", "ice"),
+  new Block(725,(height-9150),850,25, "white", "ice"),
   
   //deze blokken vormen de muren en ondergrond in het eerste stuk
   new Block(775,(height-1800),225,1800, "black", "wall"),
@@ -358,7 +365,7 @@ function setup() {
   ]
 
   
-  blocks.forEach(b => b.y += 8150)
+  blocks.forEach(b => b.y += 8600)
   //blocks.forEach(b => b.y += 000)
 }
 
@@ -397,7 +404,6 @@ function draw() {
   //new Background(0,0,width,height, block_image, 1800, 3000, character_height),
   //new Background(0,0,width,height, backgroundimg, 0, 1800, character_height)
   //]
-
   
   if (game_state == "startscreen"){
     background(charstandardright);
@@ -411,6 +417,7 @@ function draw() {
     //background(backgroundimg);
     //background_image.draw();
     background_images.forEach(b => b.draw())
+    
     
     
     
