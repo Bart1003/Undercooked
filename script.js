@@ -275,7 +275,7 @@ this_vver = 0
 
 function setup() {
   createCanvas(1000, 500)
-  character = new Character(500,250,50,50, "white", charstandardright)
+  character = new Character(00,250,50,50, "white", charstandardright)
 
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -346,11 +346,23 @@ function setup() {
   new Block(900,(height-8250),100,25, "white", "ice"),
   new Block(450,(height-8550),150,25, "white", "ice"),
   new Block(50,(height-8750),100,25, "white", "ice"),
-  new Block(600,(height-8950),100,25, "white", "ice"),
   new Block(600,(height-8950),125,25, "white", "ice"),
   new Block(0,(height-9150),600,25, "white", "ice"),
-  new Block(725,(height-9150),850,25, "white", "ice"),
-  
+  new Block(725,(height-9150),350,25, "white", "ice"),
+  //laatste ijsstuk
+  new Block(0,(height-9300),150,25, "white", "ice"),
+  new Block(750,(height-9500),100,25, "white", "ice"),
+  new Block(650,(height-9750),100,25, "white", "ice"),
+  new Block(0,(height-9950),100,25, "white", "ice"),
+  new Block(850,(height-10150),150,25, "white", "ice"),
+  new Block(0,(height-10250),150,25, "white", "ice"),
+  new Block(750,(height-10450),100,25, "white", "ice"),
+  new Block(700,(height-10700),100,25, "white", "ice"),
+  new Block(300,(height-10700),100,25, "white", "ice"),
+  new Block(250,(height-10900),750,50, "white"),
+  new Block(0,(height-10700),150,50, "white"),
+
+    
   //deze blokken vormen de muren en ondergrond in het eerste stuk
   new Block(775,(height-1800),225,1800, "black", "wall"),
   new Block(0,(height-1800),225,1800, "black", "wall"),
@@ -365,7 +377,7 @@ function setup() {
   ]
 
   
-  blocks.forEach(b => b.y += 8600)
+  blocks.forEach(b => b.y += 10100)
   //blocks.forEach(b => b.y += 000)
 }
 
