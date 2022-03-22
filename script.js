@@ -23,7 +23,7 @@ class Character{
   
   jump_walk(){
     this.walking = false
-    if (keyIsDown(32)) {
+    if (keyIsDown(32) && can_move == true) {
       this.jump_time += this.jump_time_factor
     } else{
       this.jump_time = 0
@@ -132,11 +132,15 @@ class Character{
       if (this.x > width - this.w) {
         this.x = width - this.w;
         this.v_hor = this.v_hor * -this.bounce
-        hit3.play()
+        if (this.walking == false){
+          hit3.play()
+        }        
       } else if (this.x < 0){
         this.x = 0;
         this.v_hor = this.v_hor * -this.bounce
-        hit3.play()
+        if (this.walking == false){
+          hit3.play()
+        }
       }
     }
   }
@@ -272,6 +276,9 @@ character_height = 0
 game_state = "game"
 prev_collision = "false"
 this_vver = 0
+can_move = true
+moving_x = 0
+animation_timer = 200
 
 function setup() {
   createCanvas(1000, 500)
@@ -359,7 +366,7 @@ function setup() {
   new Block(750,(height-10450),100,25, "white", "ice"),
   new Block(700,(height-10700),100,25, "white", "ice"),
   new Block(300,(height-10700),100,25, "white", "ice"),
-  new Block(250,(height-10900),750,50, "white"),
+  new Block(150,(height-10900),850,50, "white"),
   new Block(0,(height-10700),150,50, "white"),
 
     
@@ -377,7 +384,7 @@ function setup() {
   ]
 
   
-  blocks.forEach(b => b.y += 10100)
+  blocks.forEach(b => b.y += 10700)
   //blocks.forEach(b => b.y += 000)
 }
 
@@ -407,6 +414,7 @@ function preload(){
   hit1 = loadSound('sounds/hit1.wav')
   hit2 = loadSound('sounds/hit2.wav')
   hit3 = loadSound('sounds/hit3.mp3')
+  slam = loadSound('sounds/slam.m4a')
   last_dir = charstandardright
 }
 
@@ -429,12 +437,15 @@ function draw() {
     //background(backgroundimg);
     //background_image.draw();
     background_images.forEach(b => b.draw())
+    dumbAnimation()
     
     
     
     
     blocks.forEach(b => b.draw())
-    character.jump_walk()
+    if (can_move == true){
+      character.jump_walk()
+    }
     character.draw();
     background_images.forEach(b => text(b.y, 100,100,100))
     character_height = Math.floor(blocks[4].y) + 350
@@ -457,6 +468,24 @@ function draw() {
   //text(character.v_hor, 100, 70)
   
   
+}
+
+function dumbAnimation(){
+  moving_block = new Block(0,(height-moving_x),150,50, "white")
+  
+  
+  if (character_height == 10900 && character.collision == "bottom" && animation_timer > 0){
+    can_move = false
+    animation_timer -= 1
+    moving_x += 1
+    moving_block.draw()
+  } else if (animation_timer == 0) {
+    blocks.push(moving_block)
+    animation_timer -= 1
+    slam.setVolume(10)
+    slam.play()
+    can_move = true
+  }
 }
 
 
@@ -516,7 +545,7 @@ function keyPressed(){
 
 
 function keyReleased(){
-  if (keyCode == 32 && character.collision == "bottom"){
+  if (keyCode == 32 && character.collision == "bottom" && can_move == true){
     if (character.jump_time > max_jump_height){
       blocks.forEach(b => b.v_ver = -max_jump_height)
       //background_images.forEach(b => b.v_ver = -max_jump_height)
@@ -628,7 +657,7 @@ function pickImage(){
         character.img = charfallleft
       }
     }
-  } else if (keyIsDown(32)){
+  } else if (keyIsDown(32) && can_move == true){
     character.img = charjumpcharge
   } else {
 	  character.img = last_dir
