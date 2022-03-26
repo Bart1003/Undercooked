@@ -1,4 +1,4 @@
-class Character{
+ class Character{
   constructor (x, y, w, h, color, img){
     this.x = x;
     this.y = y;
@@ -86,8 +86,6 @@ class Character{
     
 
     
-    fill(50)
-    text(this.v_hor, 300, 70)
     this.x += this.v_hor
     
     this.collision_blocktype = checkCollision()
@@ -121,11 +119,6 @@ class Character{
         this.v_hor = 0
       }
     }
-    
-    textSize(32)
-    fill(50)
-    text(this.walking, 100, 30)
-    text(this.collision, 300, 30)
     
 
     if (this.x > width - this.w || this.x < 0 + (this.w)) {
@@ -198,9 +191,7 @@ class Block{
       rect(this.x, this.y, this.w, this.h)
     }
     
-    //background_images.forEach(c => c.v_ver = this.v_ver)
     this.y -= this.v_ver
-    //text(this.v_ver, 200, 100, 100, 100)
 
     if (character.collision == "top"){
       this.v_ver = 0
@@ -257,8 +248,7 @@ class Background{
     
     //this.y -= this.v_ver
 
-    fill(50)
-    text(this.y, 100, 100, 100, 100)
+    
     
 
   }
@@ -378,7 +368,8 @@ function setup() {
   ] 
 
   background_images = [
-  new Background(0,0,width,height, backgroundimg3, 6425, 38000, character_height),
+    new Background(0,0,width,height, backgroundimg4, 11400, 200000, character_height),
+  new Background(0,0,width,height, backgroundimg3, 6425, 10900, character_height),
   new Background(0,0,width,height, backgroundimg, 2300, 5925, character_height),
   new Background(0,0,width,height, backgroundimg2, 0, 1800, character_height)
   ]
@@ -393,9 +384,10 @@ function preload(){
   backgroundimg = loadImage('images/block/dungeon_background.jpg')
   backgroundimg2 = loadImage('images/block/dungeonbackground4.png')
   backgroundimg3 = loadImage('images/block/icedungeonbackground.jpg')
+  backgroundimg4 = loadImage('images/block/test.jpg')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
-  //characterimages:
+  //characterimages
   charstandardright = loadImage('images/character/charstandard/charstandardright.png')
   charstandardleft = loadImage('images/character/charstandard/charstandardleft.png')
   charjumpleft = loadImage('images/character/charjump/charjumpleft.png')
@@ -407,9 +399,10 @@ function preload(){
   charrun1left = loadImage('images/character/charrun1/charrunleft.png')
   charrun2left = loadImage('images/character/charrun2/charrunleft2.png')
   charjumpcharge = loadImage('images/character/charjumpcharge/charjumpcharge.png')
-  song = loadSound('sounds/of.mp3')
+  song1 = loadSound('sounds/of.mp3')
   song2 = loadSound('sounds/shovelknight.mp3')
   song3 = loadSound('sounds/iceMusic.mp3')
+  song4 = loadSound('sounds/of.mp3')
   walking_sound = loadSound('sounds/walking.mp3')
   hit1 = loadSound('sounds/hit1.wav')
   hit2 = loadSound('sounds/hit2.wav')
@@ -420,10 +413,6 @@ function preload(){
 
 function draw() {
   sound()
-	//background_images = [
-  //new Background(0,0,width,height, block_image, 1800, 3000, character_height),
-  //new Background(0,0,width,height, backgroundimg, 0, 1800, character_height)
-  //]
   
   if (game_state == "startscreen"){
     background(charstandardright);
@@ -434,8 +423,6 @@ function draw() {
   }
   
   if (game_state == "game"){
-    //background(backgroundimg);
-    //background_image.draw();
     background_images.forEach(b => b.draw())
     dumbAnimation()
     
@@ -447,7 +434,6 @@ function draw() {
       character.jump_walk()
     }
     character.draw();
-    background_images.forEach(b => text(b.y, 100,100,100))
     character_height = Math.floor(blocks[4].y) + 350
     if (character_height < 0){
       character_height = 0
@@ -457,7 +443,8 @@ function draw() {
     if (character_height >= 63000000 && character.collision == "bottom"){
       game_state = "won"
     }
-    fill(50)
+    fill(200)
+    textSize(32)
     text("height: " + character_height, 50, 70);
   }
 
@@ -465,7 +452,6 @@ function draw() {
     background(block_ice_image);
   }
 
-  //text(character.v_hor, 100, 70)
   
   
 }
@@ -479,11 +465,14 @@ function dumbAnimation(){
     animation_timer -= 1
     moving_x += 1
     moving_block.draw()
+    if (animation_timer == 10){
+      slam.setVolume(10)
+      slam.play()
+    }
   } else if (animation_timer == 0) {
     blocks.push(moving_block)
     animation_timer -= 1
-    slam.setVolume(10)
-    slam.play()
+    
     can_move = true
   }
 }
@@ -491,22 +480,30 @@ function dumbAnimation(){
 
 function sound(){
   if (game_state == "game" || game_state == "pause"){
-    song.setVolume(0.2)
+    song1.setVolume(0.2)
     song2.setVolume(0.2)
     song3.setVolume(0.4)
     
     if (character_height < 1800 && song.isPlaying() == false){
       song2.stop()
       song3.stop()
-      //song.loop()
+      song4.stop()
+      //song1.loop()
     } else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
-      song.stop()
+      song1.stop()
       song3.stop()
+      song4.stop()
       //song2.loop()
-    } else if (character_height >= 5900 && song3.isPlaying() == false){
-      song.stop()
+    } else if (character_height >= 5900 && character_height < 10900 song3.isPlaying() == false){
+      song1.stop()
       song2.stop()
+      song4.stop()
       //song3.loop()
+    } else if (character_height >= 10900 && character_height < 10000000 song3.isPlaying() == false) {
+      song1.stop()
+      song2.stop()
+      song3.stop()
+      //song4.loop()      
     }
   
     
