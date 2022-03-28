@@ -1,4 +1,4 @@
- class Character{
+class Character{
   constructor (x, y, w, h, color, img){
     this.x = x;
     this.y = y;
@@ -203,7 +203,6 @@ class Block{
   }
 }
 
-
 class Background{
   constructor (x, y, w, h, image, start_height, end_height, character_height){
     this.x = x
@@ -263,21 +262,26 @@ ver_jump_speed = 7.5 //speed when jumping vertically
 max_v_hor = 10 //max horizontal jumping speed on ice
 frame_counter = 0
 character_height = 0
-game_state = "game"
+game_state = "startscreen"
 prev_collision = "false"
 this_vver = 0
 can_move = true
 moving_x = 0
 animation_timer = 200
 saved_x = 200
-saved_y = 250
+saved_height = 0
 soundcheck = "on"
 
 function setup() {
   createCanvas(1000, 500)
-  character = new Character(00,250,50,50, "white", charstandardright)
-  localStorage.setItem('player_x', character.x);
-  localStorage.setItem('player_y', character.y);
+  
+   
+  saved_x = Math.floor(localStorage.getItem('player_x'))
+  saved_height = localStorage.getItem('player_height')
+  
+  character = new Character(saved_x,250,50,50, "white", charstandardright)
+  //localStorage.setItem('player_x', character.x);
+  //localStorage.setItem('player_height', character.y);
 
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -370,7 +374,7 @@ function setup() {
   new Block(0,(height-1800),225,1800, "black", "wall"),
   new Block(0,height,width,1000, "black", "wall"),
   
-  ] 
+  ]
 
   background_images = [
     new Background(0,0,width,height, backgroundimg4, 11400, 200000, character_height),
@@ -380,8 +384,8 @@ function setup() {
   ]
   
   
-  blocks.forEach(b => b.y += 10700)
-  //blocks.forEach(b => b.y += 000)
+  blocks.forEach(b => b.y += (saved_height-200))
+  //blocks.forEach(b => b.y += 1700)
 }
 
 function preload(){
@@ -416,27 +420,6 @@ function preload(){
   last_dir = charstandardright
 }
 
-function mousePressed() {
-  if(mouseX > 400 && mouseX < 600){
-    if(mouseY > 230 && mouseY < 280){
-      game_state = "game"
-    }
-  if(mouseY > 350 && mouseY < 375){
-    if(mouseX > 250 && mouseX < 275){
-      if(soundcheck == "on"){
-        sci = sci1
-        soundcheck = "off"
-      }else if(soundcheck == "off"){
-        sci = sci2
-        soundcheck = "on"
-      }
-    }
-    if(mouseX > 725 && mouseX < 750){
-      mci = mci1
-    }
-  }
-  }
-}
 
 function draw() {
   sound()
@@ -476,7 +459,7 @@ function draw() {
 
     
     text(saved_x, 300, 70);
-    text(saved_y, 400, 70);
+    text(saved_height, 300, 120);
     
     
     
@@ -490,11 +473,34 @@ function draw() {
   
 }
 
+function mousePressed() {
+  if(mouseX > 400 && mouseX < 600){
+    if(mouseY > 230 && mouseY < 280){
+      game_state = "game"
+    }
+  }
+  if(mouseY > 350 && mouseY < 375){
+    if(mouseX > 250 && mouseX < 275){
+      if(soundcheck == "on"){
+        sci = sci1
+        soundcheck = "off"
+      }else if(soundcheck == "off"){
+        sci = sci2
+        soundcheck = "on"
+      }
+    }
+    if(mouseX > 725 && mouseX < 750){
+      mci = mci1
+    }
+  }
+}
+
+
 function blockAnimation(){
   moving_block = new Block(0,(height-moving_x),150,50, "white")
   
   
-  if (character_height == 10900 && character.collision == "bottom" && animation_timer > 0){
+  if (character_height >= 10899 && character_height <= 10900 && character.collision == "bottom" && animation_timer > 0){
     can_move = false
     animation_timer -= 1
     moving_x += 1
@@ -604,9 +610,6 @@ function keyReleased(){
   }
 }
 
-
-
-
 function checkCollision(){   
 
   colliding = false;
@@ -665,8 +668,6 @@ function checkCollision(){
   return [colliding, block_type];
 }
    
-
-
 function pickImage(){
   if (character.v_hor > 0){
     last_dir = charstandardright
@@ -732,16 +733,12 @@ function pickImage(){
   }
 }
 
-    
-
-
-
 function progressStorage (){
   if (game_state == "game" && character.collision == "bottom"){
     localStorage.setItem('player_x', character.x);
-    localStorage.setItem('player_y', character.y);
+    localStorage.setItem('player_height', character_height);
     saved_x = localStorage.getItem('player_x')
-    saved_y = localStorage.getItem('player_y')
+    saved_height = localStorage.getItem('player_height')
     
   }
   
