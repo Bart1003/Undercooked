@@ -269,10 +269,15 @@ this_vver = 0
 can_move = true
 moving_x = 0
 animation_timer = 200
+saved_x = 200
+saved_y = 250
+soundcheck = "on"
 
 function setup() {
   createCanvas(1000, 500)
   character = new Character(00,250,50,50, "white", charstandardright)
+  localStorage.setItem('player_x', character.x);
+  localStorage.setItem('player_y', character.y);
 
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -369,11 +374,11 @@ function setup() {
 
   background_images = [
     new Background(0,0,width,height, backgroundimg4, 11400, 200000, character_height),
-  new Background(0,0,width,height, backgroundimg3, 6425, 10900, character_height),
-  new Background(0,0,width,height, backgroundimg, 2300, 5925, character_height),
-  new Background(0,0,width,height, backgroundimg2, 0, 1800, character_height)
+    new Background(0,0,width,height, backgroundimg3, 6425, 10900, character_height),
+    new Background(0,0,width,height, backgroundimg, 2300, 5925, character_height),
+    new Background(0,0,width,height, backgroundimg2, 0, 1800, character_height)
   ]
-
+  
   
   blocks.forEach(b => b.y += 10700)
   //blocks.forEach(b => b.y += 000)
@@ -399,7 +404,7 @@ function preload(){
   charrun1left = loadImage('images/character/charrun1/charrunleft.png')
   charrun2left = loadImage('images/character/charrun2/charrunleft2.png')
   charjumpcharge = loadImage('images/character/charjumpcharge/charjumpcharge.png')
-  song1 = loadSound('sounds/of.mp3')
+  song = loadSound('sounds/of.mp3')
   song2 = loadSound('sounds/shovelknight.mp3')
   song3 = loadSound('sounds/iceMusic.mp3')
   song4 = loadSound('sounds/of.mp3')
@@ -409,6 +414,28 @@ function preload(){
   hit3 = loadSound('sounds/hit3.mp3')
   slam = loadSound('sounds/slam.m4a')
   last_dir = charstandardright
+}
+
+function mousePressed() {
+  if(mouseX > 400 && mouseX < 600){
+    if(mouseY > 230 && mouseY < 280){
+      game_state = "game"
+    }
+  if(mouseY > 350 && mouseY < 375){
+    if(mouseX > 250 && mouseX < 275){
+      if(soundcheck == "on"){
+        sci = sci1
+        soundcheck = "off"
+      }else if(soundcheck == "off"){
+        sci = sci2
+        soundcheck = "on"
+      }
+    }
+    if(mouseX > 725 && mouseX < 750){
+      mci = mci1
+    }
+  }
+  }
 }
 
 function draw() {
@@ -424,8 +451,8 @@ function draw() {
   
   if (game_state == "game"){
     background_images.forEach(b => b.draw())
-    dumbAnimation()
-    
+    blockAnimation()
+    progressStorage()
     
     
     
@@ -439,13 +466,20 @@ function draw() {
       character_height = 0
     }
   
-    //code to set a win height character has to reach, currently arbitrarily high so the game still works
+    //code voor win height, moet wanneer de levels af zijn aangepast worden naar de juiste hoogte
     if (character_height >= 63000000 && character.collision == "bottom"){
       game_state = "won"
     }
     fill(200)
     textSize(32)
     text("height: " + character_height, 50, 70);
+
+    
+    text(saved_x, 300, 70);
+    text(saved_y, 400, 70);
+    
+    
+    
   }
 
   if (game_state == "won"){
@@ -456,7 +490,7 @@ function draw() {
   
 }
 
-function dumbAnimation(){
+function blockAnimation(){
   moving_block = new Block(0,(height-moving_x),150,50, "white")
   
   
@@ -479,8 +513,9 @@ function dumbAnimation(){
 
 
 function sound(){
+  //is zeer inefficiente code die niet te scalen is, maar het werkt voor ons doel
   if (game_state == "game" || game_state == "pause"){
-    song1.setVolume(0.2)
+    song.setVolume(0.2)
     song2.setVolume(0.2)
     song3.setVolume(0.4)
     
@@ -490,17 +525,17 @@ function sound(){
       song4.stop()
       //song1.loop()
     } else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
-      song1.stop()
+      song.stop()
       song3.stop()
       song4.stop()
       //song2.loop()
-    } else if (character_height >= 5900 && character_height < 10900 song3.isPlaying() == false){
-      song1.stop()
+    } else if (character_height >= 5900 && character_height < 10900 && song3.isPlaying() == false){
+      song.stop()
       song2.stop()
       song4.stop()
       //song3.loop()
-    } else if (character_height >= 10900 && character_height < 10000000 song3.isPlaying() == false) {
-      song1.stop()
+    } else if (character_height >= 10900 && character_height < 10000000 && song3.isPlaying() == false) {
+      song.stop()
       song2.stop()
       song3.stop()
       //song4.loop()      
@@ -629,7 +664,7 @@ function checkCollision(){
 
   return [colliding, block_type];
 }
-
+   
 
 
 function pickImage(){
@@ -698,3 +733,17 @@ function pickImage(){
 }
 
     
+
+
+
+function progressStorage (){
+  if (game_state == "game" && character.collision == "bottom"){
+    localStorage.setItem('player_x', character.x);
+    localStorage.setItem('player_y', character.y);
+    saved_x = localStorage.getItem('player_x')
+    saved_y = localStorage.getItem('player_y')
+    
+  }
+  
+  
+}
