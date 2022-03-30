@@ -268,16 +268,19 @@ this_vver = 0
 can_move = true
 moving_x = 0
 animation_timer = 200
-saved_x = 200
+saved_x = 300
 saved_height = 0
-soundcheck = "on"
+soundeffects = "on"
+music = "on"
 
 function setup() {
   createCanvas(1000, 500)
+
+  if (localStorage.getItem('player_height') != null){
+    saved_x = Math.floor(localStorage.getItem('player_x'))
+    saved_height = localStorage.getItem('player_height')
+  }
   
-   
-  saved_x = Math.floor(localStorage.getItem('player_x'))
-  saved_height = localStorage.getItem('player_height')
   
   character = new Character(saved_x,250,50,50, "white", charstandardright)
   //localStorage.setItem('player_x', character.x);
@@ -408,6 +411,14 @@ function preload(){
   charrun1left = loadImage('images/character/charrun1/charrunleft.png')
   charrun2left = loadImage('images/character/charrun2/charrunleft2.png')
   charjumpcharge = loadImage('images/character/charjumpcharge/charjumpcharge.png')
+  menu1 = loadImage('images/menu/menu1.png')
+  menu1_1 = loadImage('images/menu/menu1_1.png')
+  menu1_2 = loadImage('images/menu/menu1_2.png')
+  menu1_3 = loadImage('images/menu/menu1_3.png')
+  menu2 = loadImage('images/menu/menu2.png')
+  menu2_1 = loadImage('images/menu/menu2_1.png')
+  menu3 = loadImage('images/menu/menu3.png')
+  menu3_1 = loadImage('images/menu/menu3_1.png')
   song = loadSound('sounds/of.mp3')
   song2 = loadSound('sounds/shovelknight.mp3')
   song3 = loadSound('sounds/iceMusic.mp3')
@@ -425,20 +436,45 @@ function draw() {
   sound()
   
   if (game_state == "startscreen"){
-    background(charstandardright);
+    background(menu1);
+    if(mouseX > 400 && mouseX < 600){
+      if(mouseY > 230 && mouseY < 290){
+        background(menu1_1)
+      } else if (mouseY > 310 && mouseY < 370){
+        background(menu1_2)
+      } else if (mouseY > 385 && mouseY < 445){
+        background(menu1_3)
+      }
+    }
   }
 
   if (game_state == "pause"){
     background(block_image);
+  }
+
+  if (game_state == "settings"){
+    background(menu2);
+    if(mouseX > 130 && mouseX < 190){
+      if(mouseY > 360 && mouseY < 375){
+        background(menu2_1)
+      }
+    }
+  }
+
+  if (game_state == "credits"){
+    background(menu3);
+    if(mouseX > 130 && mouseX < 190){
+      if(mouseY > 360 && mouseY < 375){
+        background(menu3_1)
+      }
+    }
   }
   
   if (game_state == "game"){
     background_images.forEach(b => b.draw())
     blockAnimation()
     progressStorage()
-    
-    
-    
+
     blocks.forEach(b => b.draw())
     if (can_move == true){
       character.jump_walk()
@@ -456,45 +492,36 @@ function draw() {
     fill(200)
     textSize(32)
     text("height: " + character_height, 50, 70);
-
-    
     text(saved_x, 300, 70);
     text(saved_height, 300, 120);
-    
-    
-    
   }
 
   if (game_state == "won"){
     background(block_ice_image);
   }
-
-  
-  
 }
 
 function mousePressed() {
-  if(mouseX > 400 && mouseX < 600){
-    if(mouseY > 230 && mouseY < 280){
+  if(mouseX > 400 && mouseX < 600 && game_state == "startscreen"){
+    if(mouseY > 230 && mouseY < 290){
       game_state = "game"
+    }else if(mouseY > 310 && mouseY < 370){
+      game_state = "settings"
+    }else if(mouseY > 385 && mouseY < 445){
+      game_state = "credits"
     }
   }
-  if(mouseY > 350 && mouseY < 375){
-    if(mouseX > 250 && mouseX < 275){
-      if(soundcheck == "on"){
-        sci = sci1
-        soundcheck = "off"
-      }else if(soundcheck == "off"){
-        sci = sci2
-        soundcheck = "on"
-      }
+  if(mouseX > 130 && mouseX < 190 && game_state == "credits"){
+    if(mouseY > 360 && mouseY < 375){
+      game_state = "startscreen"
     }
-    if(mouseX > 725 && mouseX < 750){
-      mci = mci1
+  }
+  if(mouseX > 130 && mouseX < 190 && game_state == "settings"){
+    if(mouseY > 360 && mouseY < 375){
+      game_state = "startscreen"
     }
   }
 }
-
 
 function blockAnimation(){
   moving_block = new Block(0,(height-moving_x),150,50, "white")
@@ -516,7 +543,6 @@ function blockAnimation(){
     can_move = true
   }
 }
-
 
 function sound(){
   //is zeer inefficiente code die niet te scalen is, maar het werkt voor ons doel
@@ -566,17 +592,10 @@ function sound(){
   
 }
 
-
 function keyPressed(){
-  
-
-  if (game_state == "startscreen"){
-    game_state = "game"
-  }
-
-  if (game_state == "game" && keyCode == 80){
+  if (game_state == "game" && keyCode == 27){
     game_state = "pause"
-  } else if (game_state == "pause" && keyCode == 80){
+  } else if (game_state == "pause" && keyCode == 27){
     game_state = "game"
   }
 }
@@ -737,10 +756,7 @@ function progressStorage (){
   if (game_state == "game" && character.collision == "bottom"){
     localStorage.setItem('player_x', character.x);
     localStorage.setItem('player_height', character_height);
-    saved_x = localStorage.getItem('player_x')
-    saved_height = localStorage.getItem('player_height')
-    
+    saved_x = localStorage.getItem('player_x');
+    saved_height = localStorage.getItem('player_height');
   }
-  
-  
 }
