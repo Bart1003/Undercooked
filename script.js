@@ -272,14 +272,15 @@ saved_x = 300
 saved_height = 0
 soundeffects = "on"
 music = "on"
+info_displayed = false
 
 function setup() {
   createCanvas(1000, 500)
 
-  if (localStorage.getItem('player_height') != null){
-    saved_x = Math.floor(localStorage.getItem('player_x'))
-    saved_height = localStorage.getItem('player_height')
-  }
+  //if (localStorage.getItem('player_height') != null){
+    //saved_x = Math.floor(localStorage.getItem('player_x'))
+    //saved_height = localStorage.getItem('player_height')
+  //}
   
   
   character = new Character(saved_x,250,50,50, "white", charstandardright)
@@ -387,8 +388,8 @@ function setup() {
   ]
   
   
-  blocks.forEach(b => b.y += (saved_height-200))
-  //blocks.forEach(b => b.y += 1700)
+  //blocks.forEach(b => b.y += (saved_height-200))
+  blocks.forEach(b => b.y += 6000)
 }
 
 function preload(){
@@ -473,8 +474,9 @@ function draw() {
   if (game_state == "game"){
     background_images.forEach(b => b.draw())
     blockAnimation()
-    progressStorage()
-
+    //progressStorage()
+    
+    
     blocks.forEach(b => b.draw())
     if (can_move == true){
       character.jump_walk()
@@ -491,9 +493,11 @@ function draw() {
     }
     fill(200)
     textSize(32)
+    textStyle(NORMAL)
     text("height: " + character_height, 50, 70);
-    text(saved_x, 300, 70);
-    text(saved_height, 300, 120);
+    mechanicsInfo()
+    //text(saved_x, 300, 70);
+    //text(saved_height, 300, 120);
   }
 
   if (game_state == "won"){
@@ -758,5 +762,22 @@ function progressStorage (){
     localStorage.setItem('player_height', character_height);
     saved_x = localStorage.getItem('player_x');
     saved_height = localStorage.getItem('player_height');
+  }
+}
+
+function mechanicsInfo(){
+  if(character_height <= 5950 && character_height >= 5949 && info_displayed == false){
+    can_move = false
+    fill(0)
+    textSize(32)
+    textStyle(BOLD)
+    text("You can charge the next jump while still in the air", 50, 120)
+    text("This allows you to do a high jump right after landing",50, 170)
+    text("and keep momentum on the ice",50, 220)
+    text("press C to continue", 50, 270)
+    if (keyIsDown(67)){
+      info_displayed = true
+      can_move = true
+    }
   }
 }
