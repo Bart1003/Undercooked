@@ -277,16 +277,14 @@ info_displayed = false
 function setup() {
   createCanvas(1000, 500)
 
-  //if (localStorage.getItem('player_height') != null){
-    //saved_x = Math.floor(localStorage.getItem('player_x'))
-    //saved_height = localStorage.getItem('player_height')
-  //}
+  if (localStorage.getItem('player_height') != null){
+    saved_x = Math.floor(localStorage.getItem('player_x'))
+    saved_height = localStorage.getItem('player_height')
+  }
   
   
   character = new Character(saved_x,250,50,50, "white", charstandardright)
-  //localStorage.setItem('player_x', character.x);
-  //localStorage.setItem('player_height', character.y);
-
+  
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,20, "white"),
@@ -388,8 +386,8 @@ function setup() {
   ]
   
   
-  //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 6000)
+  blocks.forEach(b => b.y += (saved_height-200))
+  //blocks.forEach(b => b.y += 6000)
 }
 
 function preload(){
@@ -425,13 +423,13 @@ function preload(){
   song3 = loadSound('sounds/iceMusic.mp3')
   song4 = loadSound('sounds/of.mp3')
   walking_sound = loadSound('sounds/walking.mp3')
+  walking_sound_ice = loadSound('sounds/walking_snow.mp3')
   hit1 = loadSound('sounds/hit1.wav')
   hit2 = loadSound('sounds/hit2.wav')
   hit3 = loadSound('sounds/hit3.mp3')
   slam = loadSound('sounds/slam.m4a')
   last_dir = charstandardright
 }
-
 
 function draw() {
   sound()
@@ -474,7 +472,7 @@ function draw() {
   if (game_state == "game"){
     background_images.forEach(b => b.draw())
     blockAnimation()
-    //progressStorage()
+    progressStorage()
     
     
     blocks.forEach(b => b.draw())
@@ -578,11 +576,19 @@ function sound(){
     }
   
     
-    if (walking_sound.isPlaying() == false && character.walking == true){
+    if (walking_sound.isPlaying() == false && walking_sound_ice.isPlaying() == false && character.walking == true){
       walking_sound.setVolume(2)
-      walking_sound.play()
+      walking_sound_ice.setVolume(0.4)
+      if (character.block_type == "ice"){
+        walking_sound_ice.play()
+      } else {
+        walking_sound.play()
+      }
+      
     } else if (walking_sound.isPlaying() == true && character.walking == false){
       walking_sound.stop()
+    } else if (walking_sound_ice.isPlaying() == true && character.walking == false){
+      walking_sound_ice.stop()
     }
   
     this_collision = character.collision
@@ -603,7 +609,6 @@ function keyPressed(){
     game_state = "game"
   }
 }
-
 
 function keyReleased(){
   if (keyCode == 32 && character.collision == "bottom" && can_move == true){
@@ -779,5 +784,7 @@ function mechanicsInfo(){
       info_displayed = true
       can_move = true
     }
+  } else {
+    can_move = true
   }
 }
