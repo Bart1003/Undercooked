@@ -279,7 +279,7 @@ function setup() {
 
   if (localStorage.getItem('player_height') != null){
     saved_x = Math.floor(localStorage.getItem('player_x'))
-    saved_height = localStorage.getItem('player_height')
+    saved_height = 10900
   }
   
   
@@ -416,6 +416,10 @@ function preload(){
   menu1_3 = loadImage('images/menu/menu1_3.png')
   menu2 = loadImage('images/menu/menu2.png')
   menu2_1 = loadImage('images/menu/menu2_1.png')
+  menu2_2 = loadImage('images/menu/menu2_2.png')
+  menu2_3 = loadImage('images/menu/menu2_3.png')
+  menu2_4 = loadImage('images/menu/menu2_4.png')
+  menu2_5 = loadImage('images/menu/menu2_5.png')
   menu3 = loadImage('images/menu/menu3.png')
   menu3_1 = loadImage('images/menu/menu3_1.png')
   song = loadSound('sounds/of.mp3')
@@ -453,11 +457,23 @@ function draw() {
 
   if (game_state == "settings"){
     background(menu2);
-    if(mouseX > 130 && mouseX < 190){
-      if(mouseY > 360 && mouseY < 375){
+    if(mouseX > 80 && mouseX < 115){
+      if(mouseY > 380 && mouseY < 465){
         background(menu2_1)
       }
     }
+   // if(music == "off"){
+    //  image(menu2_2, 0, 0);
+    //}
+   // if(sound_effects == "on"){
+      
+  //  }
+  //  if(bwmode == "on"){
+      
+ //   }
+//    if(weather_effects == "on"){
+      
+//    }
   }
 
   if (game_state == "credits"){
@@ -518,11 +534,18 @@ function mousePressed() {
       game_state = "startscreen"
     }
   }
-  if(mouseX > 130 && mouseX < 190 && game_state == "settings"){
-    if(mouseY > 360 && mouseY < 375){
+  if(mouseX > 80 && mouseX < 115 && game_state == "settings"){
+    if(mouseY > 380 && mouseY < 465){
       game_state = "startscreen"
     }
   }
+ // if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
+   // if(mouseY > 305 && mouseY < 325){
+   //   music = "off"
+   // }else{
+  //    music = "on"
+  //  }
+ // }
 }
 
 function blockAnimation(){
@@ -607,6 +630,12 @@ function keyPressed(){
     game_state = "pause"
   } else if (game_state == "pause" && keyCode == 27){
     game_state = "game"
+  }
+  if (game_state == "settings" && keyCode == 27) {
+    game_state = "startscreen"
+  }
+  if (game_state == "credits" && keyCode == 27) {
+    game_state = "startscreen"
   }
 }
 
