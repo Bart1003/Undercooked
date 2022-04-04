@@ -96,14 +96,14 @@ class Character{
 
     
     if (this.collision == "top"){
-      if (hit3.isPlaying() == false){
+      if (hit3.isPlaying() == false && settings_sound == true){
         hit3.play()
       }
       
     } else if (this.collision == "left" || this.collision == "right"){
       this.v_hor = this.v_hor * -this.bounce
       this.collision = false
-      if (this.walking == false){
+      if (this.walking == false && settings_sound == true){
         hit3.play()
       }
       
@@ -127,13 +127,13 @@ class Character{
       if (this.x > width - this.w) {
         this.x = width - this.w;
         this.v_hor = this.v_hor * -this.bounce
-        if (this.walking == false){
+        if (this.walking == false && settings_sound == true){
           hit3.play()
         }        
       } else if (this.x < 0){
         this.x = 0;
         this.v_hor = this.v_hor * -this.bounce
-        if (this.walking == false){
+        if (this.walking == false && settings_sound == true){
           hit3.play()
         }
       }
@@ -276,9 +276,9 @@ soundeffects = "on"
 music = "on"
 info_displayed = false
 animation_done = false
-settings_1 = true
-settings_2 = true
-settings_3 = false
+settings_music = true
+settings_sound = true
+settings_grey = false
 settings_4 = true
 origin_menu = "start"
 
@@ -290,7 +290,7 @@ function setup() {
     saved_x = Math.floor(localStorage.getItem('player_x'))
     saved_height = localStorage.getItem('player_height')
   }
-  
+
   
   character = new Character(saved_x,250,50,50, "white", charstandardright)
   
@@ -397,7 +397,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 10900)
+  blocks.forEach(b => b.y += 10000)
 }
 
 function preload(){
@@ -448,7 +448,9 @@ function preload(){
 
 function draw() {
   sound()
-  
+  if (settings_grey == true){
+    //filter(GRAY)
+  }
   if (game_state == "startscreen"){
     background(menu1);
     if(mouseX > 400 && mouseX < 600){
@@ -482,13 +484,13 @@ function draw() {
         image(menu2_1, 0, 0)
       }
     }
-    if(settings_1){
+    if(settings_music){
       image(menu2_2, 124, 303)
     }
-    if(settings_2){
+    if(settings_sound){
       image(menu2_3, 124, 376)
     }
-    if(settings_3){
+    if(settings_grey){
       image(menu2_4, 523, 303)
     }
     if(settings_4){
@@ -537,7 +539,10 @@ function draw() {
   if (game_state == "won"){
     background(block_ice_image);
   }
-
+  if (settings_grey){
+    filter(GRAY)
+  }
+  
  // image(menu2_2, 124, 303)
 }
 
@@ -582,28 +587,28 @@ function mousePressed() {
   if (game_state == "settings"){
     if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
       if(mouseY > 305 && mouseY < 325){
-        if(settings_1 == true){
-          settings_1 = false
+        if(settings_music == true){
+          settings_music = false
         }else{
-          settings_1 = true
+          settings_music = true
         }
       } 
     }
     if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
       if(mouseY > 380 && mouseY < 400){
-        if(settings_2 == true){
-          settings_2 = false
+        if(settings_sound == true){
+          settings_sound = false
         }else{
-          settings_2 = true
+          settings_sound = true
         }
       }
     }
     if(mouseX > 765 && mouseX < 785 && game_state == "settings"){
       if(mouseY > 305 && mouseY < 325){
-        if(settings_3 == true){
-          settings_3 = false
+        if(settings_grey == true){
+          settings_grey = false
         }else{
-          settings_3 = true
+          settings_grey = true
         }
       }
     }
@@ -653,30 +658,60 @@ function blockAnimation(){
 }
 
 function sound(){
-  //is zeer inefficiente code die niet te scalen is, maar het werkt voor ons doel
-  if (game_state == "game" || game_state == "pause"){    
-    if (walking_sound.isPlaying() == false && walking_sound_ice.isPlaying() == false && character.walking == true){
-      walking_sound.setVolume(2)
-      walking_sound_ice.setVolume(0.4)
-      if (character.block_type == "ice"){
-        walking_sound_ice.play()
-      } else {
-        walking_sound.play()
-      }
-      
-    } else if (walking_sound.isPlaying() == true && character.walking == false){
-      walking_sound.stop()
-    } else if (walking_sound_ice.isPlaying() == true && character.walking == false){
-      walking_sound_ice.stop()
-    }
+
+  if (settings_music == true){
+    if (game_state == "game" || game_state == "pause"){
+     // song.setVolume(0.2)
+     // song2.setVolume(0.2)
+      //song3.setVolume(0.4)
   
-    this_collision = character.collision
-    if (this_collision == "bottom" && prev_collision == false){
-      hit1.play()
+      //if (character_height < 1800 && song.isPlaying() == false){
+        //song2.stop()
+        //song3.stop()
+        //song4.stop()
+        //song1.loop()
+      //} else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
+        //song.stop()
+        //song3.stop()
+        //song4.stop()
+        //song2.loop()
+     // } else if (character_height >= 5900 && character_height < 10900 && song3.isPlaying() == false){
+        //song.stop()
+        //song2.stop()
+        //song4.stop()
+        //song3.loop()
+      //} else if (character_height >= 10900 && character_height < 10000000 && song3.isPlaying() == false) {
+        //song.stop()
+        //song2.stop()
+        //song3.stop()
+        //song4.loop()      
+      //}
     }
-    prev_collision = character.collision
   }
-  
+  if (settings_sound == true){
+    if (game_state == "game" || game_state == "pause"){    
+      if (walking_sound.isPlaying() == false && walking_sound_ice.isPlaying() == false && character.walking == true){
+        walking_sound.setVolume(2)
+        walking_sound_ice.setVolume(0.4)
+        if (character.block_type == "ice"){
+          walking_sound_ice.play()
+        } else {
+          walking_sound.play()
+        }
+        
+      } else if (walking_sound.isPlaying() == true && character.walking == false){
+        walking_sound.stop()
+      } else if (walking_sound_ice.isPlaying() == true && character.walking == false){
+        walking_sound_ice.stop()
+      }
+    
+      this_collision = character.collision
+      if (this_collision == "bottom" && prev_collision == false){
+        hit1.play()
+      }
+      prev_collision = character.collision
+    }
+  }
 
   
 }
