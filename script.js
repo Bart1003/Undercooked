@@ -22,48 +22,50 @@ class Character{
 
   
   jump_walk(){
-    this.walking = false
-    if (keyIsDown(32) && can_move == true) {
-      this.jump_time += this.jump_time_factor
-    } else{
-      this.jump_time = 0
-    }
-
-    //walking without ice physics
-    if (keyIsDown(32) != true && this.collision == "bottom" && this.block_type != "ice"){
-      if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
-        this.v_hor -= this.walk_speed
-        this.walking = true
-      } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
-        this.v_hor += this.walk_speed
-        this.walking = true
+    if (can_move == true){
+      this.walking = false
+      if (keyIsDown(32) && can_move == true) {
+        this.jump_time += this.jump_time_factor
+      } else{
+        this.jump_time = 0
       }
-
-    //walking with ice physics
-    } else if (this.block_type == "ice" && keyIsDown(32) == false)
-      if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
-        this.walking = true
-        if (this.v_hor == 0){
-          this.v_hor = -0.5
-        } else if (this.v_hor >= -this.walk_speed && this.v_hor < 0){
-          this.v_hor +=  (this.v_hor * this.ice_walk_speed)
-        } else {
-          this.v_hor -=  (this.v_hor * this.ice_walk_speed)
+  
+      //walking without ice physics
+      if (keyIsDown(32) != true && this.collision == "bottom" && this.block_type != "ice"){
+        if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
+          this.v_hor -= this.walk_speed
+          this.walking = true
+        } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+          this.v_hor += this.walk_speed
+          this.walking = true
         }
-
-      } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
-        this.walking = true
-        if (this.v_hor == 0){
-          this.v_hor = 0.5
-        } else if (this.v_hor <= this.walk_speed){
-          if (this.v_hor > 0){
+  
+      //walking with ice physics
+      } else if (this.block_type == "ice" && keyIsDown(32) == false)
+        if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
+          this.walking = true
+          if (this.v_hor == 0){
+            this.v_hor = -0.5
+          } else if (this.v_hor >= -this.walk_speed && this.v_hor < 0){
             this.v_hor +=  (this.v_hor * this.ice_walk_speed)
-          }else {
-            this.v_hor +=  (-this.v_hor * this.ice_walk_speed)
+          } else {
+            this.v_hor -=  (this.v_hor * this.ice_walk_speed)
           }
-          
+  
+        } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+          this.walking = true
+          if (this.v_hor == 0){
+            this.v_hor = 0.5
+          } else if (this.v_hor <= this.walk_speed){
+            if (this.v_hor > 0){
+              this.v_hor +=  (this.v_hor * this.ice_walk_speed)
+            }else {
+              this.v_hor +=  (-this.v_hor * this.ice_walk_speed)
+            }
+            
+          }
         }
-      }
+    }
   }
 
   
@@ -273,6 +275,7 @@ saved_height = 0
 soundeffects = "on"
 music = "on"
 info_displayed = false
+animation_done = false
 settings_1 = true
 settings_2 = true
 settings_3 = false
@@ -284,7 +287,7 @@ function setup() {
   
   if (localStorage.getItem('player_height') != null){
     saved_x = Math.floor(localStorage.getItem('player_x'))
-    saved_height = 10900
+    saved_height = localStorage.getItem('player_height')
   }
   
   
@@ -392,8 +395,8 @@ function setup() {
   
     
   
-  blocks.forEach(b => b.y += (saved_height-200))
-  //blocks.forEach(b => b.y += 6000)
+  //blocks.forEach(b => b.y += (saved_height-200))
+  blocks.forEach(b => b.y += 10900)
 }
 
 function preload(){
@@ -428,6 +431,10 @@ function preload(){
   menu2_5 = loadImage('images/menu/menu2_5.png')
   menu3 = loadImage('images/menu/menu3.png')
   menu3_1 = loadImage('images/menu/menu3_1.png')
+  menu4 = loadImage('images/menu/menu4.png')
+  menu4_1 = loadImage('images/menu/menu4_1.png')
+  menu4_2 = loadImage('images/menu/menu4_2.png')
+  menu4_3 = loadImage('images/menu/menu4_3.png')
   song3 = loadSound('sounds/iceMusic.mp3')
   walking_sound = loadSound('sounds/walking.mp3')
   walking_sound_ice = loadSound('sounds/walking_snow.mp3')
@@ -455,7 +462,16 @@ function draw() {
   }
 
   if (game_state == "pause"){
-    background(block_image);
+    image(menu4, 0, 0);
+    if(mouseX > 400 && mouseX < 585){
+      if(mouseY > 180 && mouseY < 235){
+        image(menu4_1, 0, 0)
+      } else if (mouseY > 255 && mouseY < 315){
+        image(menu4_2, 0, 0)
+      } else if (mouseY > 330 && mouseY < 390){
+        image(menu4_3, 0, 0)
+      } 
+    }
   }
 
   if (game_state == "settings"){
@@ -580,13 +596,22 @@ function mousePressed() {
       }
     }
   }
+  if(mouseX > 400 && mouseX < 585 && game_state == "pause"){
+      if(mouseY > 180 && mouseY < 235){
+        game_state = "game"
+      } else if (mouseY > 255 && mouseY < 315){
+        game_state = "settings"
+      } else if (mouseY > 330 && mouseY < 390){
+        game_state = "startscreen"
+      } 
+  }
 }
 
 function blockAnimation(){
   moving_block = new Block(0,(height-moving_x),150,50, "white")
   
   
-  if (character_height >= 10899 && character_height <= 10900 && character.collision == "bottom" && animation_timer > 0){
+  if (character_height >= 10899 && character_height <= 10900 && character.collision == "bottom" && animation_timer > 0 && animation_done == false){
     can_move = false
     animation_timer -= 1
     moving_x += 1
@@ -598,7 +623,7 @@ function blockAnimation(){
   } else if (animation_timer == 0) {
     blocks.push(moving_block)
     animation_timer -= 1
-    
+    animation_done = true
     can_move = true
   }
 }
