@@ -476,10 +476,10 @@ function draw() {
   }
 
   if (game_state == "settings"){
-    background(menu2);
+    image(menu2, 0, 0);
     if(mouseX > 80 && mouseX < 115){
       if(mouseY > 380 && mouseY < 465){
-        background(menu2_1)
+        image(menu2_1, 0, 0)
       }
     }
     if(settings_1){
@@ -564,59 +564,70 @@ function mousePressed() {
       if(origin_menu == "start"){
         game_state = "startscreen"
       } else if(origin_menu == "pause"){
-        game_state = "game"
+        background_images.forEach(b => b.draw())
+        blocks.forEach(b => b.draw())
+        character.draw();
+
+
+
+
+        
+        game_state = "pause"
       
       }
       
     }
   }
-  if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
-    if(mouseY > 305 && mouseY < 325){
-      if(settings_1 == true){
-        settings_1 = false
-      }else{
-        settings_1 = true
-      }
-    } 
-  }
-  if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
-    if(mouseY > 380 && mouseY < 400){
-      if(settings_2 == true){
-        settings_2 = false
-      }else{
-        settings_2 = true
+
+  if (game_state == "settings"){
+    if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
+      if(mouseY > 305 && mouseY < 325){
+        if(settings_1 == true){
+          settings_1 = false
+        }else{
+          settings_1 = true
+        }
+      } 
+    }
+    if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
+      if(mouseY > 380 && mouseY < 400){
+        if(settings_2 == true){
+          settings_2 = false
+        }else{
+          settings_2 = true
+        }
       }
     }
-  }
-  if(mouseX > 765 && mouseX < 785 && game_state == "settings"){
-    if(mouseY > 305 && mouseY < 325){
-      if(settings_3 == true){
-        settings_3 = false
-      }else{
-        settings_3 = true
+    if(mouseX > 765 && mouseX < 785 && game_state == "settings"){
+      if(mouseY > 305 && mouseY < 325){
+        if(settings_3 == true){
+          settings_3 = false
+        }else{
+          settings_3 = true
+        }
       }
     }
-  }
-  if(mouseX > 765 && mouseX < 785 && game_state == "settings"){
-    if(mouseY > 380 && mouseY < 400){
-      if(settings_4 == true){
-        settings_4 = false
-      }else{
-        settings_4 = true
+    if(mouseX > 765 && mouseX < 785 && game_state == "settings"){
+      if(mouseY > 380 && mouseY < 400){
+        if(settings_4 == true){
+          settings_4 = false
+        }else{
+          settings_4 = true
+        }
       }
     }
   }
   if(mouseX > 400 && mouseX < 585 && game_state == "pause"){
-      if(mouseY > 180 && mouseY < 235){
-        game_state = "game"
-      } else if (mouseY > 255 && mouseY < 315){
-        game_state = "settings"
-        if(origin_menu == "start"){
-          origin_menu = "pause"
-        }
-      } else if (mouseY > 330 && mouseY < 390){
-        game_state = "startscreen"
-      } 
+    if(mouseY > 180 && mouseY < 235){
+      game_state = "game"
+    } else if (mouseY > 255 && mouseY < 315){
+      game_state = "settings"
+      if(origin_menu == "start"){
+        origin_menu = "pause"
+      }
+    } else if (mouseY > 330 && mouseY < 390){
+      game_state = "startscreen"
+    } 
   }
 }
 
