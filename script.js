@@ -273,10 +273,15 @@ saved_height = 0
 soundeffects = "on"
 music = "on"
 info_displayed = false
+settings_1 = true
+settings_2 = true
+settings_3 = false
+settings_4 = true
+
 
 function setup() {
   createCanvas(1000, 500)
-
+  
   if (localStorage.getItem('player_height') != null){
     saved_x = Math.floor(localStorage.getItem('player_x'))
     saved_height = 10900
@@ -385,6 +390,7 @@ function setup() {
     new Background(0,0,width,height, backgroundimg2, 0, 1800, character_height)
   ]
   
+    
   
   blocks.forEach(b => b.y += (saved_height-200))
   //blocks.forEach(b => b.y += 6000)
@@ -462,18 +468,18 @@ function draw() {
         background(menu2_1)
       }
     }
-   // if(music == "off"){
-    //  image(menu2_2, 0, 0);
-    //}
-   // if(sound_effects == "on"){
-      
-  //  }
-  //  if(bwmode == "on"){
-      
- //   }
-//    if(weather_effects == "on"){
-      
-//    }
+    if(settings_1){
+      image(menu2_2, 124, 303)
+    }
+    if(settings_2){
+      image(menu2_3, 124, 376)
+    }
+    if(settings_3){
+      image(menu2_4, 523, 303)
+    }
+    if(settings_4){
+      image(menu2_5, 523, 376)
+    }
   }
 
   if (game_state == "credits"){
@@ -517,6 +523,8 @@ function draw() {
   if (game_state == "won"){
     background(block_ice_image);
   }
+
+ // image(menu2_2, 124, 303)
 }
 
 function mousePressed() {
@@ -539,13 +547,42 @@ function mousePressed() {
       game_state = "startscreen"
     }
   }
- // if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
-   // if(mouseY > 305 && mouseY < 325){
-   //   music = "off"
-   // }else{
-  //    music = "on"
-  //  }
- // }
+  if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
+    if(mouseY > 305 && mouseY < 325){
+      if(settings_1 == true){
+        settings_1 = false
+      }else{
+        settings_1 = true
+      }
+    } 
+  }
+  if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
+    if(mouseY > 380 && mouseY < 400){
+      if(settings_2 == true){
+        settings_2 = false
+      }else{
+        settings_2 = true
+      }
+    }
+  }
+  if(mouseX > 765 && mouseX < 785 && game_state == "settings"){
+    if(mouseY > 305 && mouseY < 325){
+      if(settings_3 == true){
+        settings_3 = false
+      }else{
+        settings_3 = true
+      }
+    }
+  }
+  if(mouseX > 765 && mouseX < 785 && game_state == "settings"){
+    if(mouseY > 380 && mouseY < 400){
+      if(settings_4 == true){
+        settings_4 = false
+      }else{
+        settings_4 = true
+      }
+    }
+  }
 }
 
 function blockAnimation(){
