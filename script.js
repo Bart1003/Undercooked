@@ -428,10 +428,7 @@ function preload(){
   menu2_5 = loadImage('images/menu/menu2_5.png')
   menu3 = loadImage('images/menu/menu3.png')
   menu3_1 = loadImage('images/menu/menu3_1.png')
-  song = loadSound('sounds/of.mp3')
-  song2 = loadSound('sounds/shovelknight.mp3')
   song3 = loadSound('sounds/iceMusic.mp3')
-  song4 = loadSound('sounds/of.mp3')
   walking_sound = loadSound('sounds/walking.mp3')
   walking_sound_ice = loadSound('sounds/walking_snow.mp3')
   hit1 = loadSound('sounds/hit1.wav')
@@ -608,34 +605,7 @@ function blockAnimation(){
 
 function sound(){
   //is zeer inefficiente code die niet te scalen is, maar het werkt voor ons doel
-  if (game_state == "game" || game_state == "pause"){
-    song.setVolume(0.2)
-    song2.setVolume(0.2)
-    song3.setVolume(0.4)
-    
-    if (character_height < 1800 && song.isPlaying() == false){
-      song2.stop()
-      song3.stop()
-      song4.stop()
-      //song1.loop()
-    } else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
-      song.stop()
-      song3.stop()
-      song4.stop()
-      //song2.loop()
-    } else if (character_height >= 5900 && character_height < 10900 && song3.isPlaying() == false){
-      song.stop()
-      song2.stop()
-      song4.stop()
-      //song3.loop()
-    } else if (character_height >= 10900 && character_height < 10000000 && song3.isPlaying() == false) {
-      song.stop()
-      song2.stop()
-      song3.stop()
-      //song4.loop()      
-    }
-  
-    
+  if (game_state == "game" || game_state == "pause"){    
     if (walking_sound.isPlaying() == false && walking_sound_ice.isPlaying() == false && character.walking == true){
       walking_sound.setVolume(2)
       walking_sound_ice.setVolume(0.4)
