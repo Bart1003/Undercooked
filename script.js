@@ -280,6 +280,7 @@ settings_1 = true
 settings_2 = true
 settings_3 = false
 settings_4 = true
+origin_menu = "start"
 
 
 function setup() {
@@ -546,6 +547,9 @@ function mousePressed() {
       game_state = "game"
     }else if(mouseY > 310 && mouseY < 370){
       game_state = "settings"
+      if(origin_menu == "pause"){
+        origin_menu = "start"
+      }
     }else if(mouseY > 385 && mouseY < 445){
       game_state = "credits"
     }
@@ -557,7 +561,13 @@ function mousePressed() {
   }
   if(mouseX > 80 && mouseX < 115 && game_state == "settings"){
     if(mouseY > 380 && mouseY < 465){
-      game_state = "startscreen"
+      if(origin_menu == "start"){
+        game_state = "startscreen"
+      } else if(origin_menu == "pause"){
+        game_state = "game"
+      
+      }
+      
     }
   }
   if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
@@ -601,6 +611,9 @@ function mousePressed() {
         game_state = "game"
       } else if (mouseY > 255 && mouseY < 315){
         game_state = "settings"
+        if(origin_menu == "start"){
+          origin_menu = "pause"
+        }
       } else if (mouseY > 330 && mouseY < 390){
         game_state = "startscreen"
       } 
@@ -664,7 +677,12 @@ function keyPressed(){
     game_state = "game"
   }
   if (game_state == "settings" && keyCode == 27) {
-    game_state = "startscreen"
+    if(origin_menu == "start"){
+      game_state = "startscreen"
+    } else if(origin_menu == "pause"){
+      game_state = "game"
+    }
+    
   }
   if (game_state == "credits" && keyCode == 27) {
     game_state = "startscreen"
