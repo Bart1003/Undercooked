@@ -281,6 +281,7 @@ settings_sound = true
 settings_grey = false
 settings_4 = true
 origin_menu = "start"
+iceboard = true
 
 
 function setup() {
@@ -397,7 +398,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 10000)
+  blocks.forEach(b => b.y += 10600)
 }
 
 function preload(){
@@ -408,6 +409,7 @@ function preload(){
   backgroundimg4 = loadImage('images/block/test.jpg')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
+  ice_board = loadImage('images/block/bord.png')
   //characterimages
   charstandardright = loadImage('images/character/charstandard/charstandardright.png')
   charstandardleft = loadImage('images/character/charstandard/charstandardleft.png')
@@ -436,7 +438,10 @@ function preload(){
   menu4_1 = loadImage('images/menu/menu4_1.png')
   menu4_2 = loadImage('images/menu/menu4_2.png')
   menu4_3 = loadImage('images/menu/menu4_3.png')
+  song = loadSound('sounds/iceMusic.mp3')
+  song2 = loadSound('sounds/iceMusic.mp3')
   song3 = loadSound('sounds/iceMusic.mp3')
+  song4 = loadSound('sounds/iceMusic.mp3')
   walking_sound = loadSound('sounds/walking.mp3')
   walking_sound_ice = loadSound('sounds/walking_snow.mp3')
   hit1 = loadSound('sounds/hit1.wav')
@@ -544,6 +549,11 @@ function draw() {
   }
   
  // image(menu2_2, 124, 303)
+  if (character_height >= 5949 && iceboard == true){
+    image(ice_board, 0, 0)
+  } else if(character_height >= 5949 && iceboard == false){
+    
+  }
 }
 
 function mousePressed() {
@@ -585,7 +595,7 @@ function mousePressed() {
   }
 
   if (game_state == "settings"){
-    if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
+    if(mouseX > 365 && mouseX < 385){
       if(mouseY > 305 && mouseY < 325){
         if(settings_music == true){
           settings_music = false
@@ -594,7 +604,7 @@ function mousePressed() {
         }
       } 
     }
-    if(mouseX > 365 && mouseX < 385 && game_state == "settings"){
+    if(mouseX > 365 && mouseX < 385){
       if(mouseY > 380 && mouseY < 400){
         if(settings_sound == true){
           settings_sound = false
@@ -603,7 +613,7 @@ function mousePressed() {
         }
       }
     }
-    if(mouseX > 765 && mouseX < 785 && game_state == "settings"){
+    if(mouseX > 765 && mouseX < 785){
       if(mouseY > 305 && mouseY < 325){
         if(settings_grey == true){
           settings_grey = false
@@ -612,7 +622,7 @@ function mousePressed() {
         }
       }
     }
-    if(mouseX > 765 && mouseX < 785 && game_state == "settings"){
+    if(mouseX > 765 && mouseX < 785){
       if(mouseY > 380 && mouseY < 400){
         if(settings_4 == true){
           settings_4 = false
@@ -640,7 +650,7 @@ function blockAnimation(){
   moving_block = new Block(0,(height-moving_x),150,50, "white")
   
   
-  if (character_height >= 10899 && character_height <= 10900 && character.collision == "bottom" && animation_timer > 0 && animation_done == false){
+  if (character_height >= 10899 && character_height <= 10900 && animation_timer > 0 && animation_done == false){
     can_move = false
     animation_timer -= 1
     moving_x += 1
@@ -661,31 +671,31 @@ function sound(){
 
   if (settings_music == true){
     if (game_state == "game" || game_state == "pause"){
-     // song.setVolume(0.2)
-     // song2.setVolume(0.2)
-      //song3.setVolume(0.4)
+      song.setVolume(0.2)
+      song2.setVolume(0.2)
+      song3.setVolume(0.4)
   
-      //if (character_height < 1800 && song.isPlaying() == false){
-        //song2.stop()
-        //song3.stop()
-        //song4.stop()
-        //song1.loop()
-      //} else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
-        //song.stop()
-        //song3.stop()
-        //song4.stop()
+      if (character_height < 1800 && song.isPlaying() == false){
+        song2.stop()
+        song3.stop()
+        song4.stop()
+        //song.loop()
+      } else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
+        song.stop()
+        song3.stop()
+        song4.stop()
         //song2.loop()
-     // } else if (character_height >= 5900 && character_height < 10900 && song3.isPlaying() == false){
-        //song.stop()
-        //song2.stop()
-        //song4.stop()
+      } else if (character_height >= 5900 && character_height < 10900 && song3.isPlaying() == false){
+        song.stop()
+        song2.stop()
+        song4.stop()
         //song3.loop()
-      //} else if (character_height >= 10900 && character_height < 10000000 && song3.isPlaying() == false) {
-        //song.stop()
-        //song2.stop()
-        //song3.stop()
+      } else if (character_height >= 10900 && character_height < 10000000 && song3.isPlaying() == false) {
+        song.stop()
+        song2.stop()
+        song3.stop()
         //song4.loop()      
-      //}
+      }
     }
   }
   if (settings_sound == true){
@@ -717,7 +727,9 @@ function sound(){
 }
 
 function keyPressed(){
-  if (game_state == "game" && keyCode == 27){
+  if (iceboard == true && keyCode == 27){
+    iceboard = false
+  } else if(game_state == "game" && keyCode == 27){
     game_state = "pause"
   } else if (game_state == "pause" && keyCode == 27){
     game_state = "game"
@@ -733,6 +745,7 @@ function keyPressed(){
   if (game_state == "credits" && keyCode == 27) {
     game_state = "startscreen"
   }
+  
 }
 
 function keyReleased(){
@@ -896,20 +909,20 @@ function progressStorage (){
 }
 
 function mechanicsInfo(){
-  if(character_height <= 5950 && character_height >= 5949 && info_displayed == false){
-    can_move = false
-    fill(0)
-    textSize(32)
-    textStyle(BOLD)
-    text("You can charge the next jump while still in the air", 50, 120)
-    text("This allows you to do a high jump right after landing",50, 170)
-    text("and keep momentum on the ice",50, 220)
-    text("press C to continue", 50, 270)
-    if (keyIsDown(67)){
-      info_displayed = true
-      can_move = true
-    }
-  } else {
-    can_move = true
-  }
+  //if(character_height <= 5950 && character_height >= 5949 && info_displayed == false){
+    //can_move = false
+   //fill(0)
+   // textSize(32)
+   // textStyle(BOLD)
+   // text("You can charge the next jump while still in the air", 50, 120)
+   // text("This allows you to do a high jump right after landing",50, 170)
+   // text("and keep momentum on the ice",50, 220)
+   // text("press C to continue", 50, 270)
+   // if (keyIsDown(67)){
+   //   info_displayed = true
+  //    can_move = true
+  //  }
+ // } else {
+ //   can_move = true
+ // }
 }
