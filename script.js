@@ -453,9 +453,6 @@ function preload(){
 
 function draw() {
   sound()
-  if (settings_grey == true){
-    //filter(GRAY)
-  }
   if (game_state == "startscreen"){
     background(menu1);
     if(mouseX > 400 && mouseX < 600){
@@ -511,6 +508,10 @@ function draw() {
       }
     }
   }
+
+  if (game_state == "information"){
+    image(ice_board, 0, 0)
+  }
   
   if (game_state == "game"){
     background_images.forEach(b => b.draw())
@@ -549,11 +550,6 @@ function draw() {
   }
   
  // image(menu2_2, 124, 303)
-  if (character_height >= 5949 && iceboard == true){
-    image(ice_board, 0, 0)
-  } else if(character_height >= 5949 && iceboard == false){
-    
-  }
 }
 
 function mousePressed() {
@@ -582,11 +578,6 @@ function mousePressed() {
         background_images.forEach(b => b.draw())
         blocks.forEach(b => b.draw())
         character.draw();
-
-
-
-
-        
         game_state = "pause"
       
       }
@@ -727,8 +718,9 @@ function sound(){
 }
 
 function keyPressed(){
-  if (iceboard == true && keyCode == 27){
-    iceboard = false
+  if (game_state == "information" && keyCode == 27){
+    game_state = "game"
+    info_displayed = true
   } else if(game_state == "game" && keyCode == 27){
     game_state = "pause"
   } else if (game_state == "pause" && keyCode == 27){
@@ -909,8 +901,8 @@ function progressStorage (){
 }
 
 function mechanicsInfo(){
-  //if(character_height <= 5950 && character_height >= 5949 && info_displayed == false){
-    //can_move = false
+  if(character_height <= 5950 && character_height >= 5949 && info_displayed == false){
+    game_state = "information"
    //fill(0)
    // textSize(32)
    // textStyle(BOLD)
@@ -924,5 +916,5 @@ function mechanicsInfo(){
   //  }
  // } else {
  //   can_move = true
- // }
+  }
 }
