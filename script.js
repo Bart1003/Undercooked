@@ -445,7 +445,7 @@ function preload(){
   backgroundimg2 = loadImage('images/background/dungeonbackground4.png')
   backgroundimg3 = loadImage('images/background/icedungeonbackground.jpg')
   backgroundimg4 = loadImage('images/background/test.jpg')
-  block_image = loadImage("images/block/blockimg3.png")
+  block_image = loadImage("images/block/Dungeon_Wall2.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   ice_board = loadImage('images/block/bord.png')
   //characterimages
@@ -476,6 +476,15 @@ function preload(){
   menu4_1 = loadImage('images/menu/menu4_1.png')
   menu4_2 = loadImage('images/menu/menu4_2.png')
   menu4_3 = loadImage('images/menu/menu4_3.png')
+  stone = loadImage('images/block/stonetile/stone.png')
+  stonetile = loadImage('images/block/stonetile/stonetile.png')
+  stonetileleft = loadImage('images/block/stonetile/stonetileleft.png')
+  stonetileleftcorner = loadImage('images/block/stonetile/stonetileleftcorner.png')
+  stonetileright = loadImage('images/block/stonetile/stonetileright.png')
+  stonetilerightcorner = loadImage('images/block/stonetile/stonetilerightcorner.png')
+  stonetiletop = loadImage('images/block/stonetile/stonetiletop.png')
+  tilemid = loadImage('images/block/stonetile/tilemid.png')
+  
   song = loadSound('sounds/songs/level1Music.mp3')
   song2 = loadSound('sounds/songs/level2Music.mp3')
   song3 = loadSound('sounds/songs/iceMusic.mp3')
@@ -488,6 +497,7 @@ function preload(){
   hit3 = loadSound('sounds/hit3.mp3')
   slam = loadSound('sounds/slam.m4a')
   last_dir = charstandardright
+  
 }
 
 function draw() {
