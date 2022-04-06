@@ -460,6 +460,7 @@ function preload(){
   charrun1left = loadImage('images/character/charrun1/charrunleft.png')
   charrun2left = loadImage('images/character/charrun2/charrunleft2.png')
   charjumpcharge = loadImage('images/character/charjumpcharge/charjumpcharge.png')
+  //menu images
   menu1 = loadImage('images/menu/menu1.png')
   menu1_1 = loadImage('images/menu/menu1_1.png')
   menu1_2 = loadImage('images/menu/menu1_2.png')
@@ -476,6 +477,7 @@ function preload(){
   menu4_1 = loadImage('images/menu/menu4_1.png')
   menu4_2 = loadImage('images/menu/menu4_2.png')
   menu4_3 = loadImage('images/menu/menu4_3.png')
+  //stonetile images
   stone = loadImage('images/block/stonetile/stone.png')
   stonetile = loadImage('images/block/stonetile/stonetile.png')
   stonetileleft = loadImage('images/block/stonetile/stonetileleft.png')
@@ -484,7 +486,7 @@ function preload(){
   stonetilerightcorner = loadImage('images/block/stonetile/stonetilerightcorner.png')
   stonetiletop = loadImage('images/block/stonetile/stonetiletop.png')
   tilemid = loadImage('images/block/stonetile/tilemid.png')
-  
+  //song and sfx
   song = loadSound('sounds/songs/level1Music.mp3')
   song2 = loadSound('sounds/songs/level2Music.mp3')
   song3 = loadSound('sounds/songs/iceMusic.mp3')
