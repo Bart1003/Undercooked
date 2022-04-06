@@ -267,7 +267,9 @@ class snowflake {
 
     if (this.character_height >= this.end_height){
       this.spawn_height = (this.character_height - this.end_height)
-    } 
+    } else {
+      this.spawn_height = 0
+    }
     
     // x position follows a circle
     let w = 0.6; // angular speed
