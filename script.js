@@ -476,10 +476,11 @@ function preload(){
   menu4_1 = loadImage('images/menu/menu4_1.png')
   menu4_2 = loadImage('images/menu/menu4_2.png')
   menu4_3 = loadImage('images/menu/menu4_3.png')
-  song = loadSound('sounds/iceMusic.mp3')
-  song2 = loadSound('sounds/iceMusic.mp3')
-  song3 = loadSound('sounds/iceMusic.mp3')
-  song4 = loadSound('sounds/iceMusic.mp3')
+  song = loadSound('sounds/songs/iceMusic.mp3')
+  song2 = loadSound('sounds/songs/iceMusic.mp3')
+  song3 = loadSound('sounds/songs/iceMusic.mp3')
+  song4 = loadSound('sounds/songs/iceMusic.mp3')
+  song_menu = loadSound('sounds/songs/menuMusic.mp3')
   walking_sound = loadSound('sounds/walking.mp3')
   walking_sound_ice = loadSound('sounds/walking_snow.mp3')
   hit1 = loadSound('sounds/hit1.wav')
@@ -720,27 +721,42 @@ function keyPressed(){
 function sound(){
 
   if (settings_music == true){
+    if (game_state == "startscreen" || game_state == "credits"){
+      if (song_menu.isPlaying() == false){
+        song.stop()
+        song2.stop()
+        song3.stop()
+        song4.stop()
+        song_menu.loop()
+      }
+      
+    }
+    
     if (game_state == "game" || game_state == "pause" || game_state == "information"){
       song.setVolume(0.2)
       song2.setVolume(0.2)
       song3.setVolume(0.4)
   
       if (character_height < 1800 && song.isPlaying() == false){
+        song_menu.stop()
         song2.stop()
         song3.stop()
         song4.stop()
         //song.loop()
       } else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
+        song_menu.stop()
         song.stop()
         song3.stop()
         song4.stop()
         //song2.loop()
       } else if (character_height >= 5900 && character_height < 10900 && song3.isPlaying() == false){
+        song_menu.stop()
         song.stop()
         song2.stop()
         song4.stop()
-        //song3.loop()
+        song3.loop()
       } else if (character_height >= 10900 && character_height < 10000000 && song3.isPlaying() == false) {
+        song_menu.stop()
         song.stop()
         song2.stop()
         song3.stop()
