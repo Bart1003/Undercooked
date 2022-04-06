@@ -435,16 +435,16 @@ function setup() {
   
     
   
-  //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 10600)
+  blocks.forEach(b => b.y += (saved_height-200))
+  //blocks.forEach(b => b.y += 10600)
 }
 
 function preload(){
   //block en background images
-  backgroundimg = loadImage('images/block/dungeon_background.jpg')
-  backgroundimg2 = loadImage('images/block/dungeonbackground4.png')
-  backgroundimg3 = loadImage('images/block/icedungeonbackground.jpg')
-  backgroundimg4 = loadImage('images/block/test.jpg')
+  backgroundimg = loadImage('images/background/dungeon_background.jpg')
+  backgroundimg2 = loadImage('images/background/dungeonbackground4.png')
+  backgroundimg3 = loadImage('images/background/icedungeonbackground.jpg')
+  backgroundimg4 = loadImage('images/background/test.jpg')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   ice_board = loadImage('images/block/bord.png')
@@ -742,13 +742,13 @@ function sound(){
         song2.stop()
         song3.stop()
         song4.stop()
-        //song.loop()
+        song.loop()
       } else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
         song_menu.stop()
         song.stop()
         song3.stop()
         song4.stop()
-        //song2.loop()
+        song2.loop()
       } else if (character_height >= 5900 && character_height < 10900 && song3.isPlaying() == false){
         song_menu.stop()
         song.stop()
