@@ -251,9 +251,8 @@ class snowflake {
     this.character_height = character_height
     if (this.character_height >= this.end_height){
       this.posY = (this.character_height - this.end_height)
-    } else {
-      this.posY = 0
-    }
+      this.spawn_height = (this.character_height - this.end_height)
+    } 
     // radius of snowflake spiral
     // chosen so the snowflakes are uniformly spread out in area
     this.radius = sqrt(random(pow(width / 2, 2)));
@@ -261,9 +260,14 @@ class snowflake {
   
 
   update(time) {
+    this.character_height = character_height
     if (this.character_height <= this.start_height){
       this.splice_height = height + (this.character_height - this.start_height)
     }
+
+    if (this.character_height >= this.end_height){
+      this.spawn_height = (this.character_height - this.end_height)
+    } 
     
     // x position follows a circle
     let w = 0.6; // angular speed
@@ -276,12 +280,13 @@ class snowflake {
       let index = snowflakes.indexOf(this);
       snowflakes.splice(index, 1);
     }
-    // delete snowflake if past end of screen
-    
   };
 
   display(){
-    ellipse(this.posX, this.posY, this.size);
+    if (this.posY > this.spawn_height){
+      ellipse(this.posX, this.posY, this.size);
+    }
+    
   };
 }
 
