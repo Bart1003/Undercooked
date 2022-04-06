@@ -435,8 +435,8 @@ function setup() {
   
     
   
-  blocks.forEach(b => b.y += (saved_height-200))
-  //blocks.forEach(b => b.y += 10600)
+  //blocks.forEach(b => b.y += (saved_height-200))
+  blocks.forEach(b => b.y += 1000)
 }
 
 function preload(){
@@ -445,7 +445,7 @@ function preload(){
   backgroundimg2 = loadImage('images/background/dungeonbackground4.png')
   backgroundimg3 = loadImage('images/background/icedungeonbackground.jpg')
   backgroundimg4 = loadImage('images/background/test.jpg')
-  block_image = loadImage("images/block/Dungeon_Wall2.png")
+  block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   ice_board = loadImage('images/block/bord.png')
   //characterimages
@@ -745,9 +745,9 @@ function sound(){
     }
     
     if (game_state == "game" || game_state == "pause" || game_state == "information"){
-      song.setVolume(0.2)
-      song2.setVolume(0.2)
-      song3.setVolume(0.4)
+      song.setVolume(0.5)
+      song2.setVolume(0.5)
+      song3.setVolume(0.5)
   
       if (character_height < 1800 && song.isPlaying() == false){
         song_menu.stop()
