@@ -228,34 +228,62 @@ class Background{
     this.character_height = character_height
     if (this.character_height >= this.end_height){
       this.y = (this.character_height - this.end_height)
-    }else if (this.character_height <= this.start_height){
+    } else if (this.character_height <= this.start_height){
       this.y = (this.character_height - this.start_height)
     } else {
       this.y = 0
     }
-    //rect(this.x, this.y, this.w, this.h);
-
-    //if (this.character_height <= this.end_height && this.character_height >= this.start_height){
-      //image(this.img, this.x, this.y, width, height)
-    //} else if (this.character_height <= (this.end_height + height) && this.character_height >= this.end_height){
-      //image(this.img, this.x, this.y, width, height)
-      //this.y -= this.v_ver
-      
-    //} else {
-     // image(this.img, this.x, this.y, width, height)
-    //}
     
     image(this.img, this.x, this.y, width, this.h)
-    
-    //this.y -= this.v_ver
-
-    
-    
 
   }
   
 }
 
+class snowflake {
+  constructor(){
+    this.start_height = 6150
+    this.end_height = 10550
+    this.posY = 0;
+    this.splice_height = height
+    this.initialangle = random(0, 2 * PI);
+    this.size = random(2, 5);
+    this.character_height = character_height
+    if (this.character_height >= this.end_height){
+      this.posY = (this.character_height - this.end_height)
+    } else {
+      this.posY = 0
+    }
+    // radius of snowflake spiral
+    // chosen so the snowflakes are uniformly spread out in area
+    this.radius = sqrt(random(pow(width / 2, 2)));
+  }
+  
+
+  update(time) {
+    if (this.character_height <= this.start_height){
+      this.splice_height = height + (this.character_height - this.start_height)
+    }
+    
+    // x position follows a circle
+    let w = 0.6; // angular speed
+    let angle = w * time + this.initialangle;
+    this.posX = width / 2 + this.radius * sin(angle);
+
+    // different size snowflakes fall at slightly different y speeds
+    this.posY += pow(this.size, 0.5);
+    if (this.posY > this.splice_height) {
+      let index = snowflakes.indexOf(this);
+      snowflakes.splice(index, 1);
+    }
+    // delete snowflake if past end of screen
+    
+  };
+
+  display(){
+    ellipse(this.posX, this.posY, this.size);
+  };
+}
 
 
 var hit = false,
@@ -279,13 +307,16 @@ animation_done = false
 settings_music = true
 settings_sound = true
 settings_grey = false
-settings_4 = true
+settings_wheather = true
 origin_menu = "start"
 iceboard = true
 
 
+
 function setup() {
   createCanvas(1000, 500)
+  noStroke()
+  snowflakes = []
   
   if (localStorage.getItem('player_height') != null){
     saved_x = Math.floor(localStorage.getItem('player_x'))
@@ -495,7 +526,7 @@ function draw() {
     if(settings_grey){
       image(menu2_4, 523, 303)
     }
-    if(settings_4){
+    if(settings_wheather){
       image(menu2_5, 523, 376)
     }
   }
@@ -528,6 +559,25 @@ function draw() {
     if (character_height < 0){
       character_height = 0
     }
+
+    if (settings_wheather == true && character_height >= 5650 && character_height <= 11100){
+      let t = frameCount / 60; // update time
+      for (let i = 0; i < random(5); i++) {
+        snowflakes.push(new snowflake()); // append snowflake object
+      }
+      // loop through snowflakes with a for..of loop
+      for (let flake of snowflakes) {
+        flake.update(t); // update snowflake position
+        flake.display(); // draw snowflake
+      }
+    }
+    
+
+
+
+
+
+    
   
     //code voor win height, moet wanneer de levels af zijn aangepast worden naar de juiste hoogte
     if (character_height >= 63000000 && character.collision == "bottom"){
@@ -545,11 +595,11 @@ function draw() {
   if (game_state == "won"){
     background(block_ice_image);
   }
+  
   if (settings_grey){
     filter(GRAY)
   }
   
- // image(menu2_2, 124, 303)
 }
 
 function mousePressed() {
@@ -615,10 +665,10 @@ function mousePressed() {
     }
     if(mouseX > 765 && mouseX < 785){
       if(mouseY > 380 && mouseY < 400){
-        if(settings_4 == true){
-          settings_4 = false
+        if(settings_wheather == true){
+          settings_wheather = false
         }else{
-          settings_4 = true
+          settings_wheather = true
         }
       }
     }
@@ -637,31 +687,33 @@ function mousePressed() {
   }
 }
 
-function blockAnimation(){
-  moving_block = new Block(0,(height-moving_x),150,50, "white")
-  
-  
-  if (character_height >= 10899 && character_height <= 10900 && animation_timer > 0 && animation_done == false){
-    can_move = false
-    animation_timer -= 1
-    moving_x += 1
-    moving_block.draw()
-    if (animation_timer == 10){
-      slam.setVolume(10)
-      slam.play()
-    }
-  } else if (animation_timer == 0) {
-    blocks.push(moving_block)
-    animation_timer -= 1
-    animation_done = true
-    can_move = true
+function keyPressed(){
+  if (game_state == "information" && keyCode == 27){
+    game_state = "game"
+    info_displayed = true
+  } else if(game_state == "game" && keyCode == 27){
+    game_state = "pause"
+  } else if (game_state == "pause" && keyCode == 27){
+    game_state = "game"
   }
+  if (game_state == "settings" && keyCode == 27) {
+    if(origin_menu == "start"){
+      game_state = "startscreen"
+    } else if(origin_menu == "pause"){
+      game_state = "game"
+    }
+    
+  }
+  if (game_state == "credits" && keyCode == 27) {
+    game_state = "startscreen"
+  }
+  
 }
 
 function sound(){
 
   if (settings_music == true){
-    if (game_state == "game" || game_state == "pause"){
+    if (game_state == "game" || game_state == "pause" || game_state == "information"){
       song.setVolume(0.2)
       song2.setVolume(0.2)
       song3.setVolume(0.4)
@@ -716,28 +768,106 @@ function sound(){
 
   
 }
-
-function keyPressed(){
-  if (game_state == "information" && keyCode == 27){
-    game_state = "game"
-    info_displayed = true
-  } else if(game_state == "game" && keyCode == 27){
-    game_state = "pause"
-  } else if (game_state == "pause" && keyCode == 27){
-    game_state = "game"
-  }
-  if (game_state == "settings" && keyCode == 27) {
-    if(origin_menu == "start"){
-      game_state = "startscreen"
-    } else if(origin_menu == "pause"){
-      game_state = "game"
-    }
-    
-  }
-  if (game_state == "credits" && keyCode == 27) {
-    game_state = "startscreen"
+   
+function pickImage(){
+  if (character.v_hor > 0){
+    last_dir = charstandardright
+  } else if (character.v_hor < 0){
+    last_dir = charstandardleft
   }
   
+  block_ver = blocks[1].v_ver
+  if(block_ver != 0){
+    if(block_ver < 0){
+      if (character.v_hor >= 0){
+        character.img = charjumpright
+      } else {
+        character.img = charjumpleft
+      }
+    }else if(block_ver > 0){
+      if (character.v_hor >= 0){
+        character.img = charfallright
+      } else {
+        character.img = charfallleft
+      }
+    }
+  } else if (keyIsDown(32) && can_move == true){
+    character.img = charjumpcharge
+  } else {
+	  character.img = last_dir
+  }
+
+
+  if (character.walking == true){
+    frame_counter += 1
+
+    if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+      if (frame_counter >= 1 && frame_counter <= 10){
+        character.img = charrun1right
+      } else if (frame_counter >= 11 && frame_counter <= 20){
+        character.img = charstandardright
+      } else if (frame_counter >= 21 && frame_counter <= 30){
+        character.img = charrun2right
+      } else if (frame_counter >= 31 && frame_counter <= 40){
+        character.img = charstandardright
+      }
+    }
+
+    if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
+      if (frame_counter >= 1 && frame_counter <= 10){
+        character.img = charrun1left
+      } else if (frame_counter >= 11 && frame_counter <= 20){
+        character.img = charstandardleft
+      } else if (frame_counter >= 21 && frame_counter <= 30){
+        character.img = charrun2left
+      } else if (frame_counter >= 31 && frame_counter <= 40){
+        character.img = charstandardleft
+      }
+    }
+    
+    if (frame_counter >= 40){
+      frame_counter = 0
+    }
+    
+  } else {
+    frame_counter = 0
+  }
+}
+
+function blockAnimation(){
+  moving_block = new Block(0,(height-moving_x),150,50, "white")
+  
+  
+  if (character_height >= 10899 && character_height <= 10900 && animation_timer > 0 && animation_done == false){
+    can_move = false
+    animation_timer -= 1
+    moving_x += 1
+    moving_block.draw()
+    if (animation_timer == 10){
+      slam.setVolume(10)
+      slam.play()
+    }
+  } else if (animation_timer == 0) {
+    blocks.push(moving_block)
+    animation_timer -= 1
+    animation_done = true
+    can_move = true
+  }
+}
+
+function progressStorage (){
+  if (game_state == "game" && character.collision == "bottom"){
+    localStorage.setItem('player_x', character.x);
+    localStorage.setItem('player_height', character_height);
+    saved_x = localStorage.getItem('player_x');
+    saved_height = localStorage.getItem('player_height');
+  }
+}
+
+function mechanicsInfo(){
+  if(character_height <= 5950 && character_height >= 5949 && info_displayed == false){
+    game_state = "information"
+  }
 }
 
 function keyReleased(){
@@ -825,96 +955,4 @@ function checkCollision(){
 
   return [colliding, block_type];
 }
-   
-function pickImage(){
-  if (character.v_hor > 0){
-    last_dir = charstandardright
-  } else if (character.v_hor < 0){
-    last_dir = charstandardleft
-  }
-  
-  block_ver = blocks[1].v_ver
-  if(block_ver != 0){
-    if(block_ver < 0){
-      if (character.v_hor >= 0){
-        character.img = charjumpright
-      } else {
-        character.img = charjumpleft
-      }
-    }else if(block_ver > 0){
-      if (character.v_hor >= 0){
-        character.img = charfallright
-      } else {
-        character.img = charfallleft
-      }
-    }
-  } else if (keyIsDown(32) && can_move == true){
-    character.img = charjumpcharge
-  } else {
-	  character.img = last_dir
-  }
 
-
-  if (character.walking == true){
-    frame_counter += 1
-
-    if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
-      if (frame_counter >= 1 && frame_counter <= 10){
-        character.img = charrun1right
-      } else if (frame_counter >= 11 && frame_counter <= 20){
-        character.img = charstandardright
-      } else if (frame_counter >= 21 && frame_counter <= 30){
-        character.img = charrun2right
-      } else if (frame_counter >= 31 && frame_counter <= 40){
-        character.img = charstandardright
-      }
-    }
-
-    if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
-      if (frame_counter >= 1 && frame_counter <= 10){
-        character.img = charrun1left
-      } else if (frame_counter >= 11 && frame_counter <= 20){
-        character.img = charstandardleft
-      } else if (frame_counter >= 21 && frame_counter <= 30){
-        character.img = charrun2left
-      } else if (frame_counter >= 31 && frame_counter <= 40){
-        character.img = charstandardleft
-      }
-    }
-    
-    if (frame_counter >= 40){
-      frame_counter = 0
-    }
-    
-  } else {
-    frame_counter = 0
-  }
-}
-
-function progressStorage (){
-  if (game_state == "game" && character.collision == "bottom"){
-    localStorage.setItem('player_x', character.x);
-    localStorage.setItem('player_height', character_height);
-    saved_x = localStorage.getItem('player_x');
-    saved_height = localStorage.getItem('player_height');
-  }
-}
-
-function mechanicsInfo(){
-  if(character_height <= 5950 && character_height >= 5949 && info_displayed == false){
-    game_state = "information"
-   //fill(0)
-   // textSize(32)
-   // textStyle(BOLD)
-   // text("You can charge the next jump while still in the air", 50, 120)
-   // text("This allows you to do a high jump right after landing",50, 170)
-   // text("and keep momentum on the ice",50, 220)
-   // text("press C to continue", 50, 270)
-   // if (keyIsDown(67)){
-   //   info_displayed = true
-  //    can_move = true
-  //  }
- // } else {
- //   can_move = true
-  }
-}
