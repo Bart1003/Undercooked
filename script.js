@@ -161,10 +161,6 @@ class Block{
     }
     if (this.type == "ice"){
       this.img = block_ice_image  
-    }else if (this.type == "topwall"){
-      this.img = grass
-    } else if (this.type == "wall"){
-      this.img = dirt
     } else {
       this.img = stone
     }
@@ -190,21 +186,38 @@ class Block{
           } else {
             this.img = dirt
           }
-        } else if (this.type == "standard"){
+        }  
+        if (this.type == "standard" || this.type == "wall"){
           if (i == 0){
-            this.img = grass
+            this.img = stonetiletop
+            this.top = true
           } else {
-            this.img = dirt
+            this.img = stone
+            this.top = false
           }
         }
         
-        for (let i = 0; i < (this.w/25); i++) {
+      for (let i = 0; i < (this.w/25); i++) {
+        if (i == this.w/25 - 1 && this.top == false){
+          this.img = stonetileleft
+        } else if (i == this.w/25 - 1 && this.top == true){
+          this.img = stonetileleftcorner
+        } else if (i == 0 && this.top == false){
+          this.img = stonetileright
+        } else if (i == 0 && this.top == true){
+          this.img = stonetilerightcorner
+        } else if (this.top == true){
+          this.img = stonetiletop
+        } else {
+          this.img = stone
+        }
+        
         image(this.img, this.x_pos, this.y_pos, 25, 25)
         this.x_pos += 25
           
-        }
-        this.x_pos = this.x
-        this.y_pos += 25
+      }
+      this.x_pos = this.x
+      this.y_pos += 25
          
       }
     } else if (this.y + this.h >=0 && this.y <= height) {
@@ -453,7 +466,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 1000)
+  blocks.forEach(b => b.y += 2000)
 }
 
 function preload(){
@@ -499,7 +512,7 @@ function preload(){
   grass = loadImage('images/block/grassdirttile.png')
   dirt = loadImage('images/block/dirttile.png')
   //stonetile images
-  stone = loadImage('images/block/stonetile/stone.png')
+  stone = loadImage('images/block/stonetile/stone2.png')
   stonetile = loadImage('images/block/stonetile/stonetile.png')
   stonetileleft = loadImage('images/block/stonetile/stonetileleft.png')
   stonetileleftcorner = loadImage('images/block/stonetile/stonetileleftcorner.png')
