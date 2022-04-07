@@ -159,11 +159,6 @@ class Block{
     } else {
       this.type = "standard"
     }
-    if (this.type == "ice"){
-      this.img = block_ice_image  
-    } else {
-      this.img = stone
-    }
     
    
   }  
@@ -180,13 +175,6 @@ class Block{
       this.x_pos = this.x
       this.y_pos = this.y
       for (let i = 0; i < (this.h/25); i++) {
-        if (this.type == "wall"){
-          if (i == 0){
-            this.img = grass
-          } else {
-            this.img = dirt
-          }
-        }  
         if (this.type == "standard" || this.type == "wall"){
           if (i == 0){
             this.img = stonetiletop
@@ -198,21 +186,114 @@ class Block{
         }
         
       for (let i = 0; i < (this.w/25); i++) {
-        if (i == this.w/25 - 1 && this.top == false){
-          this.img = stonetileleft
-        } else if (i == this.w/25 - 1 && this.top == true){
+        if (i == this.w/25 - 1 && this.top == true && this.w != 25){
           this.img = stonetileleftcorner
-        } else if (i == 0 && this.top == false){
-          this.img = stonetileright
-        } else if (i == 0 && this.top == true){
+        } else if (i == 0 && this.top == true && this.w != 25){
           this.img = stonetilerightcorner
         } else if (this.top == true){
           this.img = stonetiletop
         } else {
           this.img = stone
         }
+        if (this.type == "ice"){
+          this.img = block_ice_image
+        }
         
         image(this.img, this.x_pos, this.y_pos, 25, 25)
+        this.x_pos += 25
+          
+      }
+      this.x_pos = this.x
+      this.y_pos += 25
+         
+      }
+    } else if (this.y + this.h >=0 && this.y <= height) {
+      rect(this.x, this.y, this.w, this.h)
+    }
+    
+    this.y -= this.v_ver
+
+    if (character.collision == "top"){
+      this.v_ver = 0
+    } else if (character.collision == "bottom"){
+      this.v_ver = 0
+    }
+
+    
+  }
+}
+
+class Sides{
+  constructor (x, y, w, h, color, type){
+    this.x = x
+    this.y = y
+    this.w = w
+    this.h = h
+    this.c = color;
+    this.halfWidth = this.w /2 //variable for collision checking
+    this.halfHeight = this.h /2 //variable for collision checking
+    this.v_ver = 0
+    this.v_ver_max = 15
+    this.a = 0.33
+    this.collision = false
+    if (type != null){
+      this.type = type
+    } else {
+      this.type = "standard"
+    }
+    if (this.type == "ice"){
+      this.img = block_ice_image  
+    } else {
+      this.img = stone
+    }
+    
+   
+  }  
+
+
+  draw(){
+    fill(this.c)
+    //rect(this.x, this.y, this.w, this.h)
+    if (this.v_ver < this.v_ver_max){
+      this.v_ver = this.v_ver + this.a
+    } 
+
+    if (this.y + this.h >=0 && this.y <= height){
+      this.x_pos = this.x
+      this.y_pos = this.y
+      for (let i = 0; i < (this.h/25); i++) {
+          
+        
+        if (i == 0){
+          this.img = stonetiletop
+          this.top = true
+        } else {
+          this.img = stone
+          this.top = false
+        }
+        
+        
+      for (let i = 0; i < (this.w/25); i++) {
+        if (i == this.w/25 - 1 && this.top == false && this.type != "right"){
+          this.img = stonetileleft
+          image(this.img, this.x_pos, this.y_pos, 25, 25)
+        } else if (i == this.w/25 - 1 && this.top == true && this.type != "right"){
+          this.img = stonetileleftcorner
+          image(this.img, this.x_pos, this.y_pos, 25, 25)
+        } else if (i == 0 && this.top == false && this.type != "left"){
+          this.img = stonetileright
+          image(this.img, this.x_pos, this.y_pos, 25, 25)
+        } else if (i == 0 && this.top == true && this.type != "left"){
+          this.img = stonetilerightcorner
+          image(this.img, this.x_pos, this.y_pos, 25, 25)
+        } else if (this.top == true){
+          this.img = stonetiletop
+          image(this.img, this.x_pos, this.y_pos, 25, 25)
+        } else {
+          fill(this.c)
+          rect(this.x_pos, this.y_pos, 25, 25)
+        }
+        
         this.x_pos += 25
           
       }
@@ -348,6 +429,7 @@ settings_grey = false
 settings_wheather = true
 origin_menu = "start"
 iceboard = true
+win_height = 110000
 
 
 
@@ -366,13 +448,13 @@ function setup() {
   
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
-  new Block(575,(height-400),50,20, "white"),
+  new Block(575,(height-400),50,25, "white"),
   new Block(225,(height-200),50,200, "white"),
   new Block(225,(height-650),100,50, "white"),
   new Block(675,(height-650),100,50, "white"),
   new Block(225,(height-950),200,150, "white"),
-  new Block(675,(height-1000),20,100, "white"),
-  new Block(425,(height-1300),20,150, "white"),
+  new Block(675,(height-1000),25,100, "white"),
+  new Block(425,(height-1300),25,150, "white"),
   new Block(625,(height-1250),150,50, "white"),
   new Block(350,(height-1600),100,50, "white"),
   new Block(0,(height-1800),375,50, "white"),
@@ -451,9 +533,9 @@ function setup() {
 
     
   //deze blokken vormen de muren en ondergrond in het eerste stuk
-  new Block(775,(height-1800),225,2200, "black", "wall"),
-  new Block(0,(height-1800),225,2200, "black", "wall"),
-  new Block(225,height,550,1000, "black", "wall"),
+  new Sides(775,(height-1800),225,2200, "black", "right"),
+  new Sides(0,(height-1800),225,2200, "black", "left"),
+  new Sides(225,height,550,1000, "black", "bottom"),
   ]
 
   background_images = [
@@ -466,7 +548,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 2000)
+  blocks.forEach(b => b.y += 10900)
 }
 
 function preload(){
@@ -624,23 +706,16 @@ function draw() {
         flake.update(t); // update snowflake position
         flake.display(); // draw snowflake
       }
-    }
-    
-
-
-
-
-
-    
+    }    
   
     //code voor win height, moet wanneer de levels af zijn aangepast worden naar de juiste hoogte
-    if (character_height >= 63000000 && character.collision == "bottom"){
+    if (character_height >= win_height && character.collision == "bottom"){
       game_state = "won"
     }
     fill(200)
     textSize(32)
     textStyle(NORMAL)
-    text("height: " + character_height, 50, 70);
+    text("height: " + character_height + "/" + win_height, 25, 70);
     mechanicsInfo()
     //text(saved_x, 300, 70);
     //text(saved_height, 300, 120);
