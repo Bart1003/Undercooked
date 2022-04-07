@@ -444,7 +444,8 @@ function setup() {
   }
 
   
-  character = new Character(saved_x,250,50,50, "white", charstandardright)
+  //character = new Character(saved_x,250,50,50, "white", charstandardright)
+  character = new Character(800,250,50,50, "white", charstandardright)
   
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -478,15 +479,15 @@ function setup() {
   new Block(0,(height-4100),50,50, "white"),
   new Block(475,(height-4300),50,50, "white"),
   new Block(750,(height-4500),250,50, "white"),
-  new Block(675,(height-5550),25,900, "white"),
-  new Block(0,(height-4650),700,25, "white"),
+  new Block(650,(height-5550),50,925, "white"),//lange veri rechts
+  new Block(0,(height-4675),650,50, "white"), //lange hori onder
   new Block(850,(height-4750),50,50, "white"),
   new Block(850,(height-4900),50,50, "white"),
   new Block(850,(height-5100),50,50, "white"),
   new Block(850,(height-5350),50,50, "white"),
-  new Block(500,(height-5750),25,950, "white"),
+  new Block(500,(height-5750),50,950, "white"),// lange veri links
+  new Block(550,(height-5750),450,50, "white"), // lange hori boven
   //na de derde checkpoint (wanneer je een stukje naarbeneden moest vallen)
-  new Block(525,(height-5750),475,25, "white"),
   new Block(75,(height-4900),50,50, "white"),
   new Block(225,(height-4900),50,50, "white"),
   new Block(375,(height-4900),50,50, "white"),
@@ -497,9 +498,9 @@ function setup() {
   new Block(375,(height-5300),50,50, "white"),
   new Block(150,(height-5500),50,50, "white"),
   new Block(325,(height-5500),50,50, "white"),
+  //na de vierde checkpoint (wanner het ice stuk begint)
   new Block(0,(height-5950),700,25, "white", "ice"),
   new Block(850,(height-5950),150,25, "white", "ice"),
-  //na de vierde checkpoint (wanner het ice stuk begint)
   new Block(0,(height-6100),200,25, "white", "ice"),
   new Block(700,(height-6300),200,25, "white", "ice"),
   new Block(600,(height-6550),200,25, "white", "ice"),
@@ -548,7 +549,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 10900)
+  blocks.forEach(b => b.y += 5700)
 }
 
 function preload(){
@@ -602,6 +603,13 @@ function preload(){
   stonetilerightcorner = loadImage('images/block/stonetile/stonetilerightcorner.png')
   stonetiletop = loadImage('images/block/stonetile/stonetiletop.png')
   tilemid = loadImage('images/block/stonetile/tilemid.png')
+  //singular stonetile images
+  stonetilesingularleft = loadImage('images/block/stonetile/stonetilesingularleft.png')
+  stonetilesingularxmid = loadImage('images/block/stonetile/stonetilesingularxmid.png')
+  stonetilesingularright = loadImage('images/block/stonetile/stonetilesingularright.png')
+  stonetilesingulartop = loadImage('images/block/stonetile/stonetilesingulartop.png')
+  stonetilesingularymid = loadImage('images/block/stonetile/stonetilesingularymid.png')
+  stonetilesingularbot = loadImage('images/block/stonetile/stonetilebot.png')
   //song and sfx
   song = loadSound('sounds/songs/level1Music.mp3')
   song2 = loadSound('sounds/songs/level2Music.mp3')
