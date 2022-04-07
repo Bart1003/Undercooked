@@ -162,7 +162,7 @@ class Block{
     if (this.type == "ice"){
       this.img = block_ice_image  
     } else{
-      this.img = block_image
+      this.img = stone
     }
     
    
@@ -430,7 +430,7 @@ function setup() {
     new Background(0,0,width,height, backgroundimg4, 11400, 200000, character_height),
     new Background(0,0,width,height, backgroundimg3, 6425, 10900, character_height),
     new Background(0,0,width,height, backgroundimg, 2300, 5925, character_height),
-    new Background(0,0,width,height, backgroundimg2, 0, 1800, character_height)
+    new Background(0,0, 500,500, cave, 0, 1800, character_height)
   ]
   
     
@@ -448,6 +448,7 @@ function preload(){
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   ice_board = loadImage('images/block/bord.png')
+  cave = loadImage('images/background/cave.png')
   //characterimages
   charstandardright = loadImage('images/character/charstandard/charstandardright.png')
   charstandardleft = loadImage('images/character/charstandard/charstandardleft.png')
