@@ -161,7 +161,11 @@ class Block{
     }
     if (this.type == "ice"){
       this.img = block_ice_image  
-    } else{
+    }else if (this.type == "topwall"){
+      this.img = grass
+    } else if (this.type == "wall"){
+      this.img = dirt
+    } else {
       this.img = stone
     }
     
@@ -176,10 +180,24 @@ class Block{
       this.v_ver = this.v_ver + this.a
     } 
 
-    if (this.y + this.h >=0 && this.y <= height && this.type != "wall"){
+    if (this.y + this.h >=0 && this.y <= height){
       this.x_pos = this.x
       this.y_pos = this.y
       for (let i = 0; i < (this.h/25); i++) {
+        if (this.type == "wall"){
+          if (i == 0){
+            this.img = grass
+          } else {
+            this.img = dirt
+          }
+        } else if (this.type == "standard"){
+          if (i == 0){
+            this.img = grass
+          } else {
+            this.img = dirt
+          }
+        }
+        
         for (let i = 0; i < (this.w/25); i++) {
         image(this.img, this.x_pos, this.y_pos, 25, 25)
         this.x_pos += 25
@@ -420,17 +438,16 @@ function setup() {
 
     
   //deze blokken vormen de muren en ondergrond in het eerste stuk
-  new Block(775,(height-1800),225,1800, "black", "wall"),
-  new Block(0,(height-1800),225,1800, "black", "wall"),
-  new Block(0,height,width,1000, "black", "wall"),
-  
+  new Block(775,(height-1800),225,2200, "black", "wall"),
+  new Block(0,(height-1800),225,2200, "black", "wall"),
+  new Block(225,height,550,1000, "black", "wall"),
   ]
 
   background_images = [
     new Background(0,0,width,height, backgroundimg4, 11400, 200000, character_height),
     new Background(0,0,width,height, backgroundimg3, 6425, 10900, character_height),
     new Background(0,0,width,height, backgroundimg, 2300, 5925, character_height),
-    new Background(0,0, 500,500, cave, 0, 1800, character_height)
+    new Background(0,0, 500,height, backgroundimg2, 0, 1800, character_height)
   ]
   
     
@@ -478,6 +495,9 @@ function preload(){
   menu4_1 = loadImage('images/menu/menu4_1.png')
   menu4_2 = loadImage('images/menu/menu4_2.png')
   menu4_3 = loadImage('images/menu/menu4_3.png')
+  //grasstile images
+  grass = loadImage('images/block/grassdirttile.png')
+  dirt = loadImage('images/block/dirttile.png')
   //stonetile images
   stone = loadImage('images/block/stonetile/stone.png')
   stonetile = loadImage('images/block/stonetile/stonetile.png')
