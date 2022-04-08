@@ -244,7 +244,7 @@ class Sides{
     if (this.type == "ice"){
       this.img = block_ice_image  
     } else {
-      this.img = stone
+      this.img = midmid
     }
     
    
@@ -265,29 +265,29 @@ class Sides{
           
         
         if (i == 0){
-          this.img = stonetiletop
+          this.img = topmid
           this.top = true
         } else {
-          this.img = stone
+          this.img = midmid
           this.top = false
         }
         
         
       for (let i = 0; i < (this.w/25); i++) {
         if (i == this.w/25 - 1 && this.top == false && this.type != "right"){
-          this.img = stonetileleft
+          this.img = midright
           image(this.img, this.x_pos, this.y_pos, 25, 25)
         } else if (i == this.w/25 - 1 && this.top == true && this.type != "right"){
-          this.img = stonetileleftcorner
+          this.img = topright
           image(this.img, this.x_pos, this.y_pos, 25, 25)
         } else if (i == 0 && this.top == false && this.type != "left"){
-          this.img = stonetileright
+          this.img = midleft
           image(this.img, this.x_pos, this.y_pos, 25, 25)
         } else if (i == 0 && this.top == true && this.type != "left"){
-          this.img = stonetilerightcorner
+          this.img = topleft
           image(this.img, this.x_pos, this.y_pos, 25, 25)
         } else if (this.top == true){
-          this.img = stonetiletop
+          this.img = topmid
           image(this.img, this.x_pos, this.y_pos, 25, 25)
         } else {
           fill(this.c)
@@ -411,7 +411,7 @@ ver_jump_speed = 7.5 //speed when jumping vertically
 max_v_hor = 10 //max horizontal jumping speed on ice
 frame_counter = 0
 character_height = 0
-game_state = "startscreen"
+game_state = "game"
 prev_collision = "false"
 this_vver = 0
 can_move = true
@@ -549,7 +549,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 5700)
+  blocks.forEach(b => b.y += 250)
 }
 
 function preload(){
@@ -603,13 +603,23 @@ function preload(){
   stonetilerightcorner = loadImage('images/block/stonetile/stonetilerightcorner.png')
   stonetiletop = loadImage('images/block/stonetile/stonetiletop.png')
   tilemid = loadImage('images/block/stonetile/tilemid.png')
+  //stonetile new images
+  topleft = loadImage('images/block/stonetilenew/stonetiletopleft.png')
+  topmid = loadImage('images/block/stonetilenew/stonetiletopmid.png')
+  topright = loadImage('images/block/stonetilenew/stonetiletopright.png')
+  midleft = loadImage('images/block/stonetilenew/stonetilemidleft.png')
+  midmid = loadImage('images/block/stonetilenew/stonetilemidmid.png')
+  midright = loadImage('images/block/stonetilenew/stonetilemidright.png')
+  botleft = loadImage('images/block/stonetilenew/stonetilebotleft.png')
+  botmid = loadImage('images/block/stonetilenew/stonetilebotmid.png')
+  botright = loadImage('images/block/stonetilenew/stonetilebotright.png')
   //singular stonetile images
-  stonetilesingularleft = loadImage('images/block/stonetile/stonetilesingularleft.png')
-  stonetilesingularxmid = loadImage('images/block/stonetile/stonetilesingularxmid.png')
-  stonetilesingularright = loadImage('images/block/stonetile/stonetilesingularright.png')
-  stonetilesingulartop = loadImage('images/block/stonetile/stonetilesingulartop.png')
-  stonetilesingularymid = loadImage('images/block/stonetile/stonetilesingularymid.png')
-  stonetilesingularbot = loadImage('images/block/stonetile/stonetilebot.png')
+  //stonetilesingularleft = loadImage('images/block/stonetile/stonetilesingularleft.png')
+  //stonetilesingularxmid = loadImage('images/block/stonetile/stonetilesingularxmid.png')
+  //stonetilesingularright = loadImage('images/block/stonetile/stonetilesingularright.png')
+  //stonetilesingulartop = loadImage('images/block/stonetile/stonetilesingulartop.png')
+  //stonetilesingularymid = loadImage('images/block/stonetile/stonetilesingularymid.png')
+  //stonetilesingularbot = loadImage('images/block/stonetile/stonetilebot.png')
   //song and sfx
   song = loadSound('sounds/songs/level1Music.mp3')
   song2 = loadSound('sounds/songs/level2Music.mp3')
