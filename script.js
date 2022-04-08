@@ -478,7 +478,7 @@ function setup() {
 
   
   //character = new Character(saved_x,250,50,50, "white", charstandardright)
-  character = new Character(100,250,50,50, "white", charstandardright)
+  character = new Character(00,250,50,50, "white", charstandardright)
   
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -566,9 +566,18 @@ function setup() {
   new Block(0,(height-10700),150,50, "white"),
   //laatste level
     //dit eerste block moet later weggehaald worden, de animatie weer aan en gamestate op startscreen
-  new Block(150,(height-10900),850,50, "white"),
-  new Block(200,(height-11500),25,400, "white"),
+  new Block(0,(height-10900),150,50, "white"),
+  new Block(200,(height-11450),25,350, "white"),
   new Block(775,(height-11500),25,400, "white"),
+  new Block(725,(height-11200),50,25, "white"),
+  new Block(200,(height-11750),25,200, "white"),
+  new Block(225,(height-11750),100,50, "white"),
+  new Block(200,(height-11900),125,50, "white"),
+  new Block(200,(height-12400),25,400, "white"),
+  new Block(775,(height-12200),25,500, "white"),
+  new Block(700,(height-12200),75,25, "white"),
+  new Block(0,(height-12400),25,50, "white"),
+  
 
     
   //deze blokken vormen de muren en ondergrond in het eerste stuk
@@ -587,7 +596,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 10900)
+  blocks.forEach(b => b.y += 12400)
 }
 
 function preload(){
@@ -772,6 +781,7 @@ function draw() {
     textSize(32)
     textStyle(NORMAL)
     text("height: " + character_height + "/" + win_height, 25, 70);
+    text(character.x, 25, 100)
     mechanicsInfo()
     //text(saved_x, 300, 70);
     //text(saved_height, 300, 120);
@@ -914,25 +924,25 @@ function sound(){
       song2.setVolume(0.5)
       song3.setVolume(0.5)
   
-      if (character_height < 1800 && song.isPlaying() == false){
+      if (character_height < 1799 && song.isPlaying() == false){
         song_menu.stop()
         song2.stop()
         song3.stop()
         song4.stop()
         song.loop()
-      } else if (character_height >= 1800 && character_height < 5900 && song2.isPlaying() == false){
+      } else if (character_height >= 1799 && character_height < 5899 && song2.isPlaying() == false){
         song_menu.stop()
         song.stop()
         song3.stop()
         song4.stop()
         song2.loop()
-      } else if (character_height >= 5900 && character_height < 10900 && song3.isPlaying() == false){
+      } else if (character_height >= 5899 && character_height < 10899 && song3.isPlaying() == false){
         song_menu.stop()
         song.stop()
         song2.stop()
         song4.stop()
         song3.loop()
-      } else if (character_height >= 10900 && character_height < 10000000 && song4.isPlaying() == false && animation_timer == 0) {
+      } else if (character_height >= 10899 && character_height < 10000000 && song4.isPlaying() == false && animation_timer == 0) {
         song_menu.stop()
         song.stop()
         song2.stop()
