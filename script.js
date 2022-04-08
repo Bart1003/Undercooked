@@ -443,7 +443,7 @@ ver_jump_speed = 7.5 //speed when jumping vertically
 max_v_hor = 10 //max horizontal jumping speed on ice
 frame_counter = 0
 character_height = 0
-game_state = "game"
+game_state = "startscreen"
 prev_collision = "false"
 this_vver = 0
 can_move = true
@@ -475,10 +475,12 @@ function setup() {
     saved_x = Math.floor(localStorage.getItem('player_x'))
     saved_height = localStorage.getItem('player_height')
   }
-
+  if (saved_height > 11000){
+    animation_timer = 0
+  }
   
-  //character = new Character(saved_x,250,50,50, "white", charstandardright)
-  character = new Character(650,250,50,50, "white", charstandardright)
+  character = new Character(saved_x,250,50,50, "white", charstandardright)
+  //character = new Character(0,250,50,50, "white", charstandardright)
   
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -566,7 +568,7 @@ function setup() {
   new Block(0,(height-10700),150,50, "white"),
   //laatste level
     //dit eerste block moet later weggehaald worden, de animatie weer aan en gamestate op startscreen
-  new Block(0,(height-10900),150,50, "white"),
+  //new Block(0,(height-10900),150,50, "white"),
   new Block(200,(height-11450),25,350, "white"),
   new Block(775,(height-11500),25,400, "white"),
   new Block(725,(height-11200),50,25, "white"),
@@ -595,6 +597,10 @@ function setup() {
   new Sides(225,height,550,1000, "black", "bottom"),
   ]
 
+  if (saved_height > 11000){
+    blocks.push(new Block(0,(height-10900),150,50, "white"))
+  }
+
   background_images = [
     new Background(0,0,width,height, backgroundimg4, 11400, 200000, character_height),
     new Background(0,0,width,height, backgroundimg3, 6425, 10900, character_height),
@@ -604,8 +610,8 @@ function setup() {
   
     
   
-  //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 13000)
+  blocks.forEach(b => b.y += (saved_height-200))
+  //blocks.forEach(b => b.y += 13000)
 }
 
 function preload(){
@@ -756,7 +762,10 @@ function draw() {
   
   if (game_state == "game"){
     background_images.forEach(b => b.draw())
-    blockAnimation()
+    if (saved_height < 11000){
+      blockAnimation()
+    }
+    
     progressStorage()
     
     
@@ -792,8 +801,8 @@ function draw() {
     text("height: " + character_height + "/" + win_height, 25, 70);
     text(character.x, 25, 100)
     mechanicsInfo()
-    //text(saved_x, 300, 70);
-    //text(saved_height, 300, 120);
+    text(saved_x, 500, 70);
+    text(saved_height, 500, 120);
   }
 
   if (game_state == "won"){
