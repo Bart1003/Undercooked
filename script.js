@@ -478,7 +478,7 @@ function setup() {
 
   
   //character = new Character(saved_x,250,50,50, "white", charstandardright)
-  character = new Character(00,250,50,50, "white", charstandardright)
+  character = new Character(650,250,50,50, "white", charstandardright)
   
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -577,6 +577,15 @@ function setup() {
   new Block(775,(height-12200),25,500, "white"),
   new Block(700,(height-12200),75,25, "white"),
   new Block(0,(height-12400),25,50, "white"),
+  new Block(500,(height-12600),50,25, "white"),
+  new Block(775,(height-13200),25,625, "white"),
+  new Block(200,(height-13300),25,550, "white"),
+  new Block(725,(height-12700),50,25, "white"),
+  new Block(225,(height-12925),100,50, "white"),
+  new Block(675,(height-13200),100,25, "white"),
+  new Block(00,(height-13300),200,25, "white"),
+  new Block(300,(height-13300),100,25, "white"),
+  new Block(200,(height-13500),800, 25, "white"),
   
 
     
@@ -596,7 +605,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 12400)
+  blocks.forEach(b => b.y += 13000)
 }
 
 function preload(){
