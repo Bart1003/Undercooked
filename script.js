@@ -159,8 +159,6 @@ class Block{
     } else {
       this.type = "standard"
     }
-    
-   
   }  
 
 
@@ -175,34 +173,68 @@ class Block{
       this.x_pos = this.x
       this.y_pos = this.y
       for (let i = 0; i < (this.h/25); i++) {
-        if (this.type == "standard" || this.type == "wall"){
+        if (this.type == "standard"){
           if (i == 0){
-            this.img = stonetiletop
             this.top = true
+          } else if (i == this.h/25 - 1){
+            this.top = false
+            this.bottom = true
           } else {
-            this.img = stone
+            this.bottom = false
             this.top = false
           }
         }
         
-      for (let i = 0; i < (this.w/25); i++) {
-        if (i == this.w/25 - 1 && this.top == true && this.w != 25){
-          this.img = stonetileleftcorner
-        } else if (i == 0 && this.top == true && this.w != 25){
-          this.img = stonetilerightcorner
-        } else if (this.top == true){
-          this.img = stonetiletop
-        } else {
-          this.img = stone
-        }
-        if (this.type == "ice"){
-          this.img = block_ice_image
-        }
-        
-        image(this.img, this.x_pos, this.y_pos, 25, 25)
-        this.x_pos += 25
+        for (let i = 0; i < (this.w/25); i++) {
+          if (this.w != 25 && this.h != 25){
+            if (i == this.w/25 - 1 && this.top == true){
+              this.img = topright
+            } else if (i == 0 && this.top == true){
+              this.img = topleft
+            } else if (this.top == true){
+              this.img = topmid
+            } else if (i == this.w/25 -1 && this.bottom == true){
+              this.img  = botright
+            } else if (i == 0 && this.bottom == true){
+              this.img  = botleft
+            } else if (this.bottom == true){
+              this.img  = botmid
+            } else if (i == 0){
+              this.img = midleft
+            } else if (i == this.w/25 -1){
+              this.img = midright
+            } else {
+              this.img = stone
+            }
+          }
+
+          if (this.h == 25){
+            if (i == 0){
+              this.img = singularleft
+            } else if (i == this.w/25 -1){
+              this.img = singularright
+            } else {
+              this.img = singularxmid
+            }
+          }
+          if (this.w == 25){
+            if (this.top == true){
+              this.img = singulartop
+            } else if (this.bottom == true){
+              this.img = singularbot
+            } else {
+              this.img = singularymid
+            }
+          }
           
-      }
+          if (this.type == "ice"){
+            this.img = block_ice_image
+          }
+          
+          image(this.img, this.x_pos, this.y_pos, 25, 25)
+          this.x_pos += 25
+          
+        }
       this.x_pos = this.x
       this.y_pos += 25
          
@@ -416,7 +448,8 @@ prev_collision = "false"
 this_vver = 0
 can_move = true
 moving_x = 0
-animation_timer = 200
+//animation_timer = 200
+animation_timer = 0
 saved_x = 300
 saved_height = 0
 soundeffects = "on"
@@ -445,7 +478,7 @@ function setup() {
 
   
   //character = new Character(saved_x,250,50,50, "white", charstandardright)
-  character = new Character(800,250,50,50, "white", charstandardright)
+  character = new Character(100,250,50,50, "white", charstandardright)
   
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -531,6 +564,11 @@ function setup() {
   new Block(300,(height-10700),100,25, "white", "ice"),
   new Block(150,(height-10900),850,50, "white"),
   new Block(0,(height-10700),150,50, "white"),
+  //laatste level
+    //dit eerste block moet later weggehaald worden, de animatie weer aan en gamestate op startscreen
+  new Block(150,(height-10900),850,50, "white"),
+  new Block(200,(height-11500),25,400, "white"),
+  new Block(775,(height-11500),25,400, "white"),
 
     
   //deze blokken vormen de muren en ondergrond in het eerste stuk
@@ -549,7 +587,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 250)
+  blocks.forEach(b => b.y += 10900)
 }
 
 function preload(){
@@ -614,17 +652,17 @@ function preload(){
   botmid = loadImage('images/block/stonetilenew/stonetilebotmid.png')
   botright = loadImage('images/block/stonetilenew/stonetilebotright.png')
   //singular stonetile images
-  //stonetilesingularleft = loadImage('images/block/stonetile/stonetilesingularleft.png')
-  //stonetilesingularxmid = loadImage('images/block/stonetile/stonetilesingularxmid.png')
-  //stonetilesingularright = loadImage('images/block/stonetile/stonetilesingularright.png')
-  //stonetilesingulartop = loadImage('images/block/stonetile/stonetilesingulartop.png')
-  //stonetilesingularymid = loadImage('images/block/stonetile/stonetilesingularymid.png')
-  //stonetilesingularbot = loadImage('images/block/stonetile/stonetilebot.png')
+  singularleft = loadImage('images/block/stonetile/stonetilesingularleft.png')
+  singularxmid = loadImage('images/block/stonetile/stonetilesingularxmid.png')
+  singularright = loadImage('images/block/stonetile/stonetilesingularright.png')
+  singulartop = loadImage('images/block/stonetile/stonetilesingulartop.png')
+  singularymid = loadImage('images/block/stonetile/stonetilesingularymid.png')
+  singularbot = loadImage('images/block/stonetile/stonetilesingularbot.png')
   //song and sfx
   song = loadSound('sounds/songs/level1Music.mp3')
   song2 = loadSound('sounds/songs/level2Music.mp3')
   song3 = loadSound('sounds/songs/iceMusic.mp3')
-  song4 = loadSound('sounds/songs/iceMusic.mp3')
+  song4 = loadSound('sounds/songs/level4Music.mp3')
   song_menu = loadSound('sounds/songs/menuMusic.mp3')
   walking_sound = loadSound('sounds/walking.mp3')
   walking_sound_ice = loadSound('sounds/walking_snow.mp3')
@@ -700,7 +738,7 @@ function draw() {
   
   if (game_state == "game"){
     background_images.forEach(b => b.draw())
-    blockAnimation()
+    //blockAnimation()
     progressStorage()
     
     
@@ -894,12 +932,12 @@ function sound(){
         song2.stop()
         song4.stop()
         song3.loop()
-      } else if (character_height >= 10900 && character_height < 10000000 && song3.isPlaying() == false) {
+      } else if (character_height >= 10900 && character_height < 10000000 && song4.isPlaying() == false && animation_timer == 0) {
         song_menu.stop()
         song.stop()
         song2.stop()
         song3.stop()
-        //song4.loop()      
+        song4.loop()      
       }
     }
   }
