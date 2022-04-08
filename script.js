@@ -448,8 +448,8 @@ prev_collision = "false"
 this_vver = 0
 can_move = true
 moving_x = 0
-//animation_timer = 200
-animation_timer = 0
+animation_timer = 200
+//animation_timer = 0
 saved_x = 300
 saved_height = 0
 soundeffects = "on"
@@ -462,7 +462,7 @@ settings_grey = false
 settings_wheather = true
 origin_menu = "start"
 iceboard = true
-win_height = 110000
+win_height = 13500
 
 
 
@@ -756,7 +756,7 @@ function draw() {
   
   if (game_state == "game"){
     background_images.forEach(b => b.draw())
-    //blockAnimation()
+    blockAnimation()
     progressStorage()
     
     
@@ -783,7 +783,7 @@ function draw() {
     }    
   
     //code voor win height, moet wanneer de levels af zijn aangepast worden naar de juiste hoogte
-    if (character_height >= win_height && character.collision == "bottom"){
+    if (character_height >= (win_height - 1) && character.collision == "bottom"){
       game_state = "won"
     }
     fill(200)
@@ -932,6 +932,7 @@ function sound(){
       song.setVolume(0.5)
       song2.setVolume(0.5)
       song3.setVolume(0.5)
+      song4.setVolume(0.5)
   
       if (character_height < 1799 && song.isPlaying() == false){
         song_menu.stop()
@@ -951,12 +952,15 @@ function sound(){
         song2.stop()
         song4.stop()
         song3.loop()
-      } else if (character_height >= 10899 && character_height < 10000000 && song4.isPlaying() == false && animation_timer == 0) {
+      } else if (character_height >= 10899 && character_height < 10000000 && song4.isPlaying() == false) {
         song_menu.stop()
         song.stop()
         song2.stop()
         song3.stop()
-        song4.loop()      
+        if (animation_timer == 0){
+          song4.loop()  
+        }
+            
       }
     }
   }
