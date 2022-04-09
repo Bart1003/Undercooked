@@ -278,8 +278,6 @@ class Sides{
     } else {
       this.img = midmid
     }
-    
-   
   }  
 
 
@@ -293,9 +291,8 @@ class Sides{
     if (this.y + this.h >=0 && this.y <= height){
       this.x_pos = this.x
       this.y_pos = this.y
+     
       for (let i = 0; i < (this.h/25); i++) {
-          
-        
         if (i == 0){
           this.img = topmid
           this.top = true
@@ -303,7 +300,6 @@ class Sides{
           this.img = midmid
           this.top = false
         }
-        
         
       for (let i = 0; i < (this.w/25); i++) {
         if (i == this.w/25 - 1 && this.top == false && this.type != "right"){
@@ -358,9 +354,7 @@ class Background{
     this.start_height = start_height-300
     this.end_height = end_height - 300
     this.character_height = character_height
-    
     this.v_ver = blocks[4].v_ver
-    
     this.img = image
     
    
@@ -533,6 +527,16 @@ function setup() {
   new Block(375,(height-5300),50,50, "white"),
   new Block(150,(height-5500),50,50, "white"),
   new Block(325,(height-5500),50,50, "white"),
+  // new Block(75,(height-4900),50,50, "white"),
+  new Block(225,(height-4900),50,50, "white"),
+  new Block(375,(height-4900),50,50, "white"),
+  new Block(150,(height-5100),50,50, "white"),
+  new Block(325,(height-5100),50,50, "white"),
+  
+  new Block(225,(height-5300),50,50, "white"),
+  
+  new Block(225,(height-5500),50,50, "white"),
+  
   //na de vierde checkpoint (wanner het ice stuk begint)
   new Block(0,(height-5950),700,25, "white", "ice"),
   new Block(850,(height-5950),150,25, "white", "ice"),
@@ -767,6 +771,7 @@ function draw() {
     }
     
     progressStorage()
+    mechanicsInfo()
     
     
     blocks.forEach(b => b.draw())
@@ -799,10 +804,7 @@ function draw() {
     textSize(32)
     textStyle(NORMAL)
     text("height: " + character_height + "/" + win_height, 25, 70);
-    text(character.x, 25, 100)
-    mechanicsInfo()
-    text(saved_x, 500, 70);
-    text(saved_height, 500, 120);
+
   }
 
   if (game_state == "won"){
