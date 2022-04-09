@@ -1,4 +1,4 @@
-//de volgende dingen moeten gereset worden wanneer de game gehaald is: saved_x, saved_height, ending_timer, can_move. fade1, fade2
+//de volgende dingen moeten gereset worden wanneer de game gehaald is: saved_x, saved_height, ending_timer, can_move. fade1, fade2, fade3
 
 class Character{
   constructor (x, y, w, h, color, img){
@@ -466,6 +466,7 @@ win_height = 13500
 ending_timer = 0
 fade1 = 0
 fade2 = 0
+fade3 = 0
 
 
 
@@ -703,6 +704,7 @@ function preload(){
   song3 = loadSound('sounds/songs/iceMusic.mp3')
   song4 = loadSound('sounds/songs/level4Music.mp3')
   song_menu = loadSound('sounds/songs/menuMusic.mp3')
+  songend = loadSound('sounds/songs/endMusic.mp3')
   walking_sound = loadSound('sounds/walking.mp3')
   walking_sound_ice = loadSound('sounds/walking_snow.mp3')
   hit1 = loadSound('sounds/hit1.wav')
@@ -853,15 +855,16 @@ function draw() {
     if (ending_timer >= 720 && fade2 <= 255){
       fade2 += 5
     }
+    if (ending_timer >= 840 && fade3 <= 255){
+      fade3 += 5
+    }
     textSize(50)
     fill(0, fade1)
     text("You escaped the dungeon", 150, 150)
     fill(0, fade2)
     text("Free, finally", 150, 225)
-    
-
-
-
+    fill(0, fade3)
+    text("Press Esc to return to title screen", 150, 300)
     
     blocks.forEach(b => b.draw())
     character.draw();
@@ -980,6 +983,10 @@ function keyPressed(){
   if (game_state == "credits" && keyCode == 27) {
     game_state = "startscreen"
   }
+
+  if (game_state == "won" && keyCode == 27){
+    //reset()
+  }
   
 }
 
@@ -997,39 +1004,50 @@ function sound(){
       
     }
     
-    if (game_state == "game" || game_state == "pause" || game_state == "information"){
+    if (game_state == "game" || game_state == "pause" || game_state == "information" || game_state == "won"){
       song.setVolume(0.5)
       song2.setVolume(0.5)
       song3.setVolume(0.5)
       song4.setVolume(0.5)
+      songend.setVolume(0.5)
   
       if (character_height < 1799 && song.isPlaying() == false){
         song_menu.stop()
         song2.stop()
         song3.stop()
         song4.stop()
+        songend.stop()
         song.loop()
       } else if (character_height >= 1799 && character_height < 5899 && song2.isPlaying() == false){
         song_menu.stop()
         song.stop()
         song3.stop()
         song4.stop()
+        songend.stop()
         song2.loop()
       } else if (character_height >= 5899 && character_height < 10899 && song3.isPlaying() == false){
         song_menu.stop()
         song.stop()
         song2.stop()
         song4.stop()
+        songend.stop()
         song3.loop()
-      } else if (character_height >= 10899 && character_height < 10000000 && song4.isPlaying() == false) {
+      } else if (character_height >= 10899 && character_height < win_height && song4.isPlaying() == false) {
         song_menu.stop()
         song.stop()
         song2.stop()
         song3.stop()
+        songend.stop()
         if (animation_timer == 0){
           song4.loop()  
-        }
-            
+        }  
+      } else if (game_state == "won" && songend.isPlaying() == false){
+        song_menu.stop()
+        song.stop()
+        song2.stop()
+        song3.stop()
+        song4.stop()
+        songend.loop()
       }
     }
   }
@@ -1248,3 +1266,6 @@ function checkCollision(){
   return [colliding, block_type];
 }
 
+function reset(){
+  game_state = "startscreen"
+}
