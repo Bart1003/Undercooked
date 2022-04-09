@@ -1,3 +1,5 @@
+//de volgende dingen moeten gereset worden wanneer de game gehaald is: saved_x, saved_height, ending_timer, can_move. fade1, fade2
+
 class Character{
   constructor (x, y, w, h, color, img){
     this.x = x;
@@ -71,7 +73,11 @@ class Character{
   
   
   draw(){
-    pickImage();
+    this.game_state = game_state
+    if (this.game_state != "won"){
+      pickImage();
+    }
+    
     fill(this.c)
     //rect(this.x, this.y, this.w, this.h);
 
@@ -124,7 +130,7 @@ class Character{
     
 
     if (this.x > width - this.w || this.x < 0 + (this.w)) {
-      if (this.x > width - this.w) {
+      if (this.x > width - this.w && this.game_state != "won") {
         this.x = width - this.w;
         this.v_hor = this.v_hor * -this.bounce
         if (this.walking == false && settings_sound == true){
@@ -457,6 +463,9 @@ settings_wheather = true
 origin_menu = "start"
 iceboard = true
 win_height = 13500
+ending_timer = 0
+fade1 = 0
+fade2 = 0
 
 
 
@@ -591,7 +600,7 @@ function setup() {
   new Block(675,(height-13200),100,25, "white"),
   new Block(00,(height-13300),200,25, "white"),
   new Block(300,(height-13300),100,25, "white"),
-  new Block(200,(height-13500),800, 25, "white"),
+  new Block(200,(height-13500),1200, 25, "white"),
   
 
     
@@ -606,7 +615,8 @@ function setup() {
   }
 
   background_images = [
-    new Background(0,0,width,height, backgroundimg4, 11400, 200000, character_height),
+    new Background(0,0,width,height, backgroundimgend, 14000, 100000, character_height),
+    new Background(0,0,width,height, backgroundimg4, 11400, 13500, character_height),
     new Background(0,0,width,height, backgroundimg3, 6425, 10900, character_height),
     new Background(0,0,width,height, backgroundimg, 2300, 5925, character_height),
     new Background(0,0, 500,height, backgroundimg2, 0, 1800, character_height)
@@ -624,6 +634,7 @@ function preload(){
   backgroundimg2 = loadImage('images/background/dungeonbackground4.png')
   backgroundimg3 = loadImage('images/background/icedungeonbackground.jpg')
   backgroundimg4 = loadImage('images/background/test.jpg')
+  backgroundimgend = loadImage('images/background/sunsetmountain.jpg')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   ice_board = loadImage('images/block/bord.png')
@@ -808,7 +819,54 @@ function draw() {
   }
 
   if (game_state == "won"){
-    background(block_ice_image);
+    can_move = false
+
+    ending_timer += 1
+    
+    background_images.forEach(b => b.draw())
+    character.img = charstandardright
+    
+    if (ending_timer > 120 && character.x < 1000){
+      character.v_hor = 1.5
+      frame_counter += 1
+      if (frame_counter >= 1 && frame_counter <= 20){
+        character.img = charrun1right
+      } else if (frame_counter >= 21 && frame_counter <= 40){
+        character.img = charstandardright
+      } else if (frame_counter >= 41 && frame_counter <= 60){
+        character.img = charrun2right
+      } else if (frame_counter >= 61 && frame_counter <= 80){
+        character.img = charstandardright
+      }
+      if (frame_counter >= 80){
+        frame_counter = 0
+      }
+    }
+    
+    if (ending_timer > 300 && ending_timer <= 1000){
+      blocks.forEach(b => b.y += 1)
+      character.y += 1
+    }
+    if (ending_timer >= 600 && fade1 <= 255){
+      fade1 += 5
+    }
+    if (ending_timer >= 720 && fade2 <= 255){
+      fade2 += 5
+    }
+    textSize(50)
+    fill(0, fade1)
+    text("You escaped the dungeon", 150, 150)
+    fill(0, fade2)
+    text("Free, finally", 150, 225)
+    
+
+
+
+    
+    blocks.forEach(b => b.draw())
+    character.draw();
+    character_height = Math.floor(blocks[4].y) + 350
+    
   }
   
   if (settings_grey){
@@ -1035,7 +1093,7 @@ function pickImage(){
   if (character.walking == true){
     frame_counter += 1
 
-    if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+    if (keyIsDown(RIGHT_ARROW) || keyIsDown(68) || game_state == "won"){
       if (frame_counter >= 1 && frame_counter <= 10){
         character.img = charrun1right
       } else if (frame_counter >= 11 && frame_counter <= 20){
