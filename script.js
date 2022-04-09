@@ -11,7 +11,7 @@ class Character{
     this.v_hor = 0; //horizontal velocity
     this.bounce = 0.5; //determines how hard the character bounces
     this.jump_time = 0; 
-    this.jump_time_factor = 0.5; //how quickly the jump height increases when holding the space bar down
+    this.jump_time_factor = 0.4; //how quickly the jump height increases when holding the space bar down
     this.walk_speed = 3; //How quickly the character walks
     this.halfWidth = this.w / 2; 
     this.halfHeight = this.h / 2; //variable for collision checking
@@ -483,8 +483,8 @@ function setup() {
     animation_timer = 0
   }
   
-  character = new Character(saved_x,250,50,50, "white", charstandardright)
-  //character = new Character(0,250,50,50, "white", charstandardright)
+  //character = new Character(saved_x,250,50,50, "white", charstandardright)
+  character = new Character(0,250,50,50, "white", charstandardright)
   
   blocks = [  
   new Block(375,(height-250),300,50, "white"), 
@@ -584,20 +584,22 @@ function setup() {
     //dit eerste block moet later weggehaald worden, de animatie weer aan en gamestate op startscreen
   //new Block(0,(height-10900),150,50, "white"),
   new Block(200,(height-11450),25,350, "white"),
-  new Block(775,(height-11500),25,400, "white"),
+  new Block(775,(height-11475),25,375, "white"),
+  new Block(750,(height-11500),50,25, "white"),
   new Block(725,(height-11200),50,25, "white"),
   new Block(200,(height-11750),25,200, "white"),
   new Block(225,(height-11750),100,50, "white"),
-  new Block(200,(height-11900),125,50, "white"),
-  new Block(200,(height-12400),25,400, "white"),
+  new Block(200,(height-11925),125,50, "white"),
+  new Block(200,(height-12375),25,325, "white"),
+  new Block(200,(height-12400),50,25, "white"),
   new Block(775,(height-12200),25,500, "white"),
   new Block(700,(height-12200),75,25, "white"),
   new Block(0,(height-12400),25,50, "white"),
   new Block(500,(height-12600),50,25, "white"),
   new Block(775,(height-13200),25,625, "white"),
   new Block(200,(height-13300),25,550, "white"),
-  new Block(725,(height-12700),50,25, "white"),
-  new Block(225,(height-12925),100,50, "white"),
+  new Block(725,(height-12600),50,25, "white"),
+  new Block(225,(height-12900),100,50, "white"),
   new Block(675,(height-13200),100,25, "white"),
   new Block(00,(height-13300),200,25, "white"),
   new Block(300,(height-13300),100,25, "white"),
@@ -625,8 +627,8 @@ function setup() {
   
     
   
-  blocks.forEach(b => b.y += (saved_height-200))
-  //blocks.forEach(b => b.y += 13000)
+  //blocks.forEach(b => b.y += (saved_height-200))
+  blocks.forEach(b => b.y += 12600)
 }
 
 function preload(){
