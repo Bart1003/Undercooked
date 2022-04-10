@@ -467,6 +467,7 @@ ending_timer = 0
 fade1 = 0
 fade2 = 0
 fade3 = 0
+frompause = "false"
 
 
 
@@ -973,6 +974,7 @@ function keyPressed(){
     game_state = "pause"
   } else if (game_state == "pause" && keyCode == 27){
     game_state = "game"
+    frompause = "true"
   }
   if (game_state == "settings" && keyCode == 27) {
     if(origin_menu == "start"){
@@ -995,7 +997,7 @@ function keyPressed(){
 function sound(){
 
   if (settings_music == true){
-    if (game_state == "startscreen" || game_state == "credits"){
+    if (game_state == "startscreen" || game_state == "credits" || game_state == "settings"){
       if (song_menu.isPlaying() == false){
         song.stop()
         song2.stop()
@@ -1004,54 +1006,73 @@ function sound(){
         song_menu.loop()
       }
       
+      
     }
+
+    if (game_state == "pause"){
+      song.stop()
+      song2.stop()
+      song3.stop()
+      song4.stop()
+      songend.stop()  
+    } else if (game_state == "game"  || game_state == "information" || game_state == "won"){
+        song.setVolume(0.5)
+        song2.setVolume(0.5)
+        song3.setVolume(0.5)
+        song4.setVolume(0.5)
+        songend.setVolume(0.5)
     
-    if (game_state == "game" || game_state == "pause" || game_state == "information" || game_state == "won"){
-      song.setVolume(0.5)
-      song2.setVolume(0.5)
-      song3.setVolume(0.5)
-      song4.setVolume(0.5)
-      songend.setVolume(0.5)
-  
-      if (character_height < 1799 && song.isPlaying() == false){
-        song_menu.stop()
-        song2.stop()
-        song3.stop()
-        song4.stop()
-        songend.stop()
-        song.loop()
-      } else if (character_height >= 1799 && character_height < 5899 && song2.isPlaying() == false){
-        song_menu.stop()
-        song.stop()
-        song3.stop()
-        song4.stop()
-        songend.stop()
-        song2.loop()
-      } else if (character_height >= 5899 && character_height < 10899 && song3.isPlaying() == false){
-        song_menu.stop()
-        song.stop()
-        song2.stop()
-        song4.stop()
-        songend.stop()
-        song3.loop()
-      } else if (character_height >= 10899 && character_height < win_height && song4.isPlaying() == false) {
-        song_menu.stop()
-        song.stop()
-        song2.stop()
-        song3.stop()
-        songend.stop()
-        if (animation_timer == 0){
-          song4.loop()  
-        }  
-      } else if (game_state == "won" && songend.isPlaying() == false){
-        song_menu.stop()
-        song.stop()
-        song2.stop()
-        song3.stop()
-        song4.stop()
-        songend.loop()
-      }
+        if (character_height < 1799 && song.isPlaying() == false){
+          song_menu.stop()
+          song2.stop()
+          song3.stop()
+          song4.stop()
+          songend.stop()
+          song.loop()
+        } else if (character_height >= 1799 && character_height < 5899 && song2.isPlaying() == false){
+          song_menu.stop()
+          song.stop()
+          song3.stop()
+          song4.stop()
+          songend.stop()
+          song2.loop()
+        } else if (character_height >= 5899 && character_height < 10899 && song3.isPlaying() == false){
+          song_menu.stop()
+          song.stop()
+          song2.stop()
+          song4.stop()
+          songend.stop()
+          song3.loop()
+        } else if (character_height >= 10899 && character_height < win_height && song4.isPlaying() == false) {
+          song_menu.stop()
+          song.stop()
+          song2.stop()
+          song3.stop()
+          songend.stop()
+          if (animation_timer == 0){
+            song4.loop() 
+          }
+          if (frompause == "true"){
+            song4.loop()
+            frompause == "false"
+          }
+        } else if (game_state == "won" && songend.isPlaying() == false){
+          song_menu.stop()
+          song.stop()
+          song2.stop()
+          song3.stop()
+          song4.stop()
+          songend.loop()
+        }
     }
+  } else{
+    song.stop()
+    song2.stop()
+    song3.stop()
+    song4.stop()
+    songend.stop()
+    song_menu.stop()
+    
   }
   if (settings_sound == true){
     if (game_state == "game" || game_state == "pause"){    
