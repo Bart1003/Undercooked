@@ -589,7 +589,7 @@ function setup() {
   new Block(725,(height-11200),50,25, "white"),
   new Block(200,(height-11750),25,200, "white"),
   new Block(225,(height-11750),100,50, "white"),
-  new Block(200,(height-11925),125,50, "white"),
+  new Block(200,(height-11900),125,50, "white"),
   new Block(200,(height-12375),25,325, "white"),
   new Block(200,(height-12400),50,25, "white"),
   new Block(775,(height-12200),25,500, "white"),
