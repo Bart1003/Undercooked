@@ -466,7 +466,15 @@ class Msc{
     if (this.type == "banner"){
       this.img = banner
     } else if (this.type == "grasstop"){
-      this.img = grasstop
+      this.img = grass
+    } else if (this.type == "lampleft"){
+      this.img = lampleft
+    } else if (this.type == "lampright"){
+      this.img = lampright
+    } else if (this.type == "fence"){
+      this.img = fence
+    } else if (this.type == "rock2"){
+      this.img = rock2
     }
     image(this.img, this.x, this.y, this.w, this.h)
     
@@ -525,14 +533,19 @@ function setup() {
   if (saved_height > 11000){
     animation_timer = 0
   }
+
   
   //character = new Character(saved_x,250,50,50, "white", charstandardright)
-  character = new Character(0,250,50,50, "white", charstandardright)
+  character = new Character(290,250,50,50, "white", charstandardright)
   
   blocks = [  
+  
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,25, "white"),
   new Block(225,(height-200),50,200, "white"),
+  new Msc(275, (height-125), 14, 25, "white", "lampleft"),
+  new Msc(625, (height-40), 150, 40, "white", "fence"),
+  new Msc(721, (height-24), 54, 24, "white", "rock2"),
   new Block(225,(height-650),100,50, "white"),
   new Block(675,(height-650),100,50, "white"),
   new Block(225,(height-950),200,150, "white"),
@@ -567,7 +580,7 @@ function setup() {
 
     
   new Msc(250, (height-4625),50, 100, "white", "banner"),
-  new Msc(275,(height-200), 25, 25, "white", "grass"),
+  
 
     
   new Block(850,(height-4750),50,50, "white"),
@@ -649,6 +662,7 @@ function setup() {
   new Sides(775,(height-1800),225,2200, "black", "right"),
   new Sides(0,(height-1800),225,2200, "black", "left"),
   new Sides(225,height,550,400, "black", "bottom"),
+  new Msc(275,(height-017),25, 25, "white", "grasstop"),
   ]
 
   if (saved_height > 11000){
@@ -711,7 +725,11 @@ function preload(){
   menu4_3 = loadImage('images/menu/menu4_3.png')
   //miscellaneous images
   banner = loadImage('images/block/banner.png')
-  grasstop = loadImage('images/block/grass.png')
+  grass = loadImage('images/block/grass.png')
+  lampleft = loadImage('images/block/lampleft.png')
+  lampright = loadImage('images/block/lampright.png')
+  fence = loadImage('images/block/fence_2.png')
+  rock2 = loadImage('images/block/rock_2.png')
   //grasstile images
   //grass = loadImage('images/block/grassdirttile.png')
   //dirt = loadImage('images/block/dirttile.png')
