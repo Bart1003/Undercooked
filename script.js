@@ -194,15 +194,15 @@ class Block{
         for (let i = 0; i < (this.w/25); i++) {
           if (this.w != 25 && this.h != 25){
             if (i == this.w/25 - 1 && this.top == true){
-              this.img = topright
+              this.img = toprightgreen
             } else if (i == 0 && this.top == true){
-              this.img = topleft
+              this.img = topleftgreen
             } else if (this.top == true){
               this.img = topmid
             } else if (i == this.w/25 -1 && this.bottom == true){
-              this.img  = botright
+              this.img  = botrightgreen
             } else if (i == 0 && this.bottom == true){
-              this.img  = botleft
+              this.img  = botleftgreen
             } else if (this.bottom == true){
               this.img  = botmid
             } else if (i == 0){
@@ -210,7 +210,7 @@ class Block{
             } else if (i == this.w/25 -1){
               this.img = midright
             } else {
-              this.img = stone
+              this.img = midmid
             }
           }
 
@@ -324,8 +324,8 @@ class Sides{
           this.img = topmid
           image(this.img, this.x_pos, this.y_pos, 25, 25)
         } else {
-          fill(this.c)
-          rect(this.x_pos, this.y_pos, 25, 25)
+          this.img = midmid
+          image(this.img, this.x_pos, this.y_pos, 25, 25)
         }
         
         this.x_pos += 25
@@ -611,7 +611,7 @@ function setup() {
   //deze blokken vormen de muren en ondergrond in het eerste stuk
   new Sides(775,(height-1800),225,2200, "black", "right"),
   new Sides(0,(height-1800),225,2200, "black", "left"),
-  new Sides(225,height,550,1000, "black", "bottom"),
+  new Sides(225,height,550,400, "black", "bottom"),
   ]
 
   if (saved_height > 11000){
@@ -629,7 +629,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 12600)
+  blocks.forEach(b => b.y += 3700)
 }
 
 function preload(){
@@ -694,6 +694,11 @@ function preload(){
   botleft = loadImage('images/block/stonetilenew/stonetilebotleft.png')
   botmid = loadImage('images/block/stonetilenew/stonetilebotmid.png')
   botright = loadImage('images/block/stonetilenew/stonetilebotright.png')
+  //stonetile new images green
+  topleftgreen = loadImage('images/block/stonetilenewgreen/stonetiletopleftgreen.png')
+  toprightgreen = loadImage('images/block/stonetilenewgreen/stonetiletoprightgreen.png')
+  botleftgreen = loadImage('images/block/stonetilenewgreen/stonetilebotleftgreen.png')
+  botrightgreen = loadImage('images/block/stonetilenewgreen/stonetilebotrightgreen.png')
   //singular stonetile images
   singularleft = loadImage('images/block/stonetile/stonetilesingularleft.png')
   singularxmid = loadImage('images/block/stonetile/stonetilesingularxmid.png')
