@@ -565,7 +565,6 @@ function setup() {
 
     
   new Msc(250, (height-4625),50, 100, "white", "banner"),
-    
 
 
     
@@ -651,7 +650,7 @@ function setup() {
   ]
 
   if (saved_height > 11000){
-    blocks.push(new Block(0,(height-4650),150,50, "white"))
+    blocks.push(new Block(0,(height-10900),150,50, "white"))
   }
 
   background_images = [
@@ -665,7 +664,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 4700)
+  blocks.forEach(b => b.y += 13900)
 }
 
 function preload(){
@@ -674,7 +673,7 @@ function preload(){
   backgroundimg2 = loadImage('images/background/dungeonbackground4.png')
   backgroundimg3 = loadImage('images/background/icedungeonbackground.jpg')
   backgroundimg4 = loadImage('images/background/test.jpg')
-  backgroundimgend = loadImage('images/background/sunsetmountain.jpg')
+  backgroundimgend = loadImage('images/background/endimage.png')
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   ice_board = loadImage('images/block/bord.png')
@@ -1088,7 +1087,7 @@ function sound(){
         song4.stop()
         songend.stop()
         song3.loop()
-      } else if (character_height >= 10899 && character_height < win_height && song4.isPlaying() == false) {
+      } else if (character_height >= 10899 && character_height < win_height - 1 && song4.isPlaying() == false) {
         song_menu.stop()
         song.stop()
         song2.stop()
