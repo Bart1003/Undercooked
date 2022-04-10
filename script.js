@@ -236,6 +236,10 @@ class Block{
           if (this.type == "ice"){
             this.img = block_ice_image
           }
+
+         
+
+          
           
           image(this.img, this.x_pos, this.y_pos, 25, 25)
           this.x_pos += 25
@@ -436,6 +440,43 @@ class snowflake {
   };
 }
 
+class Msc{
+  constructor (x, y, w, h, color, type){
+    this.x = x
+    this.y = y
+    this.w = w
+    this.h = h
+    this.c = color;
+    this.type = type;
+    this.v_ver = 0
+    this.v_ver_max = 15
+    this.a = 0.33
+    this.collision = false
+  }  
+
+
+  draw(){
+    if (this.v_ver < this.v_ver_max){
+      this.v_ver = this.v_ver + this.a
+    } 
+
+    
+    fill(this.c)
+    //rect(this.x, this.y, this.w, this.h)
+    if (this.type == "banner"){
+      this.img = banner
+    }
+    image(this.img, this.x, this.y, this.w, this.h)
+    
+    
+    this.y -= this.v_ver
+    if (character.collision == "top"){
+      this.v_ver = 0
+    } else if (character.collision == "bottom"){
+      this.v_ver = 0
+    }
+  }
+}
 
 var hit = false,
 max_jump_height = 15, min_jump_height = 1 //min and max height the character can jump
@@ -467,7 +508,6 @@ ending_timer = 0
 fade1 = 0
 fade2 = 0
 fade3 = 0
-frompause = "false"
 
 
 
@@ -516,11 +556,19 @@ function setup() {
   //na de tweede checkpoint
   new Block(850,(height-3700),150,50, "white"),
   new Block(475,(height-3900),50,50, "white"),
-  new Block(0,(height-4100),50,50, "white"),
+  new Block(0,(height-4100),50, 200, "white"),
   new Block(475,(height-4300),50,50, "white"),
   new Block(750,(height-4500),250,50, "white"),
   new Block(650,(height-5550),50,925, "white"),//lange veri rechts
   new Block(0,(height-4675),650,50, "white"), //lange hori onder
+
+
+    
+  new Msc(250, (height-4625),50, 100, "white", "banner"),
+    
+
+
+    
   new Block(850,(height-4750),50,50, "white"),
   new Block(850,(height-4900),50,50, "white"),
   new Block(850,(height-5100),50,50, "white"),
@@ -538,16 +586,6 @@ function setup() {
   new Block(375,(height-5300),50,50, "white"),
   new Block(150,(height-5500),50,50, "white"),
   new Block(325,(height-5500),50,50, "white"),
-  // new Block(75,(height-4900),50,50, "white"),
-  new Block(225,(height-4900),50,50, "white"),
-  new Block(375,(height-4900),50,50, "white"),
-  new Block(150,(height-5100),50,50, "white"),
-  new Block(325,(height-5100),50,50, "white"),
-  
-  new Block(225,(height-5300),50,50, "white"),
-  
-  new Block(225,(height-5500),50,50, "white"),
-  
   //na de vierde checkpoint (wanner het ice stuk begint)
   new Block(0,(height-5950),700,25, "white", "ice"),
   new Block(850,(height-5950),150,25, "white", "ice"),
@@ -606,8 +644,6 @@ function setup() {
   new Block(300,(height-13300),100,25, "white"),
   new Block(200,(height-13500),1200, 25, "white"),
   
-
-    
   //deze blokken vormen de muren en ondergrond in het eerste stuk
   new Sides(775,(height-1800),225,2200, "black", "right"),
   new Sides(0,(height-1800),225,2200, "black", "left"),
@@ -615,7 +651,7 @@ function setup() {
   ]
 
   if (saved_height > 11000){
-    blocks.push(new Block(0,(height-10900),150,50, "white"))
+    blocks.push(new Block(0,(height-4650),150,50, "white"))
   }
 
   background_images = [
@@ -629,7 +665,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 3700)
+  blocks.forEach(b => b.y += 4700)
 }
 
 function preload(){
@@ -672,6 +708,10 @@ function preload(){
   menu4_1 = loadImage('images/menu/menu4_1.png')
   menu4_2 = loadImage('images/menu/menu4_2.png')
   menu4_3 = loadImage('images/menu/menu4_3.png')
+  //miscellaneous images
+  banner = loadImage('images/block/banner.png')
+  bannertop = loadImage('images/block/banner1.png')
+  bannerbot = loadImage('images/block/banner2.png')
   //grasstile images
   grass = loadImage('images/block/grassdirttile.png')
   dirt = loadImage('images/block/dirttile.png')
@@ -1021,56 +1061,56 @@ function sound(){
       song4.stop()
       songend.stop()  
     } else if (game_state == "game"  || game_state == "information" || game_state == "won"){
-        song.setVolume(0.5)
-        song2.setVolume(0.5)
-        song3.setVolume(0.5)
-        song4.setVolume(0.5)
-        songend.setVolume(0.5)
+      song.setVolume(0.5)
+      song2.setVolume(0.5)
+      song3.setVolume(0.5)
+      song4.setVolume(0.5)
+      songend.setVolume(0.5)
     
-        if (character_height < 1799 && song.isPlaying() == false){
-          song_menu.stop()
-          song2.stop()
-          song3.stop()
-          song4.stop()
-          songend.stop()
-          song.loop()
-        } else if (character_height >= 1799 && character_height < 5899 && song2.isPlaying() == false){
-          song_menu.stop()
-          song.stop()
-          song3.stop()
-          song4.stop()
-          songend.stop()
-          song2.loop()
-        } else if (character_height >= 5899 && character_height < 10899 && song3.isPlaying() == false){
-          song_menu.stop()
-          song.stop()
-          song2.stop()
-          song4.stop()
-          songend.stop()
-          song3.loop()
-        } else if (character_height >= 10899 && character_height < win_height && song4.isPlaying() == false) {
-          song_menu.stop()
-          song.stop()
-          song2.stop()
-          song3.stop()
-          songend.stop()
-          if (animation_timer == 0){
-            song4.loop() 
-          }
-          if (frompause == "true"){
-            song4.loop()
-            frompause == "false"
-          }
-        } else if (game_state == "won" && songend.isPlaying() == false){
-          song_menu.stop()
-          song.stop()
-          song2.stop()
-          song3.stop()
-          song4.stop()
-          songend.loop()
+      if (character_height < 1799 && song.isPlaying() == false){
+        song_menu.stop()
+        song2.stop()
+        song3.stop()
+        song4.stop()
+        songend.stop()
+        song.loop()
+      } else if (character_height >= 1799 && character_height < 5899 && song2.isPlaying() == false){
+        song_menu.stop()
+        song.stop()
+        song3.stop()
+        song4.stop()
+        songend.stop()
+        song2.loop()
+      } else if (character_height >= 5899 && character_height < 10899 && song3.isPlaying() == false){
+        song_menu.stop()
+        song.stop()
+        song2.stop()
+        song4.stop()
+        songend.stop()
+        song3.loop()
+      } else if (character_height >= 10899 && character_height < win_height && song4.isPlaying() == false) {
+        song_menu.stop()
+        song.stop()
+        song2.stop()
+        song3.stop()
+        songend.stop()
+        if (animation_timer == 0){
+          song4.loop() 
         }
-    }
-  } else{
+        //if (frompause == "true"){
+         // song4.loop()
+         // frompause == "false"
+       // }
+      } else if (game_state == "won" && songend.isPlaying() == false){
+        song_menu.stop()
+        song.stop()
+        song2.stop()
+        song3.stop()
+        song4.stop()
+        songend.loop()
+      }
+    }    
+  } else {
     song.stop()
     song2.stop()
     song3.stop()
