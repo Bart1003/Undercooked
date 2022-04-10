@@ -465,6 +465,8 @@ class Msc{
     //rect(this.x, this.y, this.w, this.h)
     if (this.type == "banner"){
       this.img = banner
+    } else if (this.type == "grasstop"){
+      this.img = grasstop
     }
     image(this.img, this.x, this.y, this.w, this.h)
     
@@ -565,7 +567,7 @@ function setup() {
 
     
   new Msc(250, (height-4625),50, 100, "white", "banner"),
-
+  new Msc(275,(height-200), 25, 25, "white", "grass"),
 
     
   new Block(850,(height-4750),50,50, "white"),
@@ -664,7 +666,7 @@ function setup() {
     
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 13900)
+  blocks.forEach(b => b.y += 500)
 }
 
 function preload(){
@@ -709,11 +711,10 @@ function preload(){
   menu4_3 = loadImage('images/menu/menu4_3.png')
   //miscellaneous images
   banner = loadImage('images/block/banner.png')
-  bannertop = loadImage('images/block/banner1.png')
-  bannerbot = loadImage('images/block/banner2.png')
+  grasstop = loadImage('images/block/grass.png')
   //grasstile images
-  grass = loadImage('images/block/grassdirttile.png')
-  dirt = loadImage('images/block/dirttile.png')
+  //grass = loadImage('images/block/grassdirttile.png')
+  //dirt = loadImage('images/block/dirttile.png')
   //stonetile images
   stone = loadImage('images/block/stonetile/stone2.png')
   stonetile = loadImage('images/block/stonetile/stonetile.png')
