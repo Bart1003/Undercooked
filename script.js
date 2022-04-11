@@ -237,8 +237,13 @@ class Block{
             this.img = block_ice_image
           }
 
-          
+          if (this.type == "bot"){
+            this.img = botright
+          }
 
+          if (this.type == "mid"){
+            this.img = midmid
+          }
           
           
           image(this.img, this.x_pos, this.y_pos, 25, 25)
@@ -528,8 +533,14 @@ class Greenery{
       this.img = grass
     } else if (this.type == "rock2"){
       this.img = rock2
-    } else if (this.type == "railing1")
+    } else if (this.type == "railing1"){
       this.img = railing1
+    } else if (this.type == "railing2"){
+      this.img = railing2
+    } else if (this.type == "railing2r"){
+      this.img = railing2r
+    }
+      
     if (this.y + this.h >=0 && this.y <= height){
       image(this.img, this.x, this.y, this.w, this.h)
     } else if (this.y + this.h >=0 && this.y <= height) {
@@ -635,8 +646,10 @@ function setup() {
   //na de tweede checkpoint
   new Msc(100, (height-3600), 100, 100, "white", "well"),
   new Block(850,(height-3700),150,50, "white"),
-  new Block(475, (height -3550), 50, 50, "white"),
+  new Block(450, (height -3550), 100, 50, "white"),
+  new Block(425, (height-3525), 25, 25, "white", "mid"),
   new Block(475,(height-3900),50,50, "white"),
+  new Block(450, (height-3900), 25, 25, "white", "bot"),
   new Block(0,(height-4100),50, 600, "white"),
   new Block(475,(height-4300),50,50, "white"),
   new Block(750,(height-4500),250,50, "white"),
@@ -748,7 +761,16 @@ function setup() {
   greenery = [
     new Greenery(275,10,25, 25, "white", "grasstop", (height-215)),
     new Greenery(721, 10, 54, 24, "white", "rock2", (height-224)),
-    new Greenery(475,0, 50, 45, "white", "railing1", (height-3795))
+    new Greenery(450,0, 50, 25, "white", "railing1", (height-3775)),
+    new Greenery(425,0, 25, 50, "white", "railing2", (height-3775)),
+    new Greenery(400,0, 25, 50, "white", "railing2", (height-3750)),
+    new Greenery(500,0, 50, 25, "white", "railing1", (height-3775)),
+    new Greenery(850,0, 50, 25, "white", "railing1", (height-3925)),
+    new Greenery(900,0, 50, 25, "white", "railing1", (height-3925)),
+    new Greenery(950,0, 50, 25, "white", "railing1", (height-3925)),
+    new Greenery(475,0, 50, 25, "white", "railing1", (height-4125)),
+    new Greenery(450,0, 25, 50, "white", "railing2r", (height-4150)),
+    new Greenery(0,0, 50, 25, "white", "railing1", (height-4325))
   ]
   
   //blocks.forEach(b => b.y += (saved_height-200))
@@ -812,6 +834,8 @@ function preload(){
   chairright = loadImage('images/block/chairright.png')
   well = loadImage('images/block/well.png')
   railing1 = loadImage('images/block/railing.png')
+  railing2 = loadImage('images/block/railing2.png')
+  railing2r = loadImage('images/block/railing2r.png')
   //grasstile images
   //grass = loadImage('images/block/grassdirttile.png')
   //dirt = loadImage('images/block/dirttile.png')
