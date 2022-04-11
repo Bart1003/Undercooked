@@ -756,7 +756,7 @@ function preload(){
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   ice_board = loadImage('images/block/bord.png')
-  cave = loadImage('images/background/cave.png')
+//  cave = loadImage('images/background/cave.png')
   //characterimages
   charstandardright = loadImage('images/character/charstandard/charstandardright.png')
   charstandardleft = loadImage('images/character/charstandard/charstandardleft.png')
