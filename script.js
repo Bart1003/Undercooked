@@ -237,7 +237,7 @@ class Block{
             this.img = block_ice_image
           }
 
-         
+          
 
           
           
@@ -477,6 +477,14 @@ class Msc{
       this.img = rock2
     } else if (this.type == "bookshelf"){
       this.img = bookshelf
+    } else if (this.type == "table1"){
+      this.img = table1
+    } else if (this.type == "table2"){
+      this.img = table2
+    } else if (this.type == "table3"){
+      this.img = table3
+    } else if (this.type == "chairright"){
+      this.img = chairright
     }
     
     if (this.y + this.h >=0 && this.y <= height){
@@ -595,13 +603,18 @@ function setup() {
   new Block(350,(height-1600),100,50, "white"),
   new Block(0,(height-1800),375,50, "white"),
   new Block(525,(height-1800),475,50, "white"),
-  //new Block(128, (height-1819, , 19, "wjite"))
+  new Msc(153, (height-1850), 50, 50, "white", "table1"),
+  new Msc(203, (height-1850), 50, 50, "white", "table2"),
+  new Msc(253, (height-1850), 50, 50, "white", "table3"),
   new Msc(275, (height-125), 16, 25, "white", "lampleft"),
   new Msc(625, (height-40), 150, 40, "white", "fence"),
   new Msc(225, (height-725), 16, 25, "white", "lampleft"),
   new Msc(759, (height-725), 16, 25, "white", "lampright"),
-  new Msc(0, (height-1944), 128, 144, "white", "bookshelf"),
+  new Msc(25, (height-1944), 128, 144, "white", "bookshelf"),
+  new Msc(850, (height-1864), 46, 64, "white", "chairright"),
   //na de eerste checkpoint (wanneer het scherm breeder wordt)
+  new Block(0, (height-1950), 25, 150, "white"),
+  new Block(975, (height-2150), 25, 350, "white"),
   new Block(375,(height-2000),450,50, "white"),
   new Block(100,(height-2200),50,50, "white"),
   new Block(500,(height-2400),100,50, "white"),
@@ -723,14 +736,14 @@ function setup() {
     new Background(0,0, 500,height, backgroundimg2, 0, 1800, character_height)
   ]
   
-    
+
   greenery = [
     new Greenery(275,10,25, 25, "white", "grasstop", (height-215)),
     new Greenery(721, 10, 54, 24, "white", "rock2", (height-224))
   ]
   
-  blocks.forEach(b => b.y += (saved_height-200))
-  //blocks.forEach(b => b.y += 13500)
+  //blocks.forEach(b => b.y += (saved_height-200))
+  blocks.forEach(b => b.y += 1800)
 } 
 
 function preload(){
@@ -781,6 +794,10 @@ function preload(){
   fence = loadImage('images/block/fence_2.png')
   rock2 = loadImage('images/block/rock_2.png')
   bookshelf = loadImage('images/block/bookshelf1.png')
+  table1 = loadImage('images/block/table1.png')
+  table2 = loadImage('images/block/table2.png')
+  table3 = loadImage('images/block/table3.png')
+  chairright = loadImage('images/block/chairright.png')
   //grasstile images
   //grass = loadImage('images/block/grassdirttile.png')
   //dirt = loadImage('images/block/dirttile.png')
