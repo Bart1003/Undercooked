@@ -577,7 +577,7 @@ function setup() {
 
   
   //character = new Character(saved_x,250,50,50, "white", charstandardright)
-  character = new Character(290,250,50,50, "white", charstandardright)
+  character = new Character(0,250,50,50, "white", charstandardright)
   
   blocks = [  
   
@@ -725,7 +725,7 @@ function setup() {
     new Greenery(721, 10, 54, 24, "white", "rock2", (height-224))
   ]
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += -200)
+  blocks.forEach(b => b.y += 13500)
 } 
 
 function preload(){
@@ -775,6 +775,7 @@ function preload(){
   lampright = loadImage('images/block/lampright.png')
   fence = loadImage('images/block/fence_2.png')
   rock2 = loadImage('images/block/rock_2.png')
+  bookshelf = loadImage('images/block/bookshelf1.png')
   //grasstile images
   //grass = loadImage('images/block/grassdirttile.png')
   //dirt = loadImage('images/block/dirttile.png')
