@@ -344,11 +344,13 @@ class Sides{
     }
     
     this.y -= this.v_ver
+    
 
     if (character.collision == "top"){
       this.v_ver = 0
     } else if (character.collision == "bottom"){
       this.v_ver = 0
+      
     }
 
     
@@ -465,8 +467,6 @@ class Msc{
     //rect(this.x, this.y, this.w, this.h)
     if (this.type == "banner"){
       this.img = banner
-    } else if (this.type == "grasstop"){
-      this.img = grass
     } else if (this.type == "lampleft"){
       this.img = lampleft
     } else if (this.type == "lampright"){
@@ -476,8 +476,12 @@ class Msc{
     } else if (this.type == "rock2"){
       this.img = rock2
     }
-    image(this.img, this.x, this.y, this.w, this.h)
     
+    if (this.y + this.h >=0 && this.y <= height){
+      image(this.img, this.x, this.y, this.w, this.h)
+    } else if (this.y + this.h >=0 && this.y <= height) {
+      rect(this.x, this.y, this.w, this.h)
+    }
     
     this.y -= this.v_ver
     if (character.collision == "top"){
@@ -485,6 +489,43 @@ class Msc{
     } else if (character.collision == "bottom"){
       this.v_ver = 0
     }
+  }
+}
+
+class Greenery{
+  constructor (x, y, w, h, color, type, start_height){
+    this.x = x
+    this.y = y
+    this.w = w
+    this.h = h
+    this.c = color;
+    this.type = type;
+    this.start_height = start_height
+    this.y = this.start_height
+    
+  }  
+
+
+  draw(){
+    
+    fill(this.c)
+    //rect(this.x, this.y, this.w, this.h)
+    if (this.type == "grasstop"){
+      this.img = grass
+    } else if (this.type == "rock2"){
+      this.img = rock2
+    }
+    if (this.y + this.h >=0 && this.y <= height){
+      image(this.img, this.x, this.y, this.w, this.h)
+    } else if (this.y + this.h >=0 && this.y <= height) {
+      rect(this.x, this.y, this.w, this.h)
+    }
+    this.character_height = character_height
+    this.y = this.start_height + character_height
+        
+    
+    
+    
   }
 }
 
@@ -543,9 +584,6 @@ function setup() {
   new Block(375,(height-250),300,50, "white"), 
   new Block(575,(height-400),50,25, "white"),
   new Block(225,(height-200),50,200, "white"),
-  new Msc(275, (height-125), 14, 25, "white", "lampleft"),
-  new Msc(625, (height-40), 150, 40, "white", "fence"),
-  new Msc(721, (height-24), 54, 24, "white", "rock2"),
   new Block(225,(height-650),100,50, "white"),
   new Block(675,(height-650),100,50, "white"),
   new Block(225,(height-950),200,150, "white"),
@@ -555,6 +593,9 @@ function setup() {
   new Block(350,(height-1600),100,50, "white"),
   new Block(0,(height-1800),375,50, "white"),
   new Block(525,(height-1800),475,50, "white"),
+  new Msc(275, (height-125), 14, 25, "white", "lampleft"),
+  new Msc(625, (height-40), 150, 40, "white", "fence"),
+  
   //na de eerste checkpoint (wanneer het scherm breeder wordt)
   new Block(375,(height-2000),450,50, "white"),
   new Block(100,(height-2200),50,50, "white"),
@@ -662,7 +703,7 @@ function setup() {
   new Sides(775,(height-1800),225,2200, "black", "right"),
   new Sides(0,(height-1800),225,2200, "black", "left"),
   new Sides(225,height,550,400, "black", "bottom"),
-  new Msc(275,(height-017),25, 25, "white", "grasstop"),
+  
   ]
 
   if (saved_height > 11000){
@@ -678,10 +719,13 @@ function setup() {
   ]
   
     
-  
+  greenery = [
+    new Greenery(275,10,25, 25, "white", "grasstop", (height-215)),
+    new Greenery(721, 10, 54, 24, "white", "rock2", (height-224))
+  ]
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 500)
-}
+  blocks.forEach(b => b.y += -200)
+} 
 
 function preload(){
   //block en background images
@@ -854,15 +898,18 @@ function draw() {
     
     
     blocks.forEach(b => b.draw())
+    
     if (can_move == true){
       character.jump_walk()
     }
-    character.draw();
+    character.draw()
+    
     character_height = Math.floor(blocks[4].y) + 350
     if (character_height < 0){
       character_height = 0
     }
-
+    greenery.forEach(b => b.draw())
+    
     if (settings_wheather == true && character_height >= 5650 && character_height <= 11100){
       let t = frameCount / 60; // update time
       for (let i = 0; i < random(5); i++) {
@@ -1052,7 +1099,7 @@ function keyPressed(){
   }
 
   if (game_state == "won" && keyCode == 27){
-    //reset()
+    reset()
   }
   
 }
@@ -1251,14 +1298,7 @@ function blockAnimation(){
   }
 }
 
-function progressStorage (){
-  if (game_state == "game" && character.collision == "bottom"){
-    localStorage.setItem('player_x', character.x);
-    localStorage.setItem('player_height', character_height);
-    saved_x = localStorage.getItem('player_x');
-    saved_height = localStorage.getItem('player_height');
-  }
-}
+
 
 function mechanicsInfo(){
   if(character_height <= 5950 && character_height >= 5949 && info_displayed == false){
@@ -1270,13 +1310,10 @@ function keyReleased(){
   if (keyCode == 32 && character.collision == "bottom" && can_move == true){
     if (character.jump_time > max_jump_height){
       blocks.forEach(b => b.v_ver = -max_jump_height)
-      //background_images.forEach(b => b.v_ver = -max_jump_height)
     } else if (character.jump_time < min_jump_height) {
       blocks.forEach(b => b.v_ver = -min_jump_height)
-      //background_images.forEach(b => b.v_ver = -min_jump_height)
     } else {
       blocks.forEach(b => b.v_ver = -character.jump_time)
-      //background_images.forEach(b => b.v_ver = -character.jump_time)
     }
     character.jump_time = 0
     if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
@@ -1352,6 +1389,23 @@ function checkCollision(){
   return [colliding, block_type];
 }
 
+function progressStorage (){
+  if (game_state == "game" && character.collision == "bottom"){
+    localStorage.setItem('player_x', character.x);
+    localStorage.setItem('player_height', character_height);
+    saved_x = localStorage.getItem('player_x');
+    saved_height = localStorage.getItem('player_height');
+  }
+}
+
 function reset(){
   game_state = "startscreen"
+  localStorage.setItem('player_x', 300);
+  localStorage.setItem('player_height', 0);
+  ending_timer = 0
+  can_move = true
+  fade1 = 0
+  fade2 = 0 
+  fade3 = 0
+  //de volgende dingen moeten gereset worden wanneer de game gehaald is: saved_x, saved_height, ending_timer, can_move, fade1, fade2, fade3
 }
