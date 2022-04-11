@@ -475,6 +475,8 @@ class Msc{
       this.img = fence
     } else if (this.type == "rock2"){
       this.img = rock2
+    } else if (this.type == "bookshelf"){
+      this.img = bookshelf
     }
     
     if (this.y + this.h >=0 && this.y <= height){
@@ -576,8 +578,8 @@ function setup() {
   }
 
   
-  //character = new Character(saved_x,250,50,50, "white", charstandardright)
-  character = new Character(0,250,50,50, "white", charstandardright)
+  character = new Character(saved_x,250,50,50, "white", charstandardright)
+  //character = new Character(0,250,50,50, "white", charstandardright)
   
   blocks = [  
   
@@ -593,10 +595,12 @@ function setup() {
   new Block(350,(height-1600),100,50, "white"),
   new Block(0,(height-1800),375,50, "white"),
   new Block(525,(height-1800),475,50, "white"),
+  //new Block(128, (height-1819, , 19, "wjite"))
   new Msc(275, (height-125), 16, 25, "white", "lampleft"),
   new Msc(625, (height-40), 150, 40, "white", "fence"),
   new Msc(225, (height-725), 16, 25, "white", "lampleft"),
   new Msc(759, (height-725), 16, 25, "white", "lampright"),
+  new Msc(0, (height-1944), 128, 144, "white", "bookshelf"),
   //na de eerste checkpoint (wanneer het scherm breeder wordt)
   new Block(375,(height-2000),450,50, "white"),
   new Block(100,(height-2200),50,50, "white"),
@@ -724,8 +728,9 @@ function setup() {
     new Greenery(275,10,25, 25, "white", "grasstop", (height-215)),
     new Greenery(721, 10, 54, 24, "white", "rock2", (height-224))
   ]
-  //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 13500)
+  
+  blocks.forEach(b => b.y += (saved_height-200))
+  //blocks.forEach(b => b.y += 13500)
 } 
 
 function preload(){
@@ -943,7 +948,7 @@ function draw() {
     background_images.forEach(b => b.draw())
     character.img = charstandardright
     
-    if (ending_timer > 120 && character.x < 1000){
+    if (ending_timer > 120 && character.x < 600){
       character.v_hor = 1.5
       frame_counter += 1
       if (frame_counter >= 1 && frame_counter <= 20){
@@ -1096,11 +1101,11 @@ function keyPressed(){
     }
     
   }
-  if (game_state == "credits" && keyCode == 27) {
+  if (game_state == "credits" && keyCode == 27 && fade3 > 0) {
     game_state = "startscreen"
   }
 
-  if (game_state == "won" && keyCode == 27){
+  if (game_state == "won" && keyCode == 27 && fade3 > 0){
     reset()
   }
   
@@ -1302,6 +1307,8 @@ function blockAnimation(){
 
 
 
+
+
 function mechanicsInfo(){
   if(character_height <= 5950 && character_height >= 5949 && info_displayed == false){
     game_state = "information"
@@ -1401,13 +1408,41 @@ function progressStorage (){
 }
 
 function reset(){
-  game_state = "startscreen"
+  
+  //de volgende dingen moeten gereset worden wanneer de game gehaald is: saved_x, saved_height, ending_timer, can_move, fade1, fade2, fade3
   localStorage.setItem('player_x', 300);
   localStorage.setItem('player_height', 0);
-  ending_timer = 0
+  hit = false,
+  max_jump_height = 15, min_jump_height = 1 //min and max height the character can jump
+  ver_jump_speed = 7.5 //speed when jumping vertically
+  max_v_hor = 10 //max horizontal jumping speed on ice
+  frame_counter = 0
+  character_height = 0
+  game_state = "startscreen"
+  prev_collision = "false"
+  this_vver = 0
   can_move = true
+  moving_x = 0
+  animation_timer = 200
+  //animation_timer = 0
+  character_height = 0
+  saved_x = 300
+  //saved_height = 0
+  soundeffects = "on"
+  music = "on"
+  info_displayed = false
+  animation_done = false
+  settings_music = true
+  settings_sound = true
+  settings_grey = false
+  settings_wheather = true
+  origin_menu = "start"
+  iceboard = true
+  win_height = 13500
+  ending_timer = 0
   fade1 = 0
-  fade2 = 0 
+  fade2 = 0
   fade3 = 0
-  //de volgende dingen moeten gereset worden wanneer de game gehaald is: saved_x, saved_height, ending_timer, can_move, fade1, fade2, fade3
+  setup()
+ 
 }
