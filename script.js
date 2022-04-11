@@ -593,9 +593,10 @@ function setup() {
   new Block(350,(height-1600),100,50, "white"),
   new Block(0,(height-1800),375,50, "white"),
   new Block(525,(height-1800),475,50, "white"),
-  new Msc(275, (height-125), 14, 25, "white", "lampleft"),
+  new Msc(275, (height-125), 16, 25, "white", "lampleft"),
   new Msc(625, (height-40), 150, 40, "white", "fence"),
-  
+  new Msc(225, (height-725), 16, 25, "white", "lampleft"),
+  new Msc(759, (height-725), 16, 25, "white", "lampright"),
   //na de eerste checkpoint (wanneer het scherm breeder wordt)
   new Block(375,(height-2000),450,50, "white"),
   new Block(100,(height-2200),50,50, "white"),
