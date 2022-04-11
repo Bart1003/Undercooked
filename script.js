@@ -380,6 +380,8 @@ class Background{
       this.y = (this.character_height - this.end_height)
     } else if (this.character_height <= this.start_height){
       this.y = (this.character_height - this.start_height)
+    } else if (this.character_height <= 200 && this.character_height > 0){
+      this.start_height = 200
     } else {
       this.y = 0
     }
@@ -485,6 +487,8 @@ class Msc{
       this.img = table3
     } else if (this.type == "chairright"){
       this.img = chairright
+    } else if (this.type == "well"){
+      this.img = well
     }
     
     if (this.y + this.h >=0 && this.y <= height){
@@ -524,7 +528,8 @@ class Greenery{
       this.img = grass
     } else if (this.type == "rock2"){
       this.img = rock2
-    }
+    } else if (this.type == "railing1")
+      this.img = railing1
     if (this.y + this.h >=0 && this.y <= height){
       image(this.img, this.x, this.y, this.w, this.h)
     } else if (this.y + this.h >=0 && this.y <= height) {
@@ -628,9 +633,11 @@ function setup() {
   new Block(800,(height-3250),25,50, "white"),
   new Block(0,(height-3500),825,50, "white"),
   //na de tweede checkpoint
+  new Msc(100, (height-3600), 100, 100, "white", "well"),
   new Block(850,(height-3700),150,50, "white"),
+  new Block(475, (height -3550), 50, 50, "white"),
   new Block(475,(height-3900),50,50, "white"),
-  new Block(0,(height-4100),50, 200, "white"),
+  new Block(0,(height-4100),50, 600, "white"),
   new Block(475,(height-4300),50,50, "white"),
   new Block(750,(height-4500),250,50, "white"),
   new Block(650,(height-5550),50,925, "white"),//lange veri rechts
@@ -732,18 +739,20 @@ function setup() {
     new Background(0,0,width,height, backgroundimgend, 14000, 100000, character_height),
     new Background(0,0,width,height, backgroundimg4, 11400, 13500, character_height),
     new Background(0,0,width,height, backgroundimg3, 6425, 10900, character_height),
-    new Background(0,0,width,height, backgroundimg, 2300, 5925, character_height),
-    new Background(0,0, 500,height, backgroundimg2, 0, 1800, character_height)
+    new Background(0,0,width, height, backgroundimg, 3950, 5925, character_height),
+    new Background(0,0,width,height, backgroundimg, 2300, 3450, character_height),
+    new Background(0,0, width,height, bot3, 300, 1800, character_height)
   ]
   
 
   greenery = [
     new Greenery(275,10,25, 25, "white", "grasstop", (height-215)),
-    new Greenery(721, 10, 54, 24, "white", "rock2", (height-224))
+    new Greenery(721, 10, 54, 24, "white", "rock2", (height-224)),
+    new Greenery(475,0, 50, 45, "white", "railing1", (height-3795))
   ]
   
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 1800)
+  blocks.forEach(b => b.y += 3400)
 } 
 
 function preload(){
@@ -756,6 +765,9 @@ function preload(){
   block_image = loadImage("images/block/blockimg3.png")
   block_ice_image = loadImage("images/block/ice.jpeg")
   ice_board = loadImage('images/block/bord.png')
+  bot = loadImage('images/background/2.png')
+  bot2 = loadImage('images/background/2.png')
+  bot3 = loadImage('images/background/2.png')
 //  cave = loadImage('images/background/cave.png')
   //characterimages
   charstandardright = loadImage('images/character/charstandard/charstandardright.png')
@@ -798,6 +810,8 @@ function preload(){
   table2 = loadImage('images/block/table2.png')
   table3 = loadImage('images/block/table3.png')
   chairright = loadImage('images/block/chairright.png')
+  well = loadImage('images/block/well.png')
+  railing1 = loadImage('images/block/railing.png')
   //grasstile images
   //grass = loadImage('images/block/grassdirttile.png')
   //dirt = loadImage('images/block/dirttile.png')
