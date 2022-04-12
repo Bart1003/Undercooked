@@ -1,5 +1,3 @@
-//de volgende dingen moeten gereset worden wanneer de game gehaald is: saved_x, saved_height, ending_timer, can_move. fade1, fade2, fade3
-
 class Character{
   constructor (x, y, w, h, color, img){
     this.x = x;
@@ -63,8 +61,7 @@ class Character{
               this.v_hor +=  (this.v_hor * this.ice_walk_speed)
             }else {
               this.v_hor +=  (-this.v_hor * this.ice_walk_speed)
-            }
-            
+            }   
           }
         }
     }
@@ -99,21 +96,20 @@ class Character{
     this.collision_blocktype = checkCollision()
     this.collision = this.collision_blocktype[0]
     this.block_type = this.collision_blocktype[1]
-
+    if (this.collision == "left" || this.collision == "right"){
+      if (this.walking == true){
+        this.collision = "bottom"
+      }
+    }
     
     if (this.collision == "top"){
       if (hit3.isPlaying() == false && settings_sound == true){
         hit3.play()
       }
       
-    } else if (this.collision == "left" || this.collision == "right"){
-      this.v_hor = this.v_hor * -this.bounce
-      this.collision = false
-      if (this.walking == false && settings_sound == true){
-        hit3.play()
-      }
-      
-    } else if (this.collision == "bottom"){
+    } 
+    text(this.collision, 100,100)
+    if (this.collision == "bottom"){
       if (this.block_type == "ice"){
         if (this.v_hor >= 0){
           this.v_hor *= this.ice
@@ -127,6 +123,18 @@ class Character{
         this.v_hor = 0
       }
     }
+    if (this.collision == "left" || this.collision == "right"){
+      if (this.walking == false){
+        
+      
+        this.v_hor = this.v_hor * -this.bounce
+        this.collision = false
+        if (this.walking == false && settings_sound == true){
+          hit3.play()
+        }
+      }
+    } 
+    
     
 
     if (this.x > width - this.w || this.x < 0 + (this.w)) {
@@ -539,7 +547,7 @@ class Greenery{
       this.img = railing2
     } else if (this.type == "railing2r"){
       this.img = railing2r
-    }
+    } 
       
     if (this.y + this.h >=0 && this.y <= height){
       image(this.img, this.x, this.y, this.w, this.h)
@@ -602,8 +610,8 @@ function setup() {
   }
 
   
-  character = new Character(saved_x,250,50,50, "white", charstandardright)
-  //character = new Character(0,250,50,50, "white", charstandardright)
+  //character = new Character(saved_x,250,50,50, "white", charstandardright)
+  character = new Character(445,250,50,50, "white", charstandardright)
   
   blocks = [  
   
@@ -646,22 +654,18 @@ function setup() {
   //na de tweede checkpoint
   new Msc(100, (height-3600), 100, 100, "white", "well"),
   new Block(850,(height-3700),150,50, "white"),
-  new Block(450, (height -3550), 100, 50, "white"),
-  new Block(425, (height-3525), 25, 25, "white", "mid"),
+  new Block(450, (height -3525), 100, 25, "white"),
+  //new Block(425, (height-3525), 25, 25, "white", "mid"),
   new Block(475,(height-3900),50,50, "white"),
-  new Block(450, (height-3900), 25, 25, "white", "bot"),
+  new Block(525, (height-3875), 25, 25, "white", "bot"),
   new Block(0,(height-4100),50, 600, "white"),
   new Block(475,(height-4300),50,50, "white"),
   new Block(750,(height-4500),250,50, "white"),
   new Block(650,(height-5550),50,925, "white"),//lange veri rechts
   new Block(0,(height-4675),650,50, "white"), //lange hori onder
-
-
     
   new Msc(250, (height-4625),50, 100, "white", "banner"),
   
-
-    
   new Block(850,(height-4750),50,50, "white"),
   new Block(850,(height-4900),50,50, "white"),
   new Block(850,(height-5100),50,50, "white"),
@@ -744,6 +748,23 @@ function setup() {
   
   ]
 
+  greenery = [
+    new Greenery(275,10,25, 25, "white", "grasstop", (height-215)),
+    new Greenery(721, 10, 54, 24, "white", "rock2", (height-224)),
+    new Greenery(450,0, 50, 25, "white", "railing1", (height-3750)),
+    //new Greenery(425,0, 25, 50, "white", "railing2", (height-3775)),
+    new Greenery(425,0, 25, 50, "white", "railing2", (height-3750)),
+    new Greenery(500,0, 50, 25, "white", "railing1", (height-3750)),
+    new Greenery(850,0, 50, 25, "white", "railing1", (height-3925)),
+    new Greenery(900,0, 50, 25, "white", "railing1", (height-3925)),
+    new Greenery(950,0, 50, 25, "white", "railing1", (height-3925)),
+    new Greenery(475,0, 50, 25, "white", "railing1", (height-4125)),
+    //new Greenery(450,0, 25, 50, "white", "railing2r", (height-4150))
+    new Greenery(525,0, 25, 50, "white", "railing2r", (height-4125)),
+    new Greenery(0,0, 50, 25, "white", "railing1", (height-4325))
+  ]
+  
+  
   if (saved_height > 11000){
     blocks.push(new Block(0,(height-10900),150,50, "white"))
   }
@@ -758,23 +779,9 @@ function setup() {
   ]
   
 
-  greenery = [
-    new Greenery(275,10,25, 25, "white", "grasstop", (height-215)),
-    new Greenery(721, 10, 54, 24, "white", "rock2", (height-224)),
-    new Greenery(450,0, 50, 25, "white", "railing1", (height-3775)),
-    new Greenery(425,0, 25, 50, "white", "railing2", (height-3775)),
-    new Greenery(400,0, 25, 50, "white", "railing2", (height-3750)),
-    new Greenery(500,0, 50, 25, "white", "railing1", (height-3775)),
-    new Greenery(850,0, 50, 25, "white", "railing1", (height-3925)),
-    new Greenery(900,0, 50, 25, "white", "railing1", (height-3925)),
-    new Greenery(950,0, 50, 25, "white", "railing1", (height-3925)),
-    new Greenery(475,0, 50, 25, "white", "railing1", (height-4125)),
-    new Greenery(450,0, 25, 50, "white", "railing2r", (height-4150)),
-    new Greenery(0,0, 50, 25, "white", "railing1", (height-4325))
-  ]
-  
+
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 3400)
+  blocks.forEach(b => b.y += 3600)
 } 
 
 function preload(){
