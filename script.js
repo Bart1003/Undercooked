@@ -673,16 +673,12 @@ function setup() {
   new Block(500,(height-5750),50,950, "white"),// lange veri links
   new Block(550,(height-5750),450,50, "white"), // lange hori boven
   //na de derde checkpoint (wanneer je een stukje naarbeneden moest vallen)
-  new Block(75,(height-4900),50,50, "white"),
-  new Block(225,(height-4900),50,50, "white"),
-  new Block(375,(height-4900),50,50, "white"),
-  new Block(150,(height-5100),50,50, "white"),
-  new Block(325,(height-5100),50,50, "white"),
-  new Block(75,(height-5300),50,50, "white"),
-  new Block(225,(height-5300),50,50, "white"),
-  new Block(375,(height-5300),50,50, "white"),
+  new Block(225,(height-4850),50,50, "white"),
+  new Block(0,(height-5000),50,25, "white"),
+  new Block(450,(height-5000),50,25, "white"),
+  new Block(225,(height-5250),50,50, "white"),
   new Block(150,(height-5500),50,50, "white"),
-  new Block(325,(height-5500),50,50, "white"),
+  new Block(300,(height-5500),50,50, "white"),
   //na de vierde checkpoint (wanner het ice stuk begint)
   new Block(0,(height-5950),700,25, "white", "ice"),
   new Block(850,(height-5950),150,25, "white", "ice"),
@@ -781,7 +777,7 @@ function setup() {
 
 
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 3600)
+  blocks.forEach(b => b.y += 4600)
 } 
 
 function preload(){
