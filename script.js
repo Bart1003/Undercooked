@@ -786,6 +786,8 @@ function setup() {
     new Greenery(425,0, 25, 50, "white", "railing2", (height-3750)),
     new Greenery(500,0, 50, 25, "white", "railing1", (height-3750)),
     new Greenery(850,0, 50, 25, "white", "railing1", (height-3925)),
+    new Greenery(825,0, 25, 50, "white", "railing2", (height-3925)),
+    new Greenery(825,0, 25, 50, "white", "tileup", (height-3875)),
     new Greenery(900,0, 50, 25, "white", "railing1", (height-3925)),
     new Greenery(950,0, 50, 25, "white", "railing1", (height-3925)),
     new Greenery(475,0, 50, 25, "white", "railing1", (height-4125)),
