@@ -502,6 +502,16 @@ class Msc{
       this.img = chairright
     } else if (this.type == "well"){
       this.img = well
+    } else if (this.type == "candelabra"){
+      this.img = candelabra
+    } else if (this.type == "book"){
+      this.img = book
+    } else if (this.type == "potion1"){
+      this.img = potion1
+    } else if (this.type == "potion2"){
+      this.img = potion2
+    } else if (this.type == "barrel"){
+      this.img = barrel
     }
     
     if (this.y + this.h >=0 && this.y <= height){
@@ -547,8 +557,16 @@ class Greenery{
       this.img = railing2
     } else if (this.type == "railing2r"){
       this.img = railing2r
-    } 
-      
+    } else if (this.type == "brokenbarrel"){
+      this.img = brokenbarrel
+    } else if (this.type == "grasstop2"){
+      this.img = grass2
+    } else if (this.type == "tileup"){
+      this.img = tileup
+    } else if (this.type == "tileupr"){
+      this.img = tileupr
+    }
+    
     if (this.y + this.h >=0 && this.y <= height){
       image(this.img, this.x, this.y, this.w, this.h)
     } else if (this.y + this.h >=0 && this.y <= height) {
@@ -610,8 +628,8 @@ function setup() {
   }
 
   
-  //character = new Character(saved_x,250,50,50, "white", charstandardright)
-  character = new Character(445,250,50,50, "white", charstandardright)
+  character = new Character(saved_x,250,50,50, "white", charstandardright)
+  //character = new Character(750,250,50,50, "white", charstandardright)
   
   blocks = [  
   
@@ -629,13 +647,19 @@ function setup() {
   new Block(525,(height-1800),475,50, "white"),
   new Msc(153, (height-1850), 50, 50, "white", "table1"),
   new Msc(203, (height-1850), 50, 50, "white", "table2"),
+  new Msc(213, (height-1850), 32, 14, "white", "book"),
   new Msc(253, (height-1850), 50, 50, "white", "table3"),
   new Msc(275, (height-125), 16, 25, "white", "lampleft"),
   new Msc(625, (height-40), 150, 40, "white", "fence"),
   new Msc(225, (height-725), 16, 25, "white", "lampleft"),
   new Msc(759, (height-725), 16, 25, "white", "lampright"),
+  new Msc(284, (height-3100), 16, 25, "white", "lampright"),
+  new Msc(250, (height-1061), 24, 111, "white", "candelabra"),
+  new Msc(925, (height-1911), 24, 111, "white", "candelabra"),
   new Msc(25, (height-1944), 128, 144, "white", "bookshelf"),
   new Msc(850, (height-1864), 46, 64, "white", "chairright"),
+  new Msc(50, (height-3527), 53, 33, "white", "barrel"),
+  
   //na de eerste checkpoint (wanneer het scherm breeder wordt)
   new Block(0, (height-1950), 25, 150, "white"),
   new Block(975, (height-2150), 25, 350, "white"),
@@ -664,8 +688,9 @@ function setup() {
   new Block(650,(height-5550),50,925, "white"),//lange veri rechts
   new Block(0,(height-4675),650,50, "white"), //lange hori onder
     
-  new Msc(250, (height-4625),50, 100, "white", "banner"),
-  
+  new Msc(225, (height-4625),50, 100, "white", "banner"),
+  new Msc(475, (height-4625),50, 100, "white", "banner"),
+    
   new Block(850,(height-4750),50,50, "white"),
   new Block(850,(height-4900),50,50, "white"),
   new Block(850,(height-5100),50,50, "white"),
@@ -746,6 +771,15 @@ function setup() {
 
   greenery = [
     new Greenery(275,10,25, 25, "white", "grasstop", (height-215)),
+   // new Greenery(300,10,25, 25, "white", "grasstop", (height-215)),
+    new Greenery(325,10,25, 25, "white", "grasstop2", (height-215)),
+    new Greenery(350,10,25, 25, "white", "grasstop", (height-215)),
+    
+    new Greenery(400,10,25, 25, "white", "grasstop", (height-215)),
+    new Greenery(425,10,25, 25, "white", "grasstop2", (height-215)),
+    new Greenery(450,10,25, 25, "white", "grasstop", (height-215)),
+    new Greenery(675,10,25, 25, "white", "grasstop2", (height-215)),
+    new Greenery(625,10,25, 25, "white", "grasstop", (height-215)),
     new Greenery(721, 10, 54, 24, "white", "rock2", (height-224)),
     new Greenery(450,0, 50, 25, "white", "railing1", (height-3750)),
     //new Greenery(425,0, 25, 50, "white", "railing2", (height-3775)),
@@ -755,9 +789,15 @@ function setup() {
     new Greenery(900,0, 50, 25, "white", "railing1", (height-3925)),
     new Greenery(950,0, 50, 25, "white", "railing1", (height-3925)),
     new Greenery(475,0, 50, 25, "white", "railing1", (height-4125)),
-    //new Greenery(450,0, 25, 50, "white", "railing2r", (height-4150))
+    new Greenery(475,0, 50, 25, "white", "railing1", (height-4525)),
+    new Greenery(525,0, 25, 50, "white", "railing2", (height-4550)),
+    new Greenery(450,0, 25, 50, "white", "railing2", (height-4525)),
+    new Greenery(450,0, 25, 50, "white", "tileup", (height-4475)),
+    new Greenery(525,0, 25, 50, "white", "tileupr", (height-4500)),
     new Greenery(525,0, 25, 50, "white", "railing2r", (height-4125)),
-    new Greenery(0,0, 50, 25, "white", "railing1", (height-4325))
+    new Greenery(0,0, 50, 25, "white", "railing1", (height-4325)),
+    new Greenery(750,10,25, 25, "white", "grasstop", (height-215)),
+    new Greenery(550, 0, 48, 39, "white", "brokenbarrel", (height-2789))
   ]
   
   
@@ -777,7 +817,7 @@ function setup() {
 
 
   //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 4600)
+  blocks.forEach(b => b.y += 4250)
 } 
 
 function preload(){
@@ -826,6 +866,7 @@ function preload(){
   //miscellaneous images
   banner = loadImage('images/block/banner.png')
   grass = loadImage('images/block/grass.png')
+  grass2 = loadImage('images/block/grasstop2.png')
   lampleft = loadImage('images/block/lampleft.png')
   lampright = loadImage('images/block/lampright.png')
   fence = loadImage('images/block/fence_2.png')
@@ -839,6 +880,14 @@ function preload(){
   railing1 = loadImage('images/block/railing.png')
   railing2 = loadImage('images/block/railing2.png')
   railing2r = loadImage('images/block/railing2r.png')
+  brokenbarrel = loadImage('images/block/barrel_damaged.png')
+  candelabra = loadImage('images/block/candelabrum_tall_1.png')
+  book = loadImage('images/block/books.png')
+  potion1 = loadImage('images/block/potions_1.png')
+  potion2 = loadImage('images/block/potions_2.png')
+  barrel = loadImage('images/block/crate_1_damaged.png')
+  tileup = loadImage('images/block/tileup.png')
+  tileupr = loadImage('images/block/tileupr.png')
   //grasstile images
   //grass = loadImage('images/block/grassdirttile.png')
   //dirt = loadImage('images/block/dirttile.png')
