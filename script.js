@@ -659,6 +659,7 @@ function setup() {
   new Msc(25, (height-1944), 128, 144, "white", "bookshelf"),
   new Msc(850, (height-1864), 46, 64, "white", "chairright"),
   new Msc(50, (height-3527), 53, 33, "white", "barrel"),
+  new Msc(50, (height-3600), 16, 25, "white", "lampleft"),
   
   //na de eerste checkpoint (wanneer het scherm breeder wordt)
   new Block(0, (height-1950), 25, 150, "white"),
