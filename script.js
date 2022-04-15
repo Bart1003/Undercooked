@@ -819,8 +819,8 @@ function setup() {
   
 
 
-  //blocks.forEach(b => b.y += (saved_height-200))
-  blocks.forEach(b => b.y += 4250)
+  blocks.forEach(b => b.y += (saved_height-200))
+  //blocks.forEach(b => b.y += 4250)
 } 
 
 function preload(){
