@@ -108,7 +108,7 @@ class Character{
       }
       
     } 
-    text(this.collision, 100,100)
+
     if (this.collision == "bottom"){
       if (this.block_type == "ice"){
         if (this.v_hor >= 0){
